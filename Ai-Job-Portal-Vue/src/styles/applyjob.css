@@ -1,0 +1,230 @@
+/* Job Application Page Styles */
+.application-section {
+    min-height: 100vh;
+    padding: 2rem 5%;
+    margin-top: 4rem;
+    background-color: #f9fafb;
+}
+
+.application-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.application-header {
+    margin-bottom: 2rem;
+}
+
+.application-header h2 {
+    color: #1f2937;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.job-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #f3f4f6;
+    border-radius: 5px;
+}
+
+.job-preview img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.job-info h3 {
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.job-info p {
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.job-meta {
+    display: flex;
+    gap: 1rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.job-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Form Sections */
+.form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.form-section h3 {
+    color: #1f2937;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* File Upload */
+.file-upload {
+    position: relative;
+}
+
+.file-upload input[type="file"] {
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.file-upload-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-upload-label:hover {
+    background-color: #e5e7eb;
+}
+
+.file-name {
+    margin-left: 1rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+/* Add Buttons */
+.add-experience-btn,
+.add-education-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-experience-btn:hover,
+.add-education-btn:hover {
+    background-color: #e5e7eb;
+}
+
+/* Submit Button */
+.form-actions {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.submit-btn {
+    background-color: #2563eb;
+    color: white;
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #1d4ed8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .application-container {
+        padding: 1.5rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .job-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .application-section {
+        padding: 1rem;
+    }
+
+    .application-container {
+        padding: 1rem;
+    }
+
+    .submit-btn {
+        width: 100%;
+    }
+} 

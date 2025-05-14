@@ -1,0 +1,419 @@
+/* Edit Account Settings Styles */
+:root {
+    --primary-color: #636AE8;
+    --primary-dark: #1d4ed8;
+    --text-color: #1f2937;
+    --text-light: #6b7280;
+    --border-color: #e5e7eb;
+    --bg-light: #f3f4f6;
+    --danger-color: #ef4444;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f9fafb;
+    color: var(--text-color);
+}
+
+/* Navigation Bar */
+.navbar {
+    background-color: #fff;
+    padding: 0.5rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 60px;
+}
+
+.logo h1 {
+    color: #636AE8;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-links a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #636AE8;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #333;
+    padding: 5px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+    height: 40px;
+}
+
+.profile-badge:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.profile-badge img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-badge span {
+    font-weight: 500;
+}
+
+.login-btn,
+.signup-btn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.login-btn {
+    background-color: transparent;
+    color: #636AE8;
+    border: 1px solid #636AE8;
+}
+
+.login-btn:hover {
+    background-color: #636AE8;
+    color: white;
+}
+
+.signup-btn {
+    background-color: #636AE8;
+    color: white;
+    border: none;
+}
+
+.signup-btn:hover {
+    background-color: #1565c0;
+}
+
+/* Edit Account Container */
+.edit-account-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 5%;
+}
+
+.edit-account-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.edit-account-header h1 {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.edit-account-header p {
+    color: var(--text-light);
+    margin: 0;
+}
+
+/* Edit Account Content */
+.edit-account-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Sections */
+.form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.form-section h2 {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 106, 232, 0.1);
+}
+
+/* Profile Picture Upload */
+.profile-picture-upload {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profile-picture-upload img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+}
+
+.upload-btn {
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.upload-btn:hover {
+    background-color: var(--border-color);
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.cancel-btn {
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background-color: var(--border-color);
+}
+
+.save-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Footer */
+.footer {
+    background-color: #1a1a1a;
+    padding: 60px 20px 20px;
+    margin-top: 60px;
+    color: #fff;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+}
+
+.footer-section h3 {
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.footer-section h4 {
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.footer-section p {
+    color: #b3b3b3;
+    margin-bottom: 15px;
+}
+
+.footer-section a {
+    color: #b3b3b3;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+    transition: color 0.3s;
+}
+
+.footer-section a:hover {
+    color: #636AE8;
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+    text-align: center;
+    color: #b3b3b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .auth-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .login-btn,
+    .signup-btn {
+        width: 100%;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-picture-upload {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .upload-btn {
+        width: 100%;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .cancel-btn,
+    .save-btn {
+        width: 100%;
+    }
+}
+
+/* Profile Dropdown Content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 8px 0;
+    z-index: 1001;
+    margin-top: 8px;
+}
+
+.dropdown-content a {
+    color: var(--text-color);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--bg-light);
+    color: var(--primary-color);
+}
+
+.dropdown-content a i {
+    width: 20px;
+    text-align: center;
+}
+
+.profile-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.profile-dropdown:hover .profile-badge {
+    background-color: rgba(0, 0, 0, 0.05);
+} 

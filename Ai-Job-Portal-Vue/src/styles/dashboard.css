@@ -1,0 +1,209 @@
+/* Dashboard Hero Section */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Applications Section */
+.applications {
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+}
+
+.applications h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.application-list {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+}
+
+.application-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.application-item h3 {
+    color: #333;
+    margin: 0;
+}
+
+.application-item p {
+    color: #666;
+    margin: 5px 0;
+}
+
+.status {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.status:not(:empty) {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.view-details {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.view-details:hover {
+    text-decoration: underline;
+}
+
+/* Saved Jobs Section */
+.saved-jobs {
+    padding: 60px 20px;
+}
+
+.saved-jobs h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.saved-jobs-list {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+}
+
+.saved-job-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.saved-job-item h3 {
+    color: #333;
+    margin: 0;
+}
+
+.saved-job-item p {
+    color: #666;
+    margin: 5px 0;
+}
+
+.apply-btn {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.apply-btn:hover {
+    background-color: #1565c0;
+}
+
+/* Recent Activities Section */
+.recent-activities {
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+}
+
+.recent-activities h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.activity-list {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+}
+
+.activity-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.activity-item p {
+    color: #333;
+    margin: 0;
+}
+
+.date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .application-item,
+    .saved-job-item,
+    .activity-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .status,
+    .view-details,
+    .apply-btn {
+        width: 100%;
+        text-align: center;
+    }
+} 
