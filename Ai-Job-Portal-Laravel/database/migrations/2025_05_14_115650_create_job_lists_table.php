@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('job_lists', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('company_name');
             $table->string('company_logo')->nullable();
             $table->string('company_website')->nullable();
