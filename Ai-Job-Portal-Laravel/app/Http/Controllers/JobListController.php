@@ -4,62 +4,74 @@ namespace App\Http\Controllers;
 
 use App\Models\JobList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class JobListController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+     //add  job in the list
+     public function AddJob(Request $request){
+        $Validate = Validator::make($request->all(),[
+            //company details
+            'company_name'   =>  'required|string|max:255',
+            'company_logo'   =>  'nullable|image|max:2048',
+            'company_website'=>  'nullable|url',
+            'company_size'   =>  'required|string',
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            //job details
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(JobList $jobList)
-    {
-        //
-    }
+            'title'      =>   'required|string|max:255',
+            'type'       =>   'required|in:full-time,part-time,contract,freelancer',
+            'location'   =>   'required|string|max:255',
+            'salary_range'  => 'required|string|max:255',
+            'description'   => 'required|string',
+            'responsibilities'  => 'required|string',
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(JobList $jobList)
-    {
-        //
-    }
+            //requirements
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, JobList $jobList)
-    {
-        //
-    }
+            'experience_level'   => 'required|in:entry,intermediate,senior,lead',
+            'education_level'    => 'required|in:high-school,associate,bachelor,master,phd',
+            'required_skills'    => 'required|string',
+            'preferred_skills'  =>  'nullable|string',
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(JobList $jobList)
-    {
-        //
-    }
+            //additional info
+
+            'benefits'                  =>      'nullable|string',
+            'application_deadline'      =>      'nullable|date',
+            'contact_email'             =>      'required|email',  
+        ]);        
+        
+        //validation
+        if ($Validate->fails()){
+            $Errors = $Validate->errors();
+            return response()->json([
+                'error' => true,
+                'reason'  =>'Invalid data input',
+                'response'  =>$Errors,
+            ]);
+
+
+        //logo handle if provided
+
+        if($request->hasFile('company_logo')){
+            $logopath = $request->file('company_logo')->store('company_logos','public');
+        }
+
+
+        $JobList=JobList:: create($request->all());
+
+        //return the new added job
+        return response()->json([
+            'error'   =>false,
+            'reason'  =>'Job Listed',
+            'response'=>$JobList
+        ]);
+
+        }
+     }
+   
 }
