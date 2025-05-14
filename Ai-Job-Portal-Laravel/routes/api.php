@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\JobListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,5 +24,6 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
 
     //user logout
     Route::get('user/logout/{id}',[AuthController::class,'logout']);
+    Route::post('/my-jobs',[JobListController::class,'AddJob']);
 
 });
