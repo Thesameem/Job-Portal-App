@@ -4,31 +4,56 @@ import { useRouter } from 'vue-router'
 import { useJobStore } from '@/stores/job'
 import Cookie from '@/scripts/Cookie'
 import { POST } from '@/scripts/Fetch'
+import { ref } from 'vue'
 
 let emits = defineEmits(['signup'])
 
-let email = ''
-let password = ''
+let email = ref('')
+let password = ref('')
+let loginError = ref(false)
+let errorMessage = ref('')
 
 const JobStore = useJobStore()
 const router = useRouter()
 
 const LogInUser = async () => {
-  //create form data to send to server
+  try {
+    // Reset error state
+    loginError.value = false
+    
+    // Validate input
+    if (!email.value || !password.value) {
+      loginError.value = true
+      errorMessage.value = 'Please enter both email and password'
+      return
+    }
+    
+    // Create form data to send to server
+    let formData = new FormData()
+    formData.append('email', email.value)
+    formData.append('password', password.value)
 
-  let formData = new FormData()
-
-  formData.append('email', email)
-  formData.append('password', password)
-
-  //send post method to register user
-  let result = await POST('user/login', formData)
-  if (!result.error) {
-    Cookie.setCookie('job-app', result.response.token, 30)
-    JobStore.user = result.response.user
-    router.push({
-      path: '/',
-    })
+    // Send post method to login user
+    let result = await POST('user/login', formData)
+    console.log('Login result:', result)
+    
+    if (!result.error) {
+      // Save token and user data
+      Cookie.setCookie('job-app', result.response.token, 30)
+      JobStore.user = result.response.user
+      
+      // Navigate to home page
+      console.log('Login successful, redirecting to home...')
+      router.push('/')
+    } else {
+      // Handle login error
+      loginError.value = true
+      errorMessage.value = result.reason || 'Login failed. Please check your credentials.'
+    }
+  } catch (error) {
+    console.error('Login error:', error)
+    loginError.value = true
+    errorMessage.value = 'An unexpected error occurred. Please try again.'
   }
 }
 </script>
@@ -41,7 +66,7 @@ const LogInUser = async () => {
         <h2>Welcome Back</h2>
         <p>Log in to your Ai-Job account to continue</p>
       </div>
-      <form class="auth-form">
+      <form class="auth-form" @submit.prevent="LogInUser">
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" placeholder="Enter your email" required v-model="email" />
@@ -66,7 +91,13 @@ const LogInUser = async () => {
           </label>
           <a href="#" class="forgot-password">Forgot Password?</a>
         </div>
-        <span class="auth-button" @click="LogInUser">Log In</span>
+        
+        <!-- Error message -->
+        <div v-if="loginError" class="error-message">
+          {{ errorMessage }}
+        </div>
+        
+        <button type="submit" class="auth-button">Log In</button>
         <div class="social-login">
           <p>Or log in with</p>
           <div class="social-buttons">
@@ -87,3 +118,31 @@ const LogInUser = async () => {
     </div>
   </section>
 </template>
+
+<style scoped>
+.error-message {
+  color: #e74c3c;
+  background-color: rgba(231, 76, 60, 0.1);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 15px;
+}
+
+.auth-button:hover {
+  background-color: #0b5ed7;
+}
+</style>

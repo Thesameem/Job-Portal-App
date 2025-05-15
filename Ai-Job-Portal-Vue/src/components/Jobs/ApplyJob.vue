@@ -18,26 +18,26 @@
         </div>
       </div>
 
-      <form class="application-form">
+      <form class="application-form" @submit.prevent="submitApplication">
         <!-- Personal Information -->
         <div class="form-section">
           <h3>Personal Information</h3>
           <div class="form-grid">
             <div class="form-group">
               <label for="fullname">Full Name</label>
-              <input type="text" id="fullname" required />
+              <input type="text" id="fullname" v-model="fullname" required />
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" required />
+              <input type="email" id="email" v-model="email" required />
             </div>
             <div class="form-group">
               <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" required />
+              <input type="tel" id="phone" v-model="phone" required />
             </div>
             <div class="form-group">
               <label for="location">Location</label>
-              <input type="text" id="location" required />
+              <input type="text" id="location" v-model="location" required />
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
           <h3>Professional Summary</h3>
           <div class="form-group">
             <label for="summary">Tell us about yourself</label>
-            <textarea id="summary" rows="4" required></textarea>
+            <textarea id="summary" rows="4" v-model="summary" required></textarea>
           </div>
         </div>
 
@@ -121,6 +121,7 @@
             <input
               type="text"
               id="skills"
+              v-model="skills"
               placeholder="e.g., React, JavaScript, CSS, TypeScript"
               required
             />
@@ -133,7 +134,7 @@
           <div class="form-group">
             <label for="resume">Resume/CV</label>
             <div class="file-upload">
-              <input type="file" id="resume" accept=".pdf,.doc,.docx" required />
+              <input type="file" id="resume" @change="handleResumeUpload" accept=".pdf,.doc,.docx" required />
               <label for="resume" class="file-upload-label">
                 <i class="fas fa-upload"></i>
                 <span>Choose File</span>
@@ -144,7 +145,7 @@
           <div class="form-group">
             <label for="cover-letter">Cover Letter (Optional)</label>
             <div class="file-upload">
-              <input type="file" id="cover-letter" accept=".pdf,.doc,.docx" />
+              <input type="file" id="cover-letter" @change="handleCoverLetterUpload" accept=".pdf,.doc,.docx" />
               <label for="cover-letter" class="file-upload-label">
                 <i class="fas fa-upload"></i>
                 <span>Choose File</span>
@@ -159,15 +160,15 @@
           <h3>Additional Information</h3>
           <div class="form-group">
             <label for="portfolio">Portfolio URL (Optional)</label>
-            <input type="url" id="portfolio" placeholder="https://" />
+            <input type="url" id="portfolio" v-model="portfolio" placeholder="https://" />
           </div>
           <div class="form-group">
             <label for="linkedin">LinkedIn Profile (Optional)</label>
-            <input type="url" id="linkedin" placeholder="https://linkedin.com/in/" />
+            <input type="url" id="linkedin" v-model="linkedin" placeholder="https://linkedin.com/in/" />
           </div>
           <div class="form-group">
             <label for="github">GitHub Profile (Optional)</label>
-            <input type="url" id="github" placeholder="https://github.com/" />
+            <input type="url" id="github" v-model="github" placeholder="https://github.com/" />
           </div>
         </div>
 
@@ -179,3 +180,68 @@
     </div>
   </section>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import { POST } from '@/scripts/Fetch';
+
+// Form data
+const fullname = ref('');
+const email = ref('');
+const phone = ref('');
+const location = ref('');
+const summary = ref('');
+const skills = ref('');
+const portfolio = ref('');
+const linkedin = ref('');
+const github = ref('');
+const resume = ref(null);
+const coverLetter = ref(null);
+
+const handleResumeUpload = (event) => {
+  resume.value = event.target.files[0];
+};
+
+const handleCoverLetterUpload = (event) => {
+  coverLetter.value = event.target.files[0];
+};
+
+const submitApplication = async () => {
+  const formData = new FormData();
+  
+  // Append form data
+  formData.append('fullname', fullname.value);
+  formData.append('email', email.value);
+  formData.append('phone', phone.value);
+  formData.append('location', location.value);
+  formData.append('summary', summary.value);
+  formData.append('skills', skills.value);
+  formData.append('portfolio', portfolio.value);
+  formData.append('linkedin', linkedin.value);
+  formData.append('github', github.value);
+  
+  if (resume.value) {
+    formData.append('resume', resume.value);
+  }
+  
+  if (coverLetter.value) {
+    formData.append('cover_letter', coverLetter.value);
+  }
+  
+  try {
+    const result = await POST('jobs/apply', formData);
+    
+    if (!result.error) {
+      // Handle success
+      console.log('Application submitted successfully');
+      // Redirect or show success message
+    } else {
+      // Handle error
+      console.error('Error submitting application:', result.reason);
+      // Show error message
+    }
+  } catch (error) {
+    console.error('Error submitting application:', error);
+  }
+};
+</script>

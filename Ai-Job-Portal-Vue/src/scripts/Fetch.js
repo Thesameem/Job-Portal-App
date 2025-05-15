@@ -3,7 +3,7 @@ import Config from "./Config";
 import Cookie from "./Cookie";
 
 export const POST = async (uri, formdata) => {
-    let Token = Cookie.getCookie('todo-app');
+    let Token = Cookie.getCookie('job-app');
 
     let { data } = await axios.post(Config.baseURL + uri, formdata, {
         headers: {
@@ -15,7 +15,7 @@ export const POST = async (uri, formdata) => {
 };
 
 export const GET = async (uri) => {
-    let Token = Cookie.getCookie('todo-app');
+    let Token = Cookie.getCookie('job-app');
     let { data } = await axios.get(Config.baseURL + uri, {
         headers: {
             Authorization: `Bearer ${Token}`

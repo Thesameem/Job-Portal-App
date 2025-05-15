@@ -1,31 +1,69 @@
 <script setup>
 import { ref } from 'vue'
 import { POST } from '@/scripts/Fetch'
+import { useRouter } from 'vue-router'
+import Cookie from '@/scripts/Cookie'
+import { useJobStore } from '@/stores/job'
 
-let emits = defineEmits(['login'])
-let Fullname = ''
-let email = ''
-let password = ''
+const emits = defineEmits(['login'])
+const router = useRouter()
+const jobStore = useJobStore()
 
-let SignupError = ref(false)
-let ErrorText = ref('Something went wrong')
+const fullname = ref('')
+const email = ref('')
+const password = ref('')
+const signupError = ref(false)
+const errorText = ref('')
+const termsAccepted = ref(false)
 
-const RegisterUser = async () => {
-  //create form data to send to server
+const RegisterUser = async (e) => {
+  try {
+    // Reset error state
+    signupError.value = false
+    
+    // Validate input
+    if (!fullname.value || !email.value || !password.value) {
+      signupError.value = true
+      errorText.value = 'All fields are required'
+      return
+    }
+    
+    if (!termsAccepted.value) {
+      signupError.value = true
+      errorText.value = 'Please accept the Terms of Service and Privacy Policy'
+      return
+    }
+    
+    // Create form data to send to server
+    const formData = new FormData()
+    formData.append('fullname', fullname.value)
+    formData.append('email', email.value)
+    formData.append('password', password.value)
 
-  let formData = new FormData()
+    // Send post method to register user
+    const result = await POST('user/register', formData)
 
-  formData.append('fullname', fullname)
-  formData.append('email', email)
-  formData.append('password', password)
-
-  //send post method to register user
-  let result = await POST('user/register', formData)
-
-  if (!result.error) emits('login')
-  else {
-    SignupError.value = true
-    ErrorText.value = result.reason
+    if (!result.error) {
+      // If registration succeeds and login is automatic
+      if (result.response && result.response.token) {
+        // Save token and redirect to home
+        Cookie.setCookie('job-app', result.response.token, 30)
+        if (result.response.user) {
+          jobStore.user = result.response.user
+        }
+        router.push('/')
+      } else {
+        // If login is not automatic, redirect to login
+        emits('login')
+      }
+    } else {
+      signupError.value = true
+      errorText.value = result.reason || 'Registration failed. Please try again.'
+    }
+  } catch (error) {
+    console.error('Signup error:', error)
+    signupError.value = true
+    errorText.value = 'An unexpected error occurred. Please try again.'
   }
 }
 </script>
@@ -38,7 +76,7 @@ const RegisterUser = async () => {
         <h2>Create Your Account</h2>
         <p>Join Ai-Job and start your journey to success</p>
       </div>
-      <form class="auth-form">
+      <form class="auth-form" @submit.prevent="RegisterUser">
         <div class="form-group">
           <label for="fullname">Full Name</label>
           <input
@@ -80,16 +118,20 @@ const RegisterUser = async () => {
         </div>
         <div class="form-group">
           <label class="checkbox-label">
-            <input type="checkbox" required />
+            <input type="checkbox" required v-model="termsAccepted" />
             <span
               >I agree to the <a href="/termsofservice">Terms of Service</a> and
               <a href="/privacypolicy">Privacy Policy</a></span
             >
           </label>
         </div>
-        <p v-if="SignupError" style="color: red">{{ ErrorText }}</p>
+        
+        <!-- Error message -->
+        <div v-if="signupError" class="error-message">
+          {{ errorText }}
+        </div>
 
-        <button type="submit" class="auth-button" @click="RegisterUser">Create Account</button>
+        <button type="submit" class="auth-button">Create Account</button>
         <div class="social-login">
           <p>Or sign up with</p>
           <div class="social-buttons">
@@ -110,3 +152,31 @@ const RegisterUser = async () => {
     </div>
   </section>
 </template>
+
+<style scoped>
+.error-message {
+  color: #e74c3c;
+  background-color: rgba(231, 76, 60, 0.1);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 15px;
+}
+
+.auth-button:hover {
+  background-color: #0b5ed7;
+}
+</style>

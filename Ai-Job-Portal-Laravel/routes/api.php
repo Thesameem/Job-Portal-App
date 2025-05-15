@@ -19,11 +19,9 @@ Route::post('user/register',[AuthController::class,'register']);
 Route::post('user/login',[AuthController::class,'login']);
 
 //user logout
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
-Route::group(['middleware'=>['auth:sanctum']],function(){
-
-    //user logout
-    Route::get('user/logout/{id}',[AuthController::class,'logout']);
-    Route::post('/my-jobs',[JobListController::class,'AddJob']);
+    Route::get('/user/logout/{id}', [AuthController::class, 'logout']);
+    Route::post('/my-jobs', [JobListController::class, 'AddJob']);
 
 });
