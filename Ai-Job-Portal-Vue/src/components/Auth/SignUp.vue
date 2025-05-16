@@ -147,7 +147,7 @@ const RegisterUser = async (e) => {
         </div>
       </form>
       <div class="auth-footer">
-        <p>Already have an account? <a href="#" @click="emits('login')">Log In</a></p>
+        <p>Already have an account? <a href="#" @click.prevent="emits('login')">Log In</a></p>
       </div>
     </div>
   </section>

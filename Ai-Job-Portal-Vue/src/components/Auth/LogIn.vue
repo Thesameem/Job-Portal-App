@@ -6,14 +6,14 @@ import Cookie from '@/scripts/Cookie'
 import { POST } from '@/scripts/Fetch'
 import { ref } from 'vue'
 
-let emits = defineEmits(['signup'])
+const emits = defineEmits(['signup'])
 
-let email = ref('')
-let password = ref('')
-let loginError = ref(false)
-let errorMessage = ref('')
+const email = ref('')
+const password = ref('')
+const loginError = ref(false)
+const errorMessage = ref('')
 
-const JobStore = useJobStore()
+const jobStore = useJobStore()
 const router = useRouter()
 
 const LogInUser = async () => {
@@ -29,18 +29,19 @@ const LogInUser = async () => {
     }
     
     // Create form data to send to server
-    let formData = new FormData()
+    const formData = new FormData()
     formData.append('email', email.value)
     formData.append('password', password.value)
 
     // Send post method to login user
-    let result = await POST('user/login', formData)
+    console.log('Submitting login with:', { email: email.value, password: 'XXXXX' })
+    const result = await POST('user/login', formData)
     console.log('Login result:', result)
     
     if (!result.error) {
       // Save token and user data
       Cookie.setCookie('job-app', result.response.token, 30)
-      JobStore.user = result.response.user
+      jobStore.user = result.response.user
       
       // Navigate to home page
       console.log('Login successful, redirecting to home...')
@@ -113,7 +114,7 @@ const LogInUser = async () => {
         </div>
       </form>
       <div class="auth-footer">
-        <p>Don't have an account? <a href="#" @click="emits('signup')">Sign Up</a></p>
+        <p>Don't have an account? <a href="#" @click.prevent="emits('signup')">Sign Up</a></p>
       </div>
     </div>
   </section>

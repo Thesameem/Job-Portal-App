@@ -11,7 +11,7 @@
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
     </button>
-    <div class="nav-container" :class="{ 'centered-nav': !isAuthenticated }">
+    <div class="nav-container">
       <div class="nav-links">
         <RouterLink to="/" class="active" aria-current="page">Home</RouterLink>
         <RouterLink to="/findjob">Find Work</RouterLink>
@@ -34,10 +34,9 @@
             <a href="#" @click.prevent="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
         </div>
-        <!-- Show login/signup buttons when not authenticated -->
-        <div v-else class="login-signup-buttons">
-          <RouterLink to="/auth" class="login-btn">Log In</RouterLink>
-          <RouterLink to="/auth" class="signup-btn">Sign Up</RouterLink>
+        <!-- Show Get Started button when not authenticated -->
+        <div v-else>
+          <RouterLink to="/auth" class="get-started-btn">Get Started</RouterLink>
         </div>
       </div>
     </div>
@@ -52,30 +51,35 @@ import { useJobStore } from '@/stores/job'
 
 const router = useRouter()
 const jobStore = useJobStore()
+const isAuthenticated = ref(false)
 
-// Computed property to check if user is authenticated
-const isAuthenticated = computed(() => {
-  return !!Cookie.getCookie('job-app') && !!jobStore.user && Object.keys(jobStore.user).length > 0
-})
+// Update authentication status
+const checkAuth = () => {
+  const token = Cookie.getCookie('job-app')
+  const hasUser = !!jobStore.user && Object.keys(jobStore.user).length > 0
+  
+  // Update authentication state
+  isAuthenticated.value = !!token && hasUser
+  
+  // Clear user data if no token exists
+  if (!token && Object.keys(jobStore.user).length > 0) {
+    jobStore.user = {}
+  }
+}
 
 // Computed property to get authenticated user's name
 const userName = computed(() => {
   return jobStore.user?.fullname || 'User'
 })
 
-// Check authentication on component mount
+// Check authentication when component mounts
 onMounted(() => {
+  // Initial check
   checkAuth()
+  
+  // Set up simple polling to check auth status
+  setInterval(checkAuth, 2000)
 })
-
-// Function to check authentication status
-const checkAuth = () => {
-  const token = Cookie.getCookie('job-app')
-  // If there's no token but user data exists in store, clear it
-  if (!token && Object.keys(jobStore.user).length > 0) {
-    jobStore.user = {}
-  }
-}
 
 // Logout function
 const logout = () => {
@@ -85,48 +89,124 @@ const logout = () => {
   // Clear user data from store
   jobStore.user = {}
   
+  // Update auth state
+  isAuthenticated.value = false
+  
   // Redirect to the auth page
   router.push('/auth')
 }
 </script>
 
 <style scoped>
-/* Centering nav-links when user is not authenticated */
-.centered-nav .nav-links {
-  margin: 0 auto;
+/* Main navbar container */
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
 }
 
-/* Style adjustments for login/signup buttons */
-.login-signup-buttons {
+/* Container for navigation elements */
+.nav-container {
   display: flex;
-  gap: 10px;
+  width: 100%;
+  justify-content: space-between;
   align-items: center;
 }
 
-.login-btn, .signup-btn {
-  padding: 8px 16px;
+/* Nav links styling */
+.nav-links {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  gap: 32px; /* Increased spacing between links */
+  margin: 0 48px; /* Add margin to push links toward center */
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 8px 4px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #0d6efd;
+}
+
+/* Auth buttons section */
+.auth-buttons {
+  margin-left: 48px; /* Increase space between nav links and auth button */
+  display: flex;
+  align-items: center;
+}
+
+/* Profile dropdown styling */
+.profile-dropdown {
+  position: relative;
+}
+
+.profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #333;
+}
+
+.profile-badge img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  min-width: 180px;
+  background-color: white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 8px 0;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s;
+}
+
+.dropdown-content a:hover {
+  background-color: #f5f5f5;
+}
+
+.profile-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Get Started button styling */
+.get-started-btn {
+  padding: 10px 24px;
+  background-color: #0d6efd;
+  color: white;
   border-radius: 4px;
   text-decoration: none;
   font-weight: 500;
-  transition: background-color 0.3s, color 0.3s;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  display: inline-block;
 }
 
-.login-btn {
-  color: #0d6efd;
-  border: 1px solid #0d6efd;
-}
-
-.login-btn:hover {
-  background-color: #f0f7ff;
-}
-
-.signup-btn {
-  background-color: #0d6efd;
-  color: white;
-  border: 1px solid #0d6efd;
-}
-
-.signup-btn:hover {
+.get-started-btn:hover {
   background-color: #0b5ed7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 </style>

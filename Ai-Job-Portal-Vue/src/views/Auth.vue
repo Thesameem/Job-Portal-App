@@ -1,11 +1,12 @@
 <script setup>
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import Cookie from '@/scripts/Cookie'
 import { useJobStore } from '@/stores/job'
 
 const loginPage = ref(true)
 const router = useRouter()
+const route = useRoute()
 const jobStore = useJobStore()
 
 import LogIn from '@/components/Auth/LogIn.vue'
@@ -20,6 +21,11 @@ const showLoginPage = () => {
 }
 
 onMounted(() => {
+  // Check if the signup query parameter is present
+  if (route.query.signup === 'true') {
+    loginPage.value = false
+  }
+  
   // Check if user is already authenticated
   const token = Cookie.getCookie('job-app')
   if (token && Object.keys(jobStore.user).length > 0) {
