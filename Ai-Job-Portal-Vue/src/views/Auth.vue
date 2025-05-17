@@ -26,13 +26,7 @@ onMounted(() => {
     loginPage.value = false
   }
   
-  // Check if user is already authenticated
-  const token = Cookie.getCookie('job-app')
-  if (token && Object.keys(jobStore.user).length > 0) {
-    // If already authenticated, redirect to home
-    console.log('User already authenticated, redirecting to home...')
-    router.replace('/')
-  }
+  // Authentication redirect is now handled by router.beforeEach in index.js
 })
 </script>
 

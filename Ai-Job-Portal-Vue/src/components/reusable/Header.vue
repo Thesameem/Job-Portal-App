@@ -24,10 +24,10 @@
       <div class="auth-buttons">
         <!-- Show profile dropdown when authenticated -->
         <div v-if="isAuthenticated" class="profile-dropdown">
-          <a href="/userprofile" class="profile-badge">
+          <RouterLink to="/userprofile" class="profile-badge">
             <img src="./../../images/myphoto.JPG" alt="Profile Picture" />
             <span>{{ userName }}</span>
-          </a>
+          </RouterLink>
           <div class="dropdown-content">
             <RouterLink to="/managejob"><i class="fas fa-briefcase"></i> Manage Jobs</RouterLink>
             <RouterLink to="/settings"><i class="fas fa-cog"></i> Settings</RouterLink>
@@ -44,14 +44,37 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Cookie from '@/scripts/Cookie'
 import { useJobStore } from '@/stores/job'
+import { useToast } from '@/scripts/toast'
 
 const router = useRouter()
 const jobStore = useJobStore()
+const toast = useToast()
 const isAuthenticated = ref(false)
+const isInitialLoad = ref(true)
+
+// Try to restore user from localStorage
+const restoreUserFromStorage = () => {
+  const token = Cookie.getCookie('job-app')
+  
+  if (token && (!jobStore.user || Object.keys(jobStore.user).length === 0)) {
+    try {
+      const savedUser = localStorage.getItem('job-user')
+      if (savedUser) {
+        jobStore.user = JSON.parse(savedUser)
+        isAuthenticated.value = true
+        console.log('Restored user from localStorage:', jobStore.user)
+        return true
+      }
+    } catch (error) {
+      console.error('Error restoring user from storage:', error)
+    }
+  }
+  return false
+}
 
 // Update authentication status
 const checkAuth = () => {
@@ -59,11 +82,23 @@ const checkAuth = () => {
   const hasUser = !!jobStore.user && Object.keys(jobStore.user).length > 0
   
   // Update authentication state
-  isAuthenticated.value = !!token && hasUser
+  const newAuthState = !!token && hasUser
   
-  // Clear user data if no token exists
-  if (!token && Object.keys(jobStore.user).length > 0) {
-    jobStore.user = {}
+  // Only update if there's a change to prevent unnecessary re-renders
+  if (isAuthenticated.value !== newAuthState || isInitialLoad.value) {
+    isAuthenticated.value = newAuthState
+    isInitialLoad.value = false
+    
+    // Clear user data if no token exists
+    if (!token && Object.keys(jobStore.user).length > 0) {
+      jobStore.user = {}
+      localStorage.removeItem('job-user')
+    }
+    
+    // If we just became authenticated, save user to localStorage
+    if (newAuthState) {
+      localStorage.setItem('job-user', JSON.stringify(jobStore.user))
+    }
   }
 }
 
@@ -72,28 +107,59 @@ const userName = computed(() => {
   return jobStore.user?.fullname || 'User'
 })
 
+// Watch for changes in the user object
+watch(() => jobStore.user, (newVal) => {
+  if (newVal && Object.keys(newVal).length > 0) {
+    localStorage.setItem('job-user', JSON.stringify(newVal))
+  }
+}, { deep: true })
+
 // Check authentication when component mounts
 onMounted(() => {
-  // Initial check
-  checkAuth()
+  // First try to restore from localStorage
+  if (!restoreUserFromStorage()) {
+    // If restoration failed, perform regular check
+    checkAuth()
+  }
   
-  // Set up simple polling to check auth status
-  setInterval(checkAuth, 2000)
+  // Set up polling to check auth status (less frequent)
+  setInterval(checkAuth, 30000) // Check every 30 seconds
 })
 
 // Logout function
-const logout = () => {
-  // Clear the auth token cookie
-  Cookie.setCookie('job-app', '', 0) // Setting expiry to 0 removes the cookie
-  
-  // Clear user data from store
-  jobStore.user = {}
-  
-  // Update auth state
-  isAuthenticated.value = false
-  
-  // Redirect to the auth page
-  router.push('/auth')
+const logout = async () => {
+  try {
+    // Get username before logout for the toast message
+    const name = jobStore.user?.fullname || 'User'
+    
+    // Clear the auth token cookie
+    Cookie.setCookie('job-app', '', 0) // Setting expiry to 0 removes the cookie
+    
+    // Clear user data from store and localStorage
+    jobStore.user = {}
+    localStorage.removeItem('job-user')
+    
+    // Update auth state
+    isAuthenticated.value = false
+    
+    // Redirect to the auth page - using replace to prevent back navigation to authenticated pages
+    await router.replace({ name: 'auth', query: { logout: 'success' } })
+    
+    // Show logout toast notification after navigation is complete
+    setTimeout(() => {
+      toast.info(`Goodbye, ${name}! You have been logged out.`)
+    }, 500)
+    
+    // Force a page reload to ensure all components update their authentication state
+    if (window.location.pathname === '/auth') {
+      setTimeout(() => {
+        window.location.reload()
+      }, 100)
+    }
+  } catch (error) {
+    console.error('Error during logout:', error)
+    toast.error('There was a problem logging out. Please try again.')
+  }
 }
 </script>
 

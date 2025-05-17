@@ -14,19 +14,19 @@
       </div>
       <div class="footer-section">
         <h4>Quick Links</h4>
-        <a href="/findjobs">Find Jobs</a>
-        <a href="/createjob">Post a Job</a>
-        <a href="/findtalent">Find Talent</a>
-        <a href="/blog">Blog</a>
-        <a href="/faq">FAQ</a>
+        <RouterLink to="/findjob">Find Jobs</RouterLink>
+        <RouterLink to="/createjob">Post a Job</RouterLink>
+        <RouterLink to="/findtalent">Find Talent</RouterLink>
+        <RouterLink to="/blog">Blog</RouterLink>
+        <RouterLink to="/faq">FAQ</RouterLink>
       </div>
       <div class="footer-section">
         <h4>Company</h4>
-        <a href="/about">About Us</a>
-        <a href="/contact">Contact</a>
-        <a href="/whyus">Why Us</a>
-        <a href="/privacypolicy">Privacy Policy</a>
-        <a href="/termsofservice">Terms of Service</a>
+        <RouterLink to="/about">About Us</RouterLink>
+        <RouterLink to="/contact">Contact</RouterLink>
+        <RouterLink to="/whyus">Why Us</RouterLink>
+        <RouterLink to="/privacypolicy">Privacy Policy</RouterLink>
+        <RouterLink to="/terms">Terms of Service</RouterLink>
       </div>
     </div>
     <div class="footer-bottom">

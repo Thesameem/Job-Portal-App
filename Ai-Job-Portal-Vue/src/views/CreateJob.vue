@@ -215,30 +215,18 @@ import { POST } from '@/scripts/Fetch'
 import { useRouter } from 'vue-router'
 import Cookie from '@/scripts/Cookie'
 import { useJobStore } from '@/stores/job'
+import { useToast } from '@/scripts/toast'
 
 const router = useRouter()
 const jobStore = useJobStore()
+const toast = useToast()
 const isSubmitting = ref(false)
 const error = ref(false)
 const errorMessage = ref('')
 const logoFileName = ref('')
-const isAuthenticated = ref(false)
+const isAuthenticated = ref(true)
 
-// Check authentication on component mount
-onMounted(() => {
-  const token = Cookie.getCookie('job-app')
-  
-  // Check if token exists and user data exists
-  if (!token || !jobStore.user || Object.keys(jobStore.user).length === 0) {
-    console.log('User not authenticated, redirecting to auth page...')
-    // Redirect to auth page immediately
-    router.replace('/auth')
-    isAuthenticated.value = false
-  } else {
-    console.log('User is authenticated, proceeding with job post form')
-    isAuthenticated.value = true
-  }
-})
+// Authentication is now handled in router/index.js with beforeEach guard
 
 // Form data structure matching the backend expectations
 const formData = reactive({
@@ -301,6 +289,9 @@ const submitJob = async () => {
     const result = await POST('my-jobs', jobFormData)
 
     if (!result.error) {
+      // Show success toast notification
+      toast.success(`Job "${formData.title}" posted successfully!`)
+      
       // Success - redirect to home page
       router.push('/')
     } else {
@@ -313,10 +304,16 @@ const submitJob = async () => {
         Cookie.setCookie('job-app', '', 0)
         jobStore.user = {}
         
+        // Show error toast
+        toast.error('Authentication failed. Please log in again.')
+        
         // Redirect to auth page immediately
         router.replace('/auth')
       } else {
         errorMessage.value = result.reason || 'Failed to create job listing. Please try again.'
+        
+        // Show error toast
+        toast.error(result.reason || 'Failed to create job listing. Please try again.')
 
         // If there are validation errors, show them in detail
         if (result.response) {
@@ -328,6 +325,9 @@ const submitJob = async () => {
   } catch (err) {
     error.value = true
     errorMessage.value = 'An unexpected error occurred. Please try again.'
+    
+    // Show error toast
+    toast.error('An unexpected error occurred. Please try again.')
   } finally {
     isSubmitting.value = false
   }

@@ -12,16 +12,22 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 
+// Public routes
 //user register
 Route::post('user/register',[AuthController::class,'register']);
 
 //user login
 Route::post('user/login',[AuthController::class,'login']);
 
-//user logout
-Route::group(['middleware' => ['auth:sanctum']], function () {
+// Public job routes
+Route::get('/jobs', [JobListController::class, 'getAllJobs']);
+Route::get('/jobs/{id}', [JobListController::class, 'getJobDetails']);
 
+//Protected routes
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/logout/{id}', [AuthController::class, 'logout']);
     Route::post('/my-jobs', [JobListController::class, 'AddJob']);
-
+    Route::get('/my-jobs', [JobListController::class, 'getUserJobs']);
+    Route::put('/my-jobs/{id}', [JobListController::class, 'updateJob']);
+    Route::delete('/my-jobs/{id}', [JobListController::class, 'deleteJob']);
 });

@@ -4,6 +4,7 @@ import { POST } from '@/scripts/Fetch'
 import { useRouter } from 'vue-router'
 import Cookie from '@/scripts/Cookie'
 import { useJobStore } from '@/stores/job'
+import { RouterLink } from 'vue-router'
 
 const emits = defineEmits(['login'])
 const router = useRouter()
@@ -119,10 +120,11 @@ const RegisterUser = async (e) => {
         <div class="form-group">
           <label class="checkbox-label">
             <input type="checkbox" required v-model="termsAccepted" />
-            <span
-              >I agree to the <a href="/termsofservice">Terms of Service</a> and
-              <a href="/privacypolicy">Privacy Policy</a></span
-            >
+            <span>
+              I agree to the 
+              <RouterLink to="/terms">Terms of Service</RouterLink> and
+              <RouterLink to="/privacypolicy">Privacy Policy</RouterLink>
+            </span>
           </label>
         </div>
         
@@ -131,7 +133,9 @@ const RegisterUser = async (e) => {
           {{ errorText }}
         </div>
 
-        <button type="submit" class="auth-button">Create Account</button>
+        <button type="submit" class="auth-button" :disabled="!termsAccepted">
+          Create Account
+        </button>
         <div class="social-login">
           <p>Or sign up with</p>
           <div class="social-buttons">

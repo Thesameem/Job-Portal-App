@@ -16,7 +16,7 @@
                     <span><i class="fas fa-phone"></i> +977 9800000000</span>
                 </div>
                 <div class="profile-actions">
-                    <button class="edit-profile-btn" onclick="window.location.href='/editprofile'"><i class="fas fa-edit"></i> Edit Profile</button>
+                    <RouterLink to="/editprofile" class="edit-profile-btn"><i class="fas fa-edit"></i> Edit Profile</RouterLink>
                     <button class="share-profile-btn"><i class="fas fa-share-alt"></i> Share Profile</button>
                 </div>
             </div>
@@ -198,3 +198,28 @@
         </div>
     </main>
 </template>
+
+<script setup>
+// Add script setup to ensure RouterLink is properly recognized
+</script>
+
+<style scoped>
+/* Style for RouterLink buttons */
+.edit-profile-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.edit-profile-btn:hover {
+  background-color: #0b5ed7;
+}
+</style>

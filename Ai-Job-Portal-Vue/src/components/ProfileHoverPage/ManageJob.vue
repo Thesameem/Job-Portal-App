@@ -23,13 +23,13 @@
         <h3>Senior Frontend Developer</h3>
         <p>Tech Solutions Inc.</p>
         <span class="status">Pending</span>
-        <a href="/jobdetails" class="view-details">View Details</a>
+        <RouterLink to="/jobdetails" class="view-details">View Details</RouterLink>
       </div>
       <div class="application-item">
         <h3>Full Stack Developer</h3>
         <p>Digital Innovations</p>
         <span class="status">Approved</span>
-        <a href="/jobdetails" class="view-details">View Details</a>
+        <RouterLink to="/jobdetails" class="view-details">View Details</RouterLink>
       </div>
     </div>
   </section>
@@ -44,7 +44,7 @@
         <p>Experience: 5 years</p>
         <div class="application-actions">
           <span class="status">New</span>
-          <button class="review-btn" onclick="window.location.href='/reviewjob'">Review</button>
+          <RouterLink to="/reviewjob" class="review-btn">Review</RouterLink>
           <button class="message-btn">Message</button>
         </div>
       </div>
@@ -54,7 +54,7 @@
         <p>Experience: 3 years</p>
         <div class="application-actions">
           <span class="status">Under Review</span>
-          <button class="review-btn" onclick="window.location.href='/reviewjob'">Review</button>
+          <RouterLink to="/reviewjob" class="review-btn">Review</RouterLink>
           <button class="message-btn">Message</button>
         </div>
       </div>
@@ -71,10 +71,8 @@
         <p>Applications: 15</p>
         <div class="application-actions">
           <span class="status">Active</span>
-          <button class="edit-btn" onclick="window.location.href='/editjob'">Edit</button>
-          <button class="review-btn" onclick="window.location.href='/reviewjob'">
-            View Applicants
-          </button>
+          <RouterLink to="/editjob" class="edit-btn">Edit</RouterLink>
+          <RouterLink to="/reviewjob" class="review-btn">View Applicants</RouterLink>
           <button class="close-btn">Close Job</button>
         </div>
       </div>
@@ -84,10 +82,8 @@
         <p>Applications: 25</p>
         <div class="application-actions">
           <span class="status">Active</span>
-          <button class="edit-btn" onclick="window.location.href='/editjob'">Edit</button>
-          <button class="review-btn" onclick="window.location.href='/reviewjob'">
-            View Applicants
-          </button>
+          <RouterLink to="/editjob" class="edit-btn">Edit</RouterLink>
+          <RouterLink to="/reviewjob" class="review-btn">View Applicants</RouterLink>
           <button class="close-btn">Close Job</button>
         </div>
       </div>
@@ -97,10 +93,8 @@
         <p>Applications: 8</p>
         <div class="application-actions">
           <span class="status">Active</span>
-          <button class="edit-btn" onclick="window.location.href='/editjob'">Edit</button>
-          <button class="review-btn" onclick="window.location.href='/reviewjob'">
-            View Applicants
-          </button>
+          <RouterLink to="/editjob" class="edit-btn">Edit</RouterLink>
+          <RouterLink to="/reviewjob" class="review-btn">View Applicants</RouterLink>
           <button class="close-btn">Close Job</button>
         </div>
       </div>
@@ -132,3 +126,41 @@
     </div>
   </section>
 </template>
+
+<script setup>
+// Add script setup to ensure RouterLink is properly recognized
+</script>
+
+<!-- <style scoped>
+/* Make RouterLinks look like buttons when needed */
+.review-btn, .edit-btn {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.review-btn {
+  background-color: #0d6efd;
+  color: white;
+  border: 1px solid #0d6efd;
+}
+
+.review-btn:hover {
+  background-color: #0b5ed7;
+}
+
+.edit-btn {
+  background-color: #6c757d;
+  color: white;
+  border: 1px solid #6c757d;
+}
+
+.edit-btn:hover {
+  background-color: #5a6268;
+}
+</style> -->

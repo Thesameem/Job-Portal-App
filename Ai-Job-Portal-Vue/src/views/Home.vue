@@ -9,16 +9,7 @@ import Footer from '@/components/reusable/Footer.vue'
 
 let router = useRouter()
 
-onMounted(() => {
-  let Token = Cookie.getCookie('job-app')
-  if (!Token) {
-    router.push({ path: '/auth' })
-    return
-  }
-
-  // let result = await GET('user/jobs');
-  // if (!result.error) JobStore.jobList = result.response;
-})
+// Authentication is now handled in router/index.js with beforeEach guard
 </script>
 
 <template>
@@ -86,7 +77,7 @@ onMounted(() => {
         <i class="fas fa-user-plus" aria-hidden="true"></i>
         <h3>Create Account</h3>
         <p>Sign up and create your professional profile</p>
-        <RouterLink to="/" class="step-link"
+        <RouterLink to="/auth?signup=true" class="step-link"
           >Get Started <i class="fas fa-arrow-right" aria-hidden="true"></i
         ></RouterLink>
       </div>
@@ -94,7 +85,7 @@ onMounted(() => {
         <i class="fas fa-search" aria-hidden="true"></i>
         <h3>Search Jobs</h3>
         <p>Browse and apply for jobs that match your skills</p>
-        <RouterLink to="/findjobs" class="step-link"
+        <RouterLink to="/findjob" class="step-link"
           >Browse Jobs <i class="fas fa-arrow-right" aria-hidden="true"></i
         ></RouterLink>
       </div>

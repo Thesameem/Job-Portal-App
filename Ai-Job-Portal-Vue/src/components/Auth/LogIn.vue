@@ -1,32 +1,41 @@
 <script setup>
 import axios from 'axios'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useJobStore } from '@/stores/job'
 import Cookie from '@/scripts/Cookie'
 import { POST } from '@/scripts/Fetch'
 import { ref } from 'vue'
+import { useToast } from '@/scripts/toast'
 
 const emits = defineEmits(['signup'])
+const toast = useToast()
 
 const email = ref('')
 const password = ref('')
 const loginError = ref(false)
 const errorMessage = ref('')
+const isSubmitting = ref(false)
 
 const jobStore = useJobStore()
 const router = useRouter()
+const route = useRoute()
 
 const LogInUser = async () => {
   try {
     // Reset error state
     loginError.value = false
+    errorMessage.value = ''
     
     // Validate input
     if (!email.value || !password.value) {
       loginError.value = true
       errorMessage.value = 'Please enter both email and password'
+      toast.error('Please enter both email and password')
       return
     }
+    
+    // Set submitting state
+    isSubmitting.value = true
     
     // Create form data to send to server
     const formData = new FormData()
@@ -36,25 +45,60 @@ const LogInUser = async () => {
     // Send post method to login user
     console.log('Submitting login with:', { email: email.value, password: 'XXXXX' })
     const result = await POST('user/login', formData)
-    console.log('Login result:', result)
+    
+    // Log the response for debugging
+    console.log('Login response:', result)
     
     if (!result.error) {
-      // Save token and user data
-      Cookie.setCookie('job-app', result.response.token, 30)
-      jobStore.user = result.response.user
+      // Login successful
+      console.log('Login successful, saving token and user data')
       
-      // Navigate to home page
-      console.log('Login successful, redirecting to home...')
-      router.push('/')
+      // Save token and user data
+      if (result.response.token) {
+        Cookie.setCookie('job-app', result.response.token, 30)
+      } else {
+        console.warn('No token found in successful response')
+      }
+      
+      if (result.response.user) {
+        jobStore.user = result.response.user
+        console.log('User data saved to store')
+      } else {
+        console.warn('No user data found in successful response')
+        jobStore.user = {} // Set empty user object if none returned
+      }
+      
+      // Store the welcome message and user name for after navigation
+      const userName = result.response.user?.fullname || 'User'
+      
+      // Determine where to redirect the user
+      const redirectPath = route.query.redirect || '/'
+      
+      // Navigate to the redirect path or home
+      console.log(`Redirecting to: ${redirectPath}`)
+      
+      // First navigate, then show toast after navigation is complete
+      await router.replace(redirectPath)
+      
+      // Show welcome toast after a short delay to ensure page has loaded
+      setTimeout(() => {
+        toast.success(`Welcome back, ${userName}!`)
+      }, 500)
     } else {
-      // Handle login error
+      // Login failed
+      console.log('Login failed:', result.reason)
       loginError.value = true
       errorMessage.value = result.reason || 'Login failed. Please check your credentials.'
+      toast.error(errorMessage.value)
     }
   } catch (error) {
-    console.error('Login error:', error)
+    // This should only happen for critical errors
+    console.error('Critical login error:', error)
     loginError.value = true
-    errorMessage.value = 'An unexpected error occurred. Please try again.'
+    errorMessage.value = 'A critical error occurred. Please try again later.'
+    toast.error(errorMessage.value)
+  } finally {
+    isSubmitting.value = false
   }
 }
 </script>
@@ -70,7 +114,7 @@ const LogInUser = async () => {
       <form class="auth-form" @submit.prevent="LogInUser">
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" placeholder="Enter your email" required v-model="email" />
+          <input type="email" id="email" placeholder="Enter your email" required v-model="email" :disabled="isSubmitting" />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -81,6 +125,7 @@ const LogInUser = async () => {
               placeholder="Enter your password"
               required
               v-model="password"
+              :disabled="isSubmitting"
             />
             <i class="fas fa-eye toggle-password"></i>
           </div>
@@ -98,15 +143,17 @@ const LogInUser = async () => {
           {{ errorMessage }}
         </div>
         
-        <button type="submit" class="auth-button">Log In</button>
+        <button type="submit" class="auth-button" :disabled="isSubmitting">
+          {{ isSubmitting ? 'Logging in...' : 'Log In' }}
+        </button>
         <div class="social-login">
           <p>Or log in with</p>
           <div class="social-buttons">
-            <button type="button" class="social-btn google">
+            <button type="button" class="social-btn google" :disabled="isSubmitting">
               <i class="fab fa-google"></i>
               Google
             </button>
-            <button type="button" class="social-btn linkedin">
+            <button type="button" class="social-btn linkedin" :disabled="isSubmitting">
               <i class="fab fa-linkedin"></i>
               LinkedIn
             </button>
@@ -143,7 +190,12 @@ const LogInUser = async () => {
   margin-bottom: 15px;
 }
 
-.auth-button:hover {
+.auth-button:hover:not(:disabled) {
   background-color: #0b5ed7;
+}
+
+.auth-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
 }
 </style>

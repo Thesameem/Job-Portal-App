@@ -13,7 +13,228 @@ class JobListController extends Controller
      * Display a listing of the resource.
      */
 
-     //add  job in the list
+    // Get all jobs with optional search and sorting
+    public function getAllJobs(Request $request)
+    {
+        try {
+            $query = JobList::where('status', 'posted');
+
+            // Handle search query
+            if ($request->has('search')) {
+                $searchTerm = $request->search;
+                $query->where(function($q) use ($searchTerm) {
+                    $q->where('title', 'like', "%{$searchTerm}%")
+                      ->orWhere('company_name', 'like', "%{$searchTerm}%")
+                      ->orWhere('required_skills', 'like', "%{$searchTerm}%")
+                      ->orWhere('description', 'like', "%{$searchTerm}%")
+                      ->orWhere('location', 'like', "%{$searchTerm}%");
+                });
+            }
+
+            // Handle sorting
+            if ($request->has('sort')) {
+                switch ($request->sort) {
+                    case 'newest':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                    case 'salary':
+                        $query->orderByRaw('CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(salary_range, "-", -1), "k", 1) AS UNSIGNED) DESC');
+                        break;
+                    case 'relevant':
+                    default:
+                        // For relevance sorting, we'll use created_at as default
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                }
+            } else {
+                // Default sort by newest
+                $query->orderBy('created_at', 'desc');
+            }
+
+            // Get the jobs
+            $jobs = $query->get();
+
+            return response()->json([
+                'error' => false,
+                'reason' => 'Jobs fetched successfully',
+                'response' => $jobs
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'reason' => 'Failed to fetch jobs: ' . $e->getMessage(),
+            ]);
+        }
+    }
+
+    // Get details of a specific job
+    public function getJobDetails($id)
+    {
+        try {
+            $job = JobList::find($id);
+
+            if (!$job) {
+                return response()->json([
+                    'error' => true,
+                    'reason' => 'Job not found'
+                ]);
+            }
+
+            return response()->json([
+                'error' => false,
+                'reason' => 'Job details fetched successfully',
+                'response' => $job
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'reason' => 'Failed to fetch job details: ' . $e->getMessage(),
+            ]);
+        }
+    }
+
+    // Get jobs posted by the authenticated user
+    public function getUserJobs(Request $request)
+    {
+        try {
+            $userId = $request->user()->id;
+            $jobs = JobList::where('user_id', $userId)
+                          ->orderBy('created_at', 'desc')
+                          ->get();
+
+            return response()->json([
+                'error' => false,
+                'reason' => 'User jobs fetched successfully',
+                'response' => $jobs
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'reason' => 'Failed to fetch user jobs: ' . $e->getMessage(),
+            ]);
+        }
+    }
+
+    // Update an existing job
+    public function updateJob(Request $request, $id)
+    {
+        try {
+            $job = JobList::find($id);
+
+            if (!$job) {
+                return response()->json([
+                    'error' => true,
+                    'reason' => 'Job not found'
+                ]);
+            }
+
+            // Check if the user owns this job
+            if ($job->user_id !== $request->user()->id) {
+                return response()->json([
+                    'error' => true,
+                    'reason' => 'Unauthorized. You do not own this job.'
+                ], 403);
+            }
+
+            // Validate the request
+            $validator = Validator::make($request->all(), [
+                // Company details
+                'company_name' => 'sometimes|string|max:255',
+                'company_logo' => 'sometimes|image|max:2048',
+                'company_website' => 'sometimes|nullable|url',
+                'company_size' => 'sometimes|string',
+
+                // Job details
+                'title' => 'sometimes|string|max:255',
+                'type' => 'sometimes|in:full-time,part-time,contract,freelancer',
+                'location' => 'sometimes|string|max:255',
+                'salary_range' => 'sometimes|string|max:255',
+                'description' => 'sometimes|string',
+                'responsibilities' => 'sometimes|string',
+
+                // Requirements
+                'experience_level' => 'sometimes|in:entry,intermediate,senior,lead',
+                'education_level' => 'sometimes|in:high-school,associate,bachelor,master,phd',
+                'required_skills' => 'sometimes|string',
+                'preferred_skills' => 'sometimes|nullable|string',
+
+                // Additional info
+                'benefits' => 'sometimes|nullable|string',
+                'application_deadline' => 'sometimes|nullable|date',
+                'contact_email' => 'sometimes|email',
+                'status' => 'sometimes|in:draft,posted,closed',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'error' => true,
+                    'reason' => 'Invalid data input',
+                    'response' => $validator->errors()
+                ]);
+            }
+
+            // Handle logo update if provided
+            if ($request->hasFile('company_logo')) {
+                $logo = $request->file('company_logo');
+                $logopath = time() . '.' . $logo->getClientOriginalExtension();
+                $logo->move(public_path('images'), $logopath);
+                $job->company_logo = $logopath;
+            }
+
+            // Update the job with the validated data
+            $job->fill($request->except('company_logo'));
+            $job->save();
+
+            return response()->json([
+                'error' => false,
+                'reason' => 'Job updated successfully',
+                'response' => $job
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'reason' => 'Failed to update job: ' . $e->getMessage(),
+            ]);
+        }
+    }
+
+    // Delete a job
+    public function deleteJob(Request $request, $id)
+    {
+        try {
+            $job = JobList::find($id);
+
+            if (!$job) {
+                return response()->json([
+                    'error' => true,
+                    'reason' => 'Job not found'
+                ]);
+            }
+
+            // Check if the user owns this job
+            if ($job->user_id !== $request->user()->id) {
+                return response()->json([
+                    'error' => true,
+                    'reason' => 'Unauthorized. You do not own this job.'
+                ], 403);
+            }
+
+            // Delete the job
+            $job->delete();
+
+            return response()->json([
+                'error' => false,
+                'reason' => 'Job deleted successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'reason' => 'Failed to delete job: ' . $e->getMessage(),
+            ]);
+        }
+    }
+
+     //add job in the list
      public function AddJob(Request $request){
 
         $UserID=$request->user()->id;
@@ -89,7 +310,7 @@ class JobListController extends Controller
             'benefits'                  =>      $request->benefits,
             'application_deadline'      =>      $request->application_deadline,
             'contact_email'             =>      $request->contact_email,
-            'status'                  =>      'draft',
+            'status'                  =>      'posted', // Changed from 'draft' to 'posted' for immediate visibility
         ]);
                //return the new added job
         return response()->json([
@@ -97,27 +318,6 @@ class JobListController extends Controller
             'reason'  => 'Job Listed',
             'response' => $JobList
         ]);
-
-
-        //edit job
-        
-        $JobList = JobList::find($id);
-        if (!$JobList) {
-            return response()->json([
-                'error' => true,
-                'reason' => 'Job not found',
-            ]);
-        }
-        $JobList->update($request->all());
-        return response()->json([
-            'error' => false,
-            'reason' => 'Job updated successfully',
-            'response' => $JobList
-        ]);
-
-
-
-        
      }
    
 }
