@@ -7,7 +7,7 @@ import { POST } from '@/scripts/Fetch'
 import { ref } from 'vue'
 import { useToast } from '@/scripts/toast'
 
-const emits = defineEmits(['signup'])
+const emits = defineEmits(['signup', 'forgot-password'])
 const toast = useToast()
 
 const email = ref('')
@@ -15,6 +15,7 @@ const password = ref('')
 const loginError = ref(false)
 const errorMessage = ref('')
 const isSubmitting = ref(false)
+const showPassword = ref(false)
 
 const jobStore = useJobStore()
 const router = useRouter()
@@ -120,14 +121,19 @@ const LogInUser = async () => {
           <label for="password">Password</label>
           <div class="password-input">
             <input
-              type="password"
+              :type="showPassword ? 'text' : 'password'"
               id="password"
               placeholder="Enter your password"
               required
               v-model="password"
               :disabled="isSubmitting"
             />
-            <i class="fas fa-eye toggle-password"></i>
+            
+            <i 
+            :class="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye', 'toggle-password']"
+              @click="showPassword = !showPassword"
+              style="cursor:pointer"
+              title="Show/Hide Password"></i>
           </div>
         </div>
         <div class="form-options">
@@ -135,7 +141,7 @@ const LogInUser = async () => {
             <input type="checkbox" />
             Remember Me
           </label>
-          <a href="#" class="forgot-password">Forgot Password?</a>
+          <a href="#" class="forgot-password" @click.prevent="emits('forgot-password')">Forgot Password?</a>
         </div>
         
         <!-- Error message -->
