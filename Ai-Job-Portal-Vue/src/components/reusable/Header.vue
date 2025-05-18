@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import Cookie from '@/scripts/Cookie'
 import { useJobStore } from '@/stores/job'
@@ -84,8 +84,16 @@ const checkAuth = () => {
   // Update authentication state
   const newAuthState = !!token && hasUser
   
+  console.log('Checking auth state:', { 
+    token: !!token, 
+    hasUser, 
+    currentAuthState: isAuthenticated.value,
+    newAuthState
+  })
+  
   // Only update if there's a change to prevent unnecessary re-renders
   if (isAuthenticated.value !== newAuthState || isInitialLoad.value) {
+    console.log('Auth state changed:', newAuthState)
     isAuthenticated.value = newAuthState
     isInitialLoad.value = false
     
@@ -107,12 +115,40 @@ const userName = computed(() => {
   return jobStore.user?.fullname || 'User'
 })
 
-// Watch for changes in the user object
-watch(() => jobStore.user, (newVal) => {
+// Watch for changes in the user object to update the auth state immediately
+watch(() => jobStore.user, (newVal, oldVal) => {
+  console.log('User object changed:', { 
+    hasNewUser: newVal && Object.keys(newVal).length > 0,
+    hasOldUser: oldVal && Object.keys(oldVal).length > 0 
+  })
+  
   if (newVal && Object.keys(newVal).length > 0) {
+    // User data is available, update localStorage and auth state
     localStorage.setItem('job-user', JSON.stringify(newVal))
+    
+    // Update auth state immediately
+    nextTick(() => {
+      isAuthenticated.value = true
+      console.log('Auth state updated by watcher:', isAuthenticated.value)
+    })
+  } else if (oldVal && Object.keys(oldVal).length > 0 && (!newVal || Object.keys(newVal).length === 0)) {
+    // User was logged out
+    isAuthenticated.value = false
+    console.log('User logged out, auth state updated by watcher:', isAuthenticated.value)
   }
-}, { deep: true })
+}, { deep: true, immediate: true })
+
+// Also watch the cookie directly
+const watchCookie = () => {
+  const token = Cookie.getCookie('job-app')
+  if (token && jobStore.user && Object.keys(jobStore.user).length > 0 && !isAuthenticated.value) {
+    isAuthenticated.value = true
+    console.log('Auth state updated by cookie watcher:', isAuthenticated.value)
+  } else if (!token && isAuthenticated.value) {
+    isAuthenticated.value = false
+    console.log('Cookie removed, auth state updated by watcher:', isAuthenticated.value)
+  }
+}
 
 // Check authentication when component mounts
 onMounted(() => {
@@ -122,9 +158,24 @@ onMounted(() => {
     checkAuth()
   }
   
+  // Set up polling for cookie changes
+  setInterval(watchCookie, 1000) // Check more frequently (every second)
+  
   // Set up polling to check auth status (less frequent)
   setInterval(checkAuth, 30000) // Check every 30 seconds
+  
+  // Initial check after a brief delay to allow store to update
+  setTimeout(checkAuth, 200)
 })
+
+// Force check auth method that can be called from other components
+const forceCheckAuth = () => {
+  checkAuth()
+  return isAuthenticated.value
+}
+
+// Make this method available globally
+window.checkAuthNow = forceCheckAuth
 
 // Logout function
 const logout = async () => {

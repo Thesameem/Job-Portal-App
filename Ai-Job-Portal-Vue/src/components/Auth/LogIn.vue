@@ -4,7 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useJobStore } from '@/stores/job'
 import Cookie from '@/scripts/Cookie'
 import { POST } from '@/scripts/Fetch'
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { useToast } from '@/scripts/toast'
 
 const emits = defineEmits(['signup', 'forgot-password'])
@@ -54,19 +54,38 @@ const LogInUser = async () => {
       // Login successful
       console.log('Login successful, saving token and user data')
       
-      // Save token and user data
+      // Save token first
       if (result.response.token) {
         Cookie.setCookie('job-app', result.response.token, 30)
       } else {
         console.warn('No token found in successful response')
       }
       
+      // Wait for a tick to ensure cookie is set
+      await nextTick()
+      
+      // Then set user data to trigger watchers
       if (result.response.user) {
+        // First clear user data to ensure watchers trigger
+        jobStore.user = {}
+        
+        // Wait a tick
+        await nextTick()
+        
+        // Then set the new user data
         jobStore.user = result.response.user
-        console.log('User data saved to store')
+        console.log('User data saved to store:', jobStore.user)
+        
+        // Save to localStorage for persistence
+        localStorage.setItem('job-user', JSON.stringify(result.response.user))
       } else {
         console.warn('No user data found in successful response')
-        jobStore.user = {} // Set empty user object if none returned
+      }
+      
+      // Force header to check auth immediately
+      if (window.checkAuthNow) {
+        const isAuth = window.checkAuthNow()
+        console.log('Forced auth check result:', isAuth)
       }
       
       // Store the welcome message and user name for after navigation

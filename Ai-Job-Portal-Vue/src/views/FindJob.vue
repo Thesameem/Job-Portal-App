@@ -5,7 +5,11 @@
       <form @submit.prevent="searchJobs">
         <div class="search-box">
           <i class="fas fa-search"></i>
-          <input type="text" placeholder="Search for jobs, skills, or companies..." v-model="searchQuery" />
+          <input
+            type="text"
+            placeholder="Search for jobs, skills, or companies..."
+            v-model="searchQuery"
+          />
         </div>
         <button type="submit" class="search-btn">Search Jobs</button>
       </form>
@@ -115,9 +119,13 @@
         <!-- Job Card (dynamically generated) -->
         <div v-for="job in jobs" :key="job.id" class="job-card">
           <div class="job-header">
-            <img 
-              :src="job.company_logo ? `${Config.baseURL.replace('api/', '')}images/${job.company_logo}` : ''" 
-              alt="Company Logo" 
+            <img
+              :src="
+                job.company_logo
+                  ? `${Config.baseURL.replace('api/', '')}images/${job.company_logo}`
+                  : ''
+              "
+              alt="Company Logo"
             />
             <div class="job-title">
               <h3>
@@ -130,15 +138,23 @@
             <button class="save-job"><i class="far fa-bookmark"></i></button>
           </div>
           <div class="job-details">
-            <span><i class="fas fa-map-marker-alt"></i> {{ job.location || 'Location Not Specified' }}</span>
+            <span
+              ><i class="fas fa-map-marker-alt"></i>
+              {{ job.location || 'Location Not Specified' }}</span
+            >
             <span><i class="fas fa-clock"></i> {{ job.type || 'Job Type Not Specified' }}</span>
-            <span><i class="fas fa-dollar-sign"></i> {{ job.salary_range || 'Salary Not Specified' }}</span>
+            <span
+              ><i class="fas fa-dollar-sign"></i>
+              {{ job.salary_range || 'Salary Not Specified' }}</span
+            >
           </div>
           <p class="job-description">
             {{ truncateDescription(job.description) }}
           </p>
           <div class="job-tags">
-            <span v-for="(skill, index) in getSkills(job.required_skills)" :key="index">{{ skill }}</span>
+            <span v-for="(skill, index) in getSkills(job.required_skills)" :key="index">{{
+              skill
+            }}</span>
           </div>
           <div class="job-footer">
             <span class="posted-date">Posted {{ formatDate(job.created_at) }}</span>
@@ -182,15 +198,15 @@ const loadJobs = async () => {
   try {
     isLoading.value = true
     error.value = false
-    
+
     // Construct API endpoint with query params
     let endpoint = 'jobs'
-    
+
     // Add search query if present
     if (searchQuery.value) {
       endpoint += `?search=${encodeURIComponent(searchQuery.value)}`
     }
-    
+
     // Add sort option
     const sortParam = searchQuery.value ? '&' : '?'
     if (sortOption.value === 'newest') {
@@ -200,33 +216,33 @@ const loadJobs = async () => {
     } else {
       endpoint += `${sortParam}sort=relevant`
     }
-    
+
     console.log('Fetching jobs from API endpoint:', endpoint)
     console.log('API URL:', Config.baseURL + endpoint)
-    
+
     // Fetch jobs with our GET utility
     const result = await GET(endpoint)
-    
+
     console.log('API response:', result)
-    
+
     if (!result.error) {
       // The Laravel backend returns jobs directly in result.response.response format
       if (result.response && Array.isArray(result.response)) {
         jobs.value = result.response
-      } 
+      }
       // Handle case where response is nested one level deeper
       else if (result.response && typeof result.response === 'object' && result.response.response) {
         // This is the correct format from our Laravel backend
         jobs.value = Array.isArray(result.response.response) ? result.response.response : []
-      } 
+      }
       // Fallback if format doesn't match the expected structure
       else {
         jobs.value = []
         console.error('Unexpected response format:', result)
       }
-      
+
       console.log('Jobs loaded successfully:', jobs.value.length)
-      
+
       // If no jobs found with search criteria
       if (jobs.value.length === 0 && searchQuery.value) {
         toast.info(`No jobs found for "${searchQuery.value}". Try different keywords.`)
@@ -258,30 +274,28 @@ const searchJobs = () => {
 // Helper functions
 const truncateDescription = (description) => {
   if (!description) return 'No description provided'
-  
+
   // Strip HTML tags if present
   const strippedDesc = description.replace(/<[^>]*>/g, '')
-  
+
   // Truncate to 150 characters
-  return strippedDesc.length > 150 
-    ? strippedDesc.substring(0, 150) + '...' 
-    : strippedDesc
+  return strippedDesc.length > 150 ? strippedDesc.substring(0, 150) + '...' : strippedDesc
 }
 
 const getSkills = (skillsString) => {
   if (!skillsString) return []
-  
+
   try {
     // Check if it's already an array
     if (Array.isArray(skillsString)) {
       return skillsString.slice(0, 4)
     }
-    
+
     // Split by comma and clean up
     return skillsString
       .split(',')
-      .map(skill => skill.trim())
-      .filter(skill => skill) // Remove empty strings
+      .map((skill) => skill.trim())
+      .filter((skill) => skill) // Remove empty strings
       .slice(0, 4) // Get at most 4 skills
   } catch (error) {
     console.error('Error parsing skills:', error)
@@ -291,19 +305,19 @@ const getSkills = (skillsString) => {
 
 const formatDate = (dateString) => {
   if (!dateString) return 'recently'
-  
+
   try {
     const postDate = new Date(dateString)
-    
+
     // Check if the date is invalid
     if (isNaN(postDate.getTime())) {
       return 'recently'
     }
-    
+
     const now = new Date()
     const diffTime = Math.abs(now - postDate)
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    
+
     if (diffDays === 0) return 'today'
     if (diffDays === 1) return 'yesterday'
     if (diffDays < 7) return `${diffDays} days ago`
@@ -343,8 +357,12 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error-message {
