@@ -18,6 +18,22 @@ export const POST = async (uri, formdata, isMultipart = false) => {
         
         if (isMultipart) {
             console.log('[Fetch] FormData keys:', [...formdata.keys()]);
+            
+            // Log company_logo details if it exists
+            if (formdata.has('company_logo')) {
+                const file = formdata.get('company_logo');
+                if (file instanceof File) {
+                    console.log('[Fetch] Company logo details:', {
+                        name: file.name,
+                        type: file.type,
+                        size: file.size,
+                        lastModified: new Date(file.lastModified).toISOString()
+                    });
+                } else {
+                    console.log('[Fetch] Company logo is not a File object:', typeof file);
+                }
+            }
+            
             // Log if profile_photo exists in FormData
             if (formdata.has('profile_photo')) {
                 const file = formdata.get('profile_photo');
@@ -38,12 +54,17 @@ export const POST = async (uri, formdata, isMultipart = false) => {
 
         // Set up headers based on content type
         let headers = {
-            Authorization: `Bearer ${Token}`
+                Authorization: `Bearer ${Token}`
         };
 
         // For multipart/form-data, let axios set the correct Content-Type with boundary
+        // Explicitly DON'T set Content-Type for multipart/form-data, let the browser handle it
         if (!isMultipart) {
             headers['Content-Type'] = 'application/json';
+        } else {
+            // Important: When uploading files, DO NOT set Content-Type manually
+            // The browser will set it automatically with the correct boundary
+            console.log('[Fetch] Using browser-set Content-Type for multipart/form-data');
         }
 
         // Create the config object
@@ -55,7 +76,18 @@ export const POST = async (uri, formdata, isMultipart = false) => {
         let payload = formdata;
         if (isMultipart) {
             // FormData is already ready to go - don't stringify it
-            console.log('[Fetch] Sending as FormData');
+            console.log('[Fetch] Sending as FormData with automatic Content-Type');
+            
+            // Additional debugging: print out all form values (excluding file contents)
+            console.log('[Fetch] FormData contents:');
+            for (const pair of formdata.entries()) {
+                const [key, value] = pair;
+                if (value instanceof File) {
+                    console.log(`${key}: [File] ${value.name}, type=${value.type}, size=${value.size}B`);
+                } else {
+                    console.log(`${key}: ${value}`);
+                }
+            }
         } else {
             // For JSON requests, make sure the payload is properly formatted
             payload = formdata;

@@ -271,7 +271,7 @@ class JobListController extends Controller
          $Validate = Validator::make($request->all(),[
              //company details
             'company_name'   =>  'required|string|max:255',
-            'company_logo'   =>  'nullable|image|max:2048',
+            'company_logo'   =>  'nullable|file|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'company_website'=>  'nullable|url',
             'company_size'   =>  'required|string',
 
@@ -302,6 +302,21 @@ class JobListController extends Controller
          //validation
         if ($Validate->fails()){
             $Errors = $Validate->errors();
+            
+            // Log specific details about the company_logo validation issue
+            if (isset($Errors['company_logo'])) {
+                \Log::error('Company logo validation failed: ', [
+                    'errors' => $Errors['company_logo'],
+                    'has_file' => $request->hasFile('company_logo'),
+                    'file_details' => $request->hasFile('company_logo') ? [
+                        'name' => $request->file('company_logo')->getClientOriginalName(),
+                        'size' => $request->file('company_logo')->getSize(),
+                        'mime' => $request->file('company_logo')->getMimeType(),
+                        'extension' => $request->file('company_logo')->getClientOriginalExtension(),
+                    ] : 'No file uploaded'
+                ]);
+            }
+            
             return response()->json([
                 'error' => true,
                 'reason'  =>'Invalid data input',
@@ -312,9 +327,17 @@ class JobListController extends Controller
         //logo handle if provided
 
         if ($request->hasFile('company_logo')) {
-            $logo = $request->file('company_logo');
-            $logopath = time() . '.' . $logo->getClientOriginalExtension();
-            $logo->move(public_path('images'), $logopath);
+            try {
+                $logo = $request->file('company_logo');
+                $logopath = time() . '.' . $logo->getClientOriginalExtension();
+                $logo->move(public_path('images'), $logopath);
+            } catch (\Exception $e) {
+                \Log::error('Error saving company logo: ' . $e->getMessage());
+                return response()->json([
+                    'error' => true,
+                    'reason' => 'Could not save company logo: ' . $e->getMessage(),
+                ]);
+            }
         } else {
             $logopath = null;
         }

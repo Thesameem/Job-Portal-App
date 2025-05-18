@@ -96,7 +96,7 @@
               <section class="profile-section empty-section" v-else>
                   <h2>Skills</h2>
                   <p class="empty-message">No skills added yet.</p>
-              </section>
+            </section>
 
             <!-- Work Experience Section -->
               <section class="profile-section" v-if="hasWorkExperience">
@@ -115,7 +115,7 @@
               <section class="profile-section empty-section" v-else>
                   <h2>Work Experience</h2>
                   <p class="empty-message">No work experience added yet.</p>
-              </section>
+            </section>
 
             <!-- Education Section -->
               <section class="profile-section" v-if="hasEducation">
@@ -134,7 +134,7 @@
               <section class="profile-section empty-section" v-else>
                   <h2>Education</h2>
                   <p class="empty-message">No education details added yet.</p>
-              </section>
+            </section>
         </div>
 
         <!-- Right Column -->
@@ -157,7 +157,7 @@
               <section class="profile-section empty-section" v-else>
                   <h2>Availability</h2>
                   <p class="empty-message">No availability information added yet.</p>
-              </section>
+            </section>
 
             <!-- Languages Section -->
               <section class="profile-section" v-if="hasLanguages">
@@ -174,7 +174,7 @@
               <section class="profile-section empty-section" v-else>
                   <h2>Languages</h2>
                   <p class="empty-message">No languages added yet.</p>
-              </section>
+            </section>
 
             <!-- Certifications Section -->
               <section class="profile-section" v-if="hasCertifications">
@@ -193,7 +193,7 @@
               <section class="profile-section empty-section" v-else>
                   <h2>Certifications</h2>
                   <p class="empty-message">No certifications added yet.</p>
-              </section>
+            </section>
 
             <!-- Social Links Section -->
               <section class="profile-section" v-if="hasSocialLinks">
@@ -208,7 +208,7 @@
               <section class="profile-section empty-section" v-else>
                   <h2>Social Links</h2>
                   <p class="empty-message">No social links added yet.</p>
-              </section>
+            </section>
         </div>
     </main>
     </div>

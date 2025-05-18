@@ -51,7 +51,7 @@
     <div v-html="formatDescription(jobData.description)"></div>
     
     <div v-if="jobData.responsibilities">
-      <h3>Responsibilities:</h3>
+    <h3>Responsibilities:</h3>
       <div v-html="formatDescription(jobData.responsibilities)"></div>
     </div>
     

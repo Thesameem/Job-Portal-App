@@ -57,20 +57,26 @@
       </div>
       <div class="auth-buttons">
         <!-- Show profile dropdown when authenticated -->
-        <div v-if="isAuthenticated" class="profile-dropdown">
-          <RouterLink to="/userprofile" class="profile-badge" @click="closeMobileMenu">
-            <div v-if="profilePhotoUrl" class="profile-photo">
-              <img :src="profilePhotoUrl" alt="Profile Picture" @error="handleProfileImageError" />
-            </div>
-            <div v-else class="profile-initial">
-              {{ userName.charAt(0).toUpperCase() }}
-            </div>
-            <span>{{ userName }}</span>
-          </RouterLink>
-          <div class="dropdown-content">
-            <RouterLink to="/userprofile" @click="closeMobileMenu"><i class="fas fa-user"></i> My Profile</RouterLink>
-            <RouterLink to="/managejob" @click="closeMobileMenu"><i class="fas fa-briefcase"></i> Manage Jobs</RouterLink>
-            <RouterLink to="/settings" @click="closeMobileMenu"><i class="fas fa-cog"></i> Settings</RouterLink>
+        <div v-if="isAuthenticated" 
+             class="profile-dropdown" 
+             @mouseenter="showDropdown = true" 
+             @mouseleave="showDropdown = false">
+          <div class="profile-badge-wrapper" @click="toggleDropdown">
+            <RouterLink to="/userprofile" class="profile-badge" @click.stop="closeMobileMenu">
+              <div v-if="profilePhotoUrl" class="profile-photo">
+                <img :src="profilePhotoUrl" alt="Profile Picture" @error="handleProfileImageError" />
+              </div>
+              <div v-else class="profile-initial">
+                {{ userName.charAt(0).toUpperCase() }}
+              </div>
+              <span>{{ userName }}</span>
+            </RouterLink>
+            <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="dropdown-content" :class="{ 'show': showDropdown || isDropdownOpen }">
+            <RouterLink to="/userprofile" @click="closeDropdown"><i class="fas fa-user"></i> My Profile</RouterLink>
+            <RouterLink to="/managejob" @click="closeDropdown"><i class="fas fa-briefcase"></i> Manage Jobs</RouterLink>
+            <RouterLink to="/settings" @click="closeDropdown"><i class="fas fa-cog"></i> Settings</RouterLink>
             <a href="#" @click.prevent="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
         </div>
@@ -97,6 +103,8 @@ const isAuthenticated = ref(false)
 const isInitialLoad = ref(true)
 const profileImageError = ref(false)
 const isMobileMenuOpen = ref(false)
+const showDropdown = ref(false)
+const isDropdownOpen = ref(false)
 
 // Toggle mobile menu
 const toggleMobileMenu = () => {
@@ -244,6 +252,32 @@ const watchCookie = () => {
   }
 }
 
+// Toggle dropdown on click (for mobile)
+const toggleDropdown = () => {
+  isDropdownOpen.value = !isDropdownOpen.value;
+  if (window.innerWidth <= 768) {
+    // On mobile, clicking the badge shouldn't navigate to profile page
+    // but toggle the dropdown instead
+    event?.preventDefault();
+  }
+}
+
+// Close dropdown after clicking a link
+const closeDropdown = () => {
+  showDropdown.value = false;
+  isDropdownOpen.value = false;
+  closeMobileMenu();
+}
+
+// Handle click outside to close dropdown
+const handleClickOutside = (event) => {
+  const dropdown = document.querySelector('.profile-dropdown');
+  if (dropdown && !dropdown.contains(event.target) && (showDropdown.value || isDropdownOpen.value)) {
+    showDropdown.value = false;
+    isDropdownOpen.value = false;
+  }
+}
+
 // Check authentication when component mounts
 onMounted(() => {
   // First try to restore from localStorage
@@ -263,6 +297,9 @@ onMounted(() => {
   
   // Add window resize event listener
   window.addEventListener('resize', handleResize)
+  
+  // Add event listeners
+  document.addEventListener('click', handleClickOutside)
 })
 
 // Force check auth method that can be called from other components
@@ -467,6 +504,32 @@ const logout = async () => {
 /* Profile dropdown styling */
 .profile-dropdown {
   position: relative;
+  /* padding-bottom: 20px; Add padding to prevent dropdown from disappearing */
+}
+
+.profile-badge-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.profile-badge-wrapper:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.dropdown-arrow {
+  margin-left: 5px;
+  color: #777;
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.profile-dropdown:hover .dropdown-arrow,
+.profile-dropdown.active .dropdown-arrow {
+  transform: rotate(180deg);
 }
 
 .profile-badge {
@@ -508,34 +571,28 @@ const logout = async () => {
   display: none;
   position: absolute;
   right: 0;
-  min-width: 180px;
+  top: calc(100% - 15px); /* Position closer to badge */
+  min-width: 200px;
   background-color: white;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 8px 0;
-  z-index: 1;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.dropdown-content a {
+.dropdown-content.show {
   display: block;
-  padding: 10px 16px;
-  text-decoration: none;
-  color: #333;
-  transition: background-color 0.3s;
-}
-
-.dropdown-content a i {
-  margin-right: 8px;
-  width: 20px;
-  text-align: center;
-}
-
-.dropdown-content a:hover {
-  background-color: #f5f5f5;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .profile-dropdown:hover .dropdown-content {
   display: block;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Get Started button styling */
@@ -668,6 +725,12 @@ const logout = async () => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 0; /* No padding needed in mobile view */
+  }
+  
+  .profile-badge-wrapper {
+    width: 100%;
+    justify-content: center;
   }
   
   .profile-badge {
@@ -686,7 +749,7 @@ const logout = async () => {
   /* Mobile dropdown styling */
   .dropdown-content {
     position: static;
-    display: block; /* Always visible in mobile */
+    display: none; /* Hidden by default on mobile too */
     width: 100%;
     box-shadow: none;
     margin-top: 10px;
@@ -694,37 +757,22 @@ const logout = async () => {
     border-radius: 8px;
     padding: 5px;
     border-left: 2px solid #636ae8; /* Correct theme color */
+    transform: none;
+    opacity: 1;
   }
   
-  .dropdown-content a {
-    text-align: left;
-    border-bottom: 1px solid #e5e5e5;
-    margin: 5px 0;
-    display: flex;
-    align-items: center;
-    font-size: 15px;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+  .dropdown-content.show {
+    display: block;
   }
   
-  .dropdown-content a i {
-    margin-right: 8px;
-    width: 20px;
-    text-align: center;
-  }
-  
-  .dropdown-content a:hover {
-    background-color: rgba(99, 106, 232, 0.1);
-    color: #636ae8; /* Correct theme color */
-  }
-  
-  .dropdown-content a:last-child {
-    border-bottom: none;
-  }
-  
-  /* Override hover behavior for mobile */
+  /* Override hover behavior for mobile - don't show on hover */
   .profile-dropdown:hover .dropdown-content {
-    display: block; /* Already set to block above, but keeping for clarity */
+    display: none;
+  }
+  
+  /* Only show if explicitly set to show */
+  .profile-dropdown:hover .dropdown-content.show {
+    display: block;
   }
   
   .get-started-btn {

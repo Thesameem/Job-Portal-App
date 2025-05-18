@@ -251,13 +251,68 @@ const formData = reactive({
 
 // Handle logo file upload
 const handleLogoUpload = (event) => {
-  const file = event.target.files[0]
-  if (file) {
+  try {
+    const file = event.target.files[0]
+    
+    // Reset any previous errors first
+    error.value = false
+    errorMessage.value = ''
+    
+    if (!file) {
+      formData.company_logo = null
+      logoFileName.value = ''
+      return
+    }
+    
+    console.log('File selected:', {
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      lastModified: new Date(file.lastModified).toISOString()
+    })
+    
+    // Validate file type
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml', 'image/webp']
+    
+    if (!validImageTypes.includes(file.type)) {
+      error.value = true
+      errorMessage.value = `Invalid file type: ${file.type}. Please upload an image file (JPEG, PNG, GIF, SVG, WEBP).`
+      toast.error('Invalid file type. Please upload an image file.')
+      formData.company_logo = null
+      logoFileName.value = ''
+      // Reset file input
+      event.target.value = ''
+      return
+    }
+    
+    // Validate file size (max 2MB = 2048KB = 2097152 bytes)
+    if (file.size > 2097152) {
+      error.value = true
+      errorMessage.value = `File is too large (${Math.round(file.size/1024)}KB). Maximum size is 2MB.`
+      toast.error('File is too large. Maximum size is 2MB.')
+      formData.company_logo = null
+      logoFileName.value = ''
+      // Reset file input
+      event.target.value = ''
+      return
+    }
+    
+    // All validations passed - assign file
     formData.company_logo = file
     logoFileName.value = file.name
-  } else {
+    
+    // Double check file is being assigned correctly
+    console.log('File assigned to formData:', !!formData.company_logo, formData.company_logo?.name)
+    
+  } catch (err) {
+    console.error('Error in handleLogoUpload:', err)
+    error.value = true
+    errorMessage.value = `Error processing file: ${err.message}`
+    toast.error('Error processing file. Please try another image.')
     formData.company_logo = null
     logoFileName.value = ''
+    // Reset file input
+    event.target.value = ''
   }
 }
 
@@ -274,19 +329,49 @@ const submitJob = async () => {
 
     isSubmitting.value = true
     error.value = false
+    errorMessage.value = ''
+    
+    console.log('Creating job with form data:', { ...formData, company_logo: formData.company_logo ? `[File: ${formData.company_logo.name}]` : null })
 
     // Create FormData object for file upload
     const jobFormData = new FormData()
 
     // Append all form fields to FormData
     for (const key in formData) {
+      // Only append defined values
       if (formData[key] !== null && formData[key] !== undefined) {
-        jobFormData.append(key, formData[key])
+        if (key === 'company_logo' && formData[key]) {
+          console.log(`Appending file: ${formData[key].name}, type: ${formData[key].type}, size: ${formData[key].size}`)
+          
+          // Use a try/catch block specifically for file append
+          try {
+            // For some browsers, the third parameter (filename) may cause issues
+            jobFormData.append(key, formData[key])
+          } catch (fileErr) {
+            console.error('Error appending file to FormData:', fileErr)
+            throw new Error(`Failed to append file to FormData: ${fileErr.message}`)
+          }
+        } else {
+          jobFormData.append(key, formData[key])
+        }
+      }
+    }
+    
+    // Double check FormData content
+    console.log('FormData keys before submission:', [...jobFormData.keys()])
+    for (const key of jobFormData.keys()) {
+      const value = jobFormData.get(key)
+      if (value instanceof File) {
+        console.log(`FormData contains File for ${key}:`, {
+          name: value.name,
+          type: value.type,
+          size: value.size
+        })
       }
     }
 
     // Submit to backend
-    const result = await POST('my-jobs', jobFormData)
+    const result = await POST('my-jobs', jobFormData, true)
 
     if (!result.error) {
       // Show success toast notification
