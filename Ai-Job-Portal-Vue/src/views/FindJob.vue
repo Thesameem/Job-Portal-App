@@ -18,8 +18,14 @@
 
   <!-- Main Content -->
   <main class="main-content">
-    <!-- Filters Sidebar -->
-    <aside class="filters-sidebar">
+    <!-- Mobile Filter Toggle Button (only visible on mobile) -->
+    <button class="filter-toggle" @click="toggleFilters" v-if="isMobile">
+      <i class="fas" :class="showFilters ? 'fa-times' : 'fa-filter'"></i>
+      {{ showFilters ? 'Close Filters' : 'Show Filters' }}
+    </button>
+    
+    <!-- Filters Sidebar - Always visible on desktop, toggle on mobile -->
+    <aside class="filters-sidebar" v-show="!isMobile || showFilters">
       <div class="filter-group">
         <h3>Job Type</h3>
         <label class="filter-option">
@@ -177,7 +183,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, computed } from 'vue'
+import { ref, onMounted, reactive, computed, onUnmounted } from 'vue'
 import { GET, POST } from '@/scripts/Fetch'
 import { useToast } from '@/scripts/toast'
 import axios from 'axios'
@@ -192,6 +198,8 @@ const errorMessage = ref('')
 const searchQuery = ref('')
 const sortOption = ref('newest')
 const toast = useToast()
+const showFilters = ref(false)
+const isMobile = ref(false)
 
 // Load jobs from API
 const loadJobs = async () => {
@@ -333,7 +341,28 @@ const formatDate = (dateString) => {
 // Load jobs on component mount
 onMounted(() => {
   loadJobs()
+  checkMobileView()
+  window.addEventListener('resize', checkMobileView)
 })
+
+// Check if the device is mobile
+const checkMobileView = () => {
+  isMobile.value = window.innerWidth <= 768
+  if (!isMobile.value) {
+    // If switching to desktop, always show filters
+    showFilters.value = true
+  }
+}
+
+// Clean up event listeners
+onUnmounted(() => {
+  window.removeEventListener('resize', checkMobileView)
+})
+
+// Toggle filters
+const toggleFilters = () => {
+  showFilters.value = !showFilters.value
+}
 </script>
 
 <style scoped>

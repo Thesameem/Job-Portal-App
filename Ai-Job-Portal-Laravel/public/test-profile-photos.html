@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Photo Testing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #636ae8;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .photo-container {
+            margin-top: 10px;
+            border: 1px dashed #ccc;
+            padding: 10px;
+        }
+        img {
+            max-width: 200px;
+            border: 2px solid #eee;
+            border-radius: 50%;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Profile Photo URL Testing</h1>
+    <p>This page tests if profile photos are correctly accessing Laravel's storage directory.</p>
+    
+    <div class="test-section">
+        <h2>Test 1: Using relative path only</h2>
+        <div class="photo-container">
+            <img src="/storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg" 
+                 alt="Profile Photo" 
+                 onerror="this.parentElement.innerHTML += '<p class=\'error\'>❌ Image failed to load</p>'"
+                 onload="this.parentElement.innerHTML += '<p class=\'success\'>✅ Image loaded successfully</p>'">
+            <p>URL: <code>/storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg</code></p>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Using absolute URL</h2>
+        <div class="photo-container">
+            <img src="http://127.0.0.1:8000/storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg" 
+                 alt="Profile Photo" 
+                 onerror="this.parentElement.innerHTML += '<p class=\'error\'>❌ Image failed to load</p>'"
+                 onload="this.parentElement.innerHTML += '<p class=\'success\'>✅ Image loaded successfully</p>'">
+            <p>URL: <code>http://127.0.0.1:8000/storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg</code></p>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Using domain-relative URL</h2>
+        <div class="photo-container">
+            <img src="storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg" 
+                 alt="Profile Photo" 
+                 onerror="this.parentElement.innerHTML += '<p class=\'error\'>❌ Image failed to load</p>'"
+                 onload="this.parentElement.innerHTML += '<p class=\'success\'>✅ Image loaded successfully</p>'">
+            <p>URL: <code>storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg</code></p>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Debugging information</h2>
+        <ul>
+            <li>Current URL: <code id="currentURL"></code></li>
+            <li>BaseURL: <code>http://127.0.0.1:8000/</code></li>
+        </ul>
+        <script>
+            document.getElementById('currentURL').textContent = window.location.href;
+        </script>
+    </div>
+</body>
+</html> 

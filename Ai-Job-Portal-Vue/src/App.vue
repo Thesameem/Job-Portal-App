@@ -1,10 +1,31 @@
 <script setup>
 import { RouterView, useRoute } from 'vue-router'
-import { watch } from 'vue'
+import { watch, onMounted } from 'vue'
+import { useJobStore } from './stores/job'
 import Header from './components/reusable/Header.vue'
 import Footer from './components/reusable/Footer.vue'
+import Cookie from './scripts/Cookie'
 
 const route = useRoute()
+const jobStore = useJobStore()
+
+// Initialize user profile if authenticated
+onMounted(async () => {
+  const token = Cookie.getCookie('job-app')
+  
+  if (token) {
+    console.log('App mounted with auth token, initializing profile')
+    
+    // Try to restore user from localStorage
+    const savedUser = localStorage.getItem('job-user')
+    if (savedUser) {
+      jobStore.user = JSON.parse(savedUser)
+      
+      // Initialize profile data from the API
+      await jobStore.initializeProfile()
+    }
+  }
+})
 
 // Watch for route changes to ensure proper scroll behavior
 watch(

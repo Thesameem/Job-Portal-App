@@ -2,18 +2,68 @@ import axios from "axios";
 import Config from "./Config";
 import Cookie from "./Cookie";
 
-export const POST = async (uri, formdata) => {
+/**
+ * Make a POST request to the API
+ * @param {string} uri - The endpoint to call, without the base URL
+ * @param {object|FormData} formdata - The data to send
+ * @param {boolean} isMultipart - Whether this is a multipart/form-data request (for file uploads)
+ * @returns {Promise<{error: boolean, response?: any, reason?: string, status?: number}>}
+ */
+export const POST = async (uri, formdata, isMultipart = false) => {
     try {
         let Token = Cookie.getCookie('job-app');
         console.log(`[Fetch] POST request to ${Config.baseURL + uri}`);
         console.log(`[Fetch] Token exists: ${!!Token}`);
-        console.log(`[Fetch] Request payload:`, formdata);
-
-        let { data } = await axios.post(Config.baseURL + uri, formdata, {
-            headers: {
-                Authorization: `Bearer ${Token}`
+        console.log(`[Fetch] Is multipart: ${isMultipart}`);
+        
+        if (isMultipart) {
+            console.log('[Fetch] FormData keys:', [...formdata.keys()]);
+            // Log if profile_photo exists in FormData
+            if (formdata.has('profile_photo')) {
+                const file = formdata.get('profile_photo');
+                if (file instanceof File) {
+                    console.log('[Fetch] Profile photo details:', {
+                        name: file.name,
+                        type: file.type,
+                        size: file.size,
+                        lastModified: new Date(file.lastModified).toISOString()
+                    });
+                } else {
+                    console.log('[Fetch] Profile photo is not a File object:', typeof file);
+                }
             }
-        });
+        } else {
+            console.log(`[Fetch] Request payload:`, formdata);
+        }
+
+        // Set up headers based on content type
+        let headers = {
+            Authorization: `Bearer ${Token}`
+        };
+
+        // For multipart/form-data, let axios set the correct Content-Type with boundary
+        if (!isMultipart) {
+            headers['Content-Type'] = 'application/json';
+        }
+
+        // Create the config object
+        const config = {
+            headers: headers
+        };
+
+        // If this is a multipart request, ensure we're not modifying the FormData object
+        let payload = formdata;
+        if (isMultipart) {
+            // FormData is already ready to go - don't stringify it
+            console.log('[Fetch] Sending as FormData');
+        } else {
+            // For JSON requests, make sure the payload is properly formatted
+            payload = formdata;
+            console.log('[Fetch] Sending as JSON');
+        }
+
+        // Make the request with appropriate headers and payload
+        let { data } = await axios.post(Config.baseURL + uri, payload, config);
 
         console.log(`[Fetch] POST response from ${uri}:`, data);
 

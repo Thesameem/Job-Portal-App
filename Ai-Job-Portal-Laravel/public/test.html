@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Photo Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        img {
+            max-width: 300px;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            display: block;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Profile Photo Test</h1>
+    <p>This file tests if profile photos are accessible through the browser.</p>
+    
+    <div class="test-section">
+        <h2>Test 1: Using /storage path:</h2>
+        <img src="/storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg" alt="Profile Photo" id="img1">
+        <p>URL: <code>/storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg</code></p>
+        <div id="result1"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Using absolute URL:</h2>
+        <img src="http://127.0.0.1:8000/storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg" alt="Profile Photo" id="img2">
+        <p>URL: <code>http://127.0.0.1:8000/storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg</code></p>
+        <div id="result2"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Direct public folder access:</h2>
+        <img src="/public/storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg" alt="Profile Photo" id="img3">
+        <p>URL: <code>/public/storage/profile-photos/d92wRvcSoCA9z2Dyy6YkgWHTrNLVa6dEJMZkbTXb.jpg</code></p>
+        <div id="result3"></div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function testImage(imgId, resultId) {
+                const img = document.getElementById(imgId);
+                const result = document.getElementById(resultId);
+                
+                img.addEventListener('load', function() {
+                    result.innerHTML = '<p class="success">Image loaded successfully!</p>';
+                    console.log(`${imgId} loaded successfully from: ${img.src}`);
+                });
+                
+                img.addEventListener('error', function() {
+                    result.innerHTML = '<p class="error">Error loading image!</p>';
+                    console.error(`${imgId} failed to load from: ${img.src}`);
+                });
+            }
+            
+            testImage('img1', 'result1');
+            testImage('img2', 'result2');
+            testImage('img3', 'result3');
+        });
+    </script>
+</body>
+</html> 

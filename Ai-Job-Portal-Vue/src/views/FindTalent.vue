@@ -12,8 +12,14 @@
 
   <!-- Main Content -->
   <main class="main-content">
-    <!-- Filters Sidebar -->
-    <aside class="filters-sidebar">
+    <!-- Mobile Filter Toggle Button (only visible on mobile) -->
+    <button class="filter-toggle" @click="toggleFilters" v-if="isMobile">
+      <i class="fas" :class="showFilters ? 'fa-times' : 'fa-filter'"></i>
+      {{ showFilters ? 'Close Filters' : 'Show Filters' }}
+    </button>
+    
+    <!-- Filters Sidebar - Always visible on desktop, toggle on mobile -->
+    <aside class="filters-sidebar" v-show="!isMobile || showFilters">
       <div class="filter-group">
         <h3>Experience Level</h3>
         <label class="filter-option">
@@ -199,3 +205,36 @@
     </section>
   </main>
 </template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+// State variables for mobile filter handling
+const showFilters = ref(false)
+const isMobile = ref(false)
+
+// Toggle filters visibility
+const toggleFilters = () => {
+  showFilters.value = !showFilters.value
+}
+
+// Check if the device is mobile
+const checkMobileView = () => {
+  isMobile.value = window.innerWidth <= 768
+  if (!isMobile.value) {
+    // If switching to desktop, always show filters
+    showFilters.value = true
+  }
+}
+
+// Initialize event listeners
+onMounted(() => {
+  checkMobileView()
+  window.addEventListener('resize', checkMobileView)
+})
+
+// Clean up event listeners
+onUnmounted(() => {
+  window.removeEventListener('resize', checkMobileView)
+})
+</script>

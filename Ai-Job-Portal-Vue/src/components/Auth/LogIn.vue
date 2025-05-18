@@ -78,6 +78,15 @@ const LogInUser = async () => {
         
         // Save to localStorage for persistence
         localStorage.setItem('job-user', JSON.stringify(result.response.user))
+        
+        // Fetch user profile data
+        try {
+          console.log('Fetching user profile after login')
+          await jobStore.initializeProfile()
+        } catch (profileError) {
+          console.error('Error fetching profile after login:', profileError)
+          // Continue with login flow even if profile fetch fails
+        }
       } else {
         console.warn('No user data found in successful response')
       }

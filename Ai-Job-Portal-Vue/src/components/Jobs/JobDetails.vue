@@ -1,61 +1,123 @@
 <template>
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="hero" v-if="!isLoading">
     <div class="hero-content">
-      <h1>Senior Frontend Developer</h1>
-      <p>Tech Solutions Inc.</p>
+      <div class="company-logo" v-if="jobData.company_logo || jobData.company_name">
+        <img 
+          v-if="jobData.company_logo" 
+          :src="getLogoUrl(jobData.company_logo)" 
+          :alt="jobData.company_name + ' logo'"
+          @error="handleLogoError"
+          @load="handleLogoLoad"
+        />
+        <div v-else class="company-initial">
+          {{ jobData.company_name ? jobData.company_name.charAt(0).toUpperCase() : 'C' }}
+        </div>
+      </div>
+      <h1>{{ jobData.title }}</h1>
+      <p class="company-name">{{ jobData.company_name }}</p>
+      
+      <div class="job-meta">
+        <span v-if="jobData.location"><i class="fas fa-map-marker-alt"></i> {{ jobData.location }}</span>
+        <span v-if="jobData.type"><i class="fas fa-briefcase"></i> {{ formatJobType(jobData.type) }}</span>
+        <span v-if="jobData.salary_range"><i class="fas fa-money-bill-wave"></i> {{ jobData.salary_range }}</span>
+        <span v-if="jobData.application_deadline"><i class="fas fa-calendar-alt"></i> Deadline: {{ formatDate(jobData.application_deadline) }}</span>
+      </div>
+      
       <div class="action-buttons">
         <button class="save-job-btn"><i class="fas fa-bookmark"></i> Save Job</button>
-        <a href="/applyjob" class="apply-now-btn" onclick="window.location.href='/applyjob'"
-          ><i class="fas fa-paper-plane"></i> Apply Now</a
-        >
+        <a href="/applyjob" class="apply-now-btn" onclick="window.location.href='/applyjob'"><i class="fas fa-paper-plane"></i> Apply Now</a>
       </div>
     </div>
   </section>
 
+  <div v-if="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading job details...</p>
+  </div>
+
+  <div v-if="error" class="error-message">
+    <i class="fas fa-exclamation-circle"></i>
+    <h3>{{ errorMessage }}</h3>
+    <div>
+      <button @click="loadJobDetails" class="retry-btn">Retry</button>
+      <RouterLink to="/jobs" class="back-btn">Back to Jobs</RouterLink>
+    </div>
+  </div>
+
   <!-- Job Description Section -->
-  <section class="job-description">
+  <section class="job-description" v-if="!isLoading && !error">
     <h2>Job Description</h2>
-    <p>
-      We are looking for a Senior Frontend Developer to join our team. The ideal candidate will have
-      experience with React, TypeScript, and modern web technologies.
-    </p>
-    <h3>Responsibilities:</h3>
-    <ul>
-      <li>Develop and maintain web applications</li>
-      <li>Collaborate with UX designers to implement designs</li>
-      <li>Optimize application performance</li>
-      <li>Write clean, maintainable, and efficient code</li>
-      <li>Participate in code reviews and team meetings</li>
-    </ul>
-    <h3>Requirements:</h3>
-    <ul>
-      <li>5+ years of experience in frontend development</li>
-      <li>Proficiency in React and TypeScript</li>
-      <li>Strong understanding of HTML, CSS, and JavaScript</li>
-      <li>Experience with modern build tools and version control</li>
-      <li>Excellent problem-solving and communication skills</li>
-    </ul>
+    <div v-html="formatDescription(jobData.description)"></div>
+    
+    <div v-if="jobData.responsibilities">
+      <h3>Responsibilities:</h3>
+      <div v-html="formatDescription(jobData.responsibilities)"></div>
+    </div>
+    
+    <div class="requirements">
+      <div class="req-group" v-if="jobData.experience_level">
+        <h4>Experience Level</h4>
+        <p>{{ formatExperienceLevel(jobData.experience_level) }}</p>
+      </div>
+      
+      <div class="req-group" v-if="jobData.education_level">
+        <h4>Education</h4>
+        <p>{{ formatEducationLevel(jobData.education_level) }}</p>
+      </div>
+      
+      <div class="req-group" v-if="jobData.required_skills">
+        <h4>Required Skills</h4>
+        <div class="skills">
+          <span v-for="skill in parseSkills(jobData.required_skills)" :key="skill" class="skill-tag required">
+            {{ skill }}
+          </span>
+        </div>
+      </div>
+      
+      <div class="req-group" v-if="jobData.preferred_skills">
+        <h4>Preferred Skills</h4>
+        <div class="skills">
+          <span v-for="skill in parseSkills(jobData.preferred_skills)" :key="skill" class="skill-tag preferred">
+            {{ skill }}
+          </span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Company Information Section -->
-  <section class="company-info">
+  <section class="company-info" v-if="!isLoading && !error">
     <div class="company-info-content">
       <h2>Company Information</h2>
-      <p>
-        Tech Solutions Inc. is a leading technology company specializing in innovative software
-        solutions. We are committed to creating a positive and inclusive work environment where
-        employees can grow and thrive.
-      </p>
+      
+      <div class="company-details">
+        <p v-if="jobData.company_name"><strong>Company:</strong> {{ jobData.company_name }}</p>
+        <p v-if="jobData.company_website">
+          <strong>Website:</strong> 
+          <a :href="formatUrl(jobData.company_website)" target="_blank" rel="noopener noreferrer">
+            {{ jobData.company_website }}
+          </a>
+        </p>
+        <p v-if="jobData.company_size"><strong>Company Size:</strong> {{ jobData.company_size }}</p>
+      </div>
+      
+      <div v-if="jobData.benefits" class="benefits">
+        <h3>Benefits</h3>
+        <div v-html="formatDescription(jobData.benefits)"></div>
+      </div>
     </div>
   </section>
 
   <!-- Application Instructions Section -->
-  <section class="application-instructions">
+  <section class="application-instructions" v-if="!isLoading && !error">
     <h2>How to Apply</h2>
-    <p>
+    <p v-if="jobData.contact_email">
       To apply for this position, please send your resume and a cover letter to
-      <a href="mailto:careers@techsolutions.com">careers@techsolutions.com</a>.
+      <a :href="'mailto:' + jobData.contact_email">{{ jobData.contact_email }}</a>.
+    </p>
+    <p v-else>
+      Please use the Apply Now button above to submit your application.
     </p>
     <p>We look forward to hearing from you!</p>
   </section>
@@ -172,15 +234,20 @@ const loadJobDetails = async () => {
 
 // Helper Functions
 const getLogoUrl = (logo) => {
-  if (!logo) return null
+  console.log('Original logo path:', logo);
+  if (!logo) return null;
   
   // If logo is already a full URL, return it
   if (logo.startsWith('http://') || logo.startsWith('https://')) {
-    return logo
+    console.log('Using full URL for logo:', logo);
+    return logo;
   }
   
   // Otherwise, construct the URL using the base URL from Config
-  return `${Config.baseURL.replace('/api', '')}/images/${logo}`
+  const baseUrlWithoutApi = Config.baseURL.replace('/api/', '/').replace('/api', '/');
+  const logoUrl = `${baseUrlWithoutApi}images/${logo}`;
+  console.log('Constructed logo URL:', logoUrl);
+  return logoUrl;
 }
 
 const formatJobType = (type) => {
@@ -297,6 +364,23 @@ const isCurrentUserOwner = computed(() => {
 onMounted(() => {
   loadJobDetails()
 })
+
+// Helper Functions for template
+const handleLogoError = (e) => {
+  console.error('Logo failed to load:', e);
+  e.target.style.display = 'none';
+  
+  // Create and show company initial instead
+  const parent = e.target.parentElement;
+  const initial = document.createElement('div');
+  initial.className = 'company-initial';
+  initial.textContent = jobData.company_name ? jobData.company_name.charAt(0).toUpperCase() : 'C';
+  parent.appendChild(initial);
+}
+
+const handleLogoLoad = () => {
+  console.log('Logo loaded successfully');
+}
 </script>
 
 <style scoped>
@@ -311,7 +395,7 @@ onMounted(() => {
 
 .loading-spinner {
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #0d6efd;
+  border-top: 4px solid #636ae8;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -352,7 +436,7 @@ onMounted(() => {
 }
 
 .retry-btn {
-  background-color: #ef4444;
+  background-color: #636ae8;
   color: white;
   border: none;
   margin-right: 1rem;
@@ -366,8 +450,9 @@ onMounted(() => {
 
 .hero {
   padding: 3rem 1rem;
-  background-color: #f3f4f6;
+  background-color: #636ae8;
   text-align: center;
+  color: white;
 }
 
 .hero-content {
@@ -394,9 +479,21 @@ onMounted(() => {
   object-fit: contain;
 }
 
+.company-initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #4b50a5;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
 .company-name {
   font-size: 1.25rem;
-  color: #4b5563;
+  color: white;
   margin-bottom: 1rem;
 }
 
@@ -411,12 +508,12 @@ onMounted(() => {
 .job-meta span {
   display: flex;
   align-items: center;
-  color: #6b7280;
+  color: white;
 }
 
 .job-meta i {
   margin-right: 0.5rem;
-  color: #0d6efd;
+  color: white;
 }
 
 .action-buttons {
@@ -438,27 +535,27 @@ onMounted(() => {
 
 .save-job-btn {
   background-color: white;
-  color: #0d6efd;
-  border: 1px solid #0d6efd;
+  color: #636ae8;
+  border: 1px solid white;
 }
 
 .save-job-btn:hover {
-  background-color: #f0f9ff;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .apply-now-btn {
-  background-color: #0d6efd;
+  background-color: #4b50a5;
   color: white;
   border: none;
   text-decoration: none;
 }
 
 .apply-now-btn:hover {
-  background-color: #0b5ed7;
+  background-color: #3f4389;
 }
 
 .edit-job-btn {
-  background-color: #6c757d;
+  background-color: #636ae8;
   color: white;
   border: none;
   text-decoration: none;
@@ -466,7 +563,7 @@ onMounted(() => {
 }
 
 .edit-job-btn:hover {
-  background-color: #5a6268;
+  background-color: #4b50a5;
 }
 
 .job-description, .company-info, .application-instructions {
@@ -476,7 +573,7 @@ onMounted(() => {
 }
 
 .job-description h2, .company-info h2, .application-instructions h2 {
-  color: #1f2937;
+  color: #636ae8;
   margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #e5e7eb;
@@ -560,7 +657,7 @@ onMounted(() => {
 }
 
 .application-instructions a {
-  color: #0d6efd;
+  color: #636ae8;
   text-decoration: none;
 }
 
