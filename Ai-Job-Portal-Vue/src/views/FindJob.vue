@@ -116,9 +116,8 @@
         <div v-for="job in jobs" :key="job.id" class="job-card">
           <div class="job-header">
             <img 
-              :src="job.company_logo ? `/images/${job.company_logo}` : 'https://via.placeholder.com/50'" 
+              :src="job.company_logo ? `${Config.baseURL.replace('api/', '')}images/${job.company_logo}` : ''" 
               alt="Company Logo" 
-              @error="$event.target.src='https://via.placeholder.com/50'"
             />
             <div class="job-title">
               <h3>

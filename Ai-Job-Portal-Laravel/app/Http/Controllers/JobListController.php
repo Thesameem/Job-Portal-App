@@ -115,6 +115,35 @@ class JobListController extends Controller
         }
     }
 
+    // Get a specific job posted by the authenticated user
+    public function getUserJob(Request $request, $id)
+    {
+        try {
+            $userId = $request->user()->id;
+            $job = JobList::where('id', $id)
+                         ->where('user_id', $userId)
+                         ->first();
+
+            if (!$job) {
+                return response()->json([
+                    'error' => true,
+                    'reason' => 'Job not found or you do not have permission to access it'
+                ], 404);
+            }
+
+            return response()->json([
+                'error' => false,
+                'reason' => 'Job details fetched successfully',
+                'response' => $job
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'reason' => 'Failed to fetch job details: ' . $e->getMessage(),
+            ]);
+        }
+    }
+
     // Update an existing job
     public function updateJob(Request $request, $id)
     {
