@@ -30,10 +30,10 @@ let router = useRouter()
             placeholder="Search for jobs, skills, or companies"
             aria-label="Search jobs"
           />
-          <button type="submit" class="search-btn" aria-label="Search jobs">
-            <i class="fas fa-search"></i> Search
-          </button>
         </form>
+        <button type="submit" class="search-btn" aria-label="Search jobs">
+          <i class="fas fa-search"></i> Search
+        </button>
       </div>
     </div>
   </section>
@@ -100,3 +100,87 @@ let router = useRouter()
     </div>
   </section>
 </template>
+
+<style scoped>
+/* Existing styles remain unchanged */
+
+/* Updated search styles */
+.search-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  width: 100%;
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.search-container form {
+  flex: 1;
+  position: relative;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  color: #2d3748;
+}
+
+.search-container input::placeholder {
+  color: #a0aec0;
+  font-weight: 400;
+}
+
+.search-container input:focus {
+  outline: none;
+  box-shadow: 0 4px 25px rgba(99, 106, 232, 0.2);
+  background: white;
+}
+
+.search-btn {
+  padding: 0.9rem 2rem;
+  background: #636ae8;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(99, 106, 232, 0.3);
+  height: fit-content;
+  white-space: nowrap;
+}
+
+.search-btn:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(99, 106, 232, 0.4);
+}
+
+.search-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(99, 106, 232, 0.3);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .search-container {
+    flex-direction: column;
+  }
+  
+  .search-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>

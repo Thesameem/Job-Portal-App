@@ -33,25 +33,53 @@
         </button>
       </div>
       <div class="nav-links">
-        <RouterLink to="/" class="active" aria-current="page" @click="closeMobileMenu">
+        <RouterLink 
+          to="/" 
+          :class="{ 'active': isRouteActive('/') }" 
+          @click="closeMobileMenu"
+        >
           <i class="fas fa-home mobile-only-icon"></i> Home
         </RouterLink>
-        <RouterLink to="/findjob" @click="closeMobileMenu">
+        <RouterLink 
+          to="/findjob" 
+          :class="{ 'active': isRouteActive('/findjob') }"
+          @click="closeMobileMenu"
+        >
           <i class="fas fa-search mobile-only-icon"></i> Find Work
         </RouterLink>
-        <RouterLink to="/createjob" @click="closeMobileMenu">
+        <RouterLink 
+          to="/createjob" 
+          :class="{ 'active': isRouteActive('/createjob') }"
+          @click="closeMobileMenu"
+        >
           <i class="fas fa-plus-circle mobile-only-icon"></i> Post a Job
         </RouterLink>
-        <RouterLink to="/findtalent" @click="closeMobileMenu">
+        <RouterLink 
+          to="/findtalent" 
+          :class="{ 'active': isRouteActive('/findtalent') }"
+          @click="closeMobileMenu"
+        >
           <i class="fas fa-users mobile-only-icon"></i> Find Talent
         </RouterLink>
-        <RouterLink to="/whyus" @click="closeMobileMenu">
+        <RouterLink 
+          to="/whyus" 
+          :class="{ 'active': isRouteActive('/whyus') }"
+          @click="closeMobileMenu"
+        >
           <i class="fas fa-question-circle mobile-only-icon"></i> Why Us
         </RouterLink>
-        <RouterLink to="/blog" @click="closeMobileMenu">
+        <RouterLink 
+          to="/blog" 
+          :class="{ 'active': isRouteActive('/blog') }"
+          @click="closeMobileMenu"
+        >
           <i class="fas fa-newspaper mobile-only-icon"></i> Blog
         </RouterLink>
-        <RouterLink to="/faq" @click="closeMobileMenu">
+        <RouterLink 
+          to="/faq" 
+          :class="{ 'active': isRouteActive('/faq') }"
+          @click="closeMobileMenu"
+        >
           <i class="fas fa-info-circle mobile-only-icon"></i> FAQ
         </RouterLink>
       </div>
@@ -61,8 +89,13 @@
              class="profile-dropdown" 
              @mouseenter="showDropdown = true" 
              @mouseleave="showDropdown = false">
-          <div class="profile-badge-wrapper" @click="toggleDropdown">
-            <RouterLink to="/userprofile" class="profile-badge" @click.stop="closeMobileMenu">
+          <div class="profile-badge-wrapper" @click="handleProfileClick">
+            <RouterLink 
+              to="/userprofile" 
+              class="profile-badge" 
+              :class="{ 'active': isRouteActive('/userprofile') }"
+              @click.stop="closeMobileMenu"
+            >
               <div v-if="profilePhotoUrl" class="profile-photo">
                 <img :src="profilePhotoUrl" alt="Profile Picture" @error="handleProfileImageError" />
               </div>
@@ -74,15 +107,42 @@
             <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
           </div>
           <div class="dropdown-content" :class="{ 'show': showDropdown || isDropdownOpen }">
-            <RouterLink to="/userprofile" @click="closeDropdown"><i class="fas fa-user"></i> My Profile</RouterLink>
-            <RouterLink to="/managejob" @click="closeDropdown"><i class="fas fa-briefcase"></i> Manage Jobs</RouterLink>
-            <RouterLink to="/settings" @click="closeDropdown"><i class="fas fa-cog"></i> Settings</RouterLink>
-            <a href="#" @click.prevent="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <RouterLink 
+              to="/userprofile" 
+              :class="{ 'active': isRouteActive('/userprofile') }"
+              @click="closeDropdown"
+            >
+              <i class="fas fa-user"></i> My Profile
+            </RouterLink>
+            <RouterLink 
+              to="/managejob" 
+              :class="{ 'active': isRouteActive('/managejob') }"
+              @click="closeDropdown"
+            >
+              <i class="fas fa-briefcase"></i> Manage Jobs
+            </RouterLink>
+            <RouterLink 
+              to="/settings" 
+              :class="{ 'active': isRouteActive('/settings') }"
+              @click="closeDropdown"
+            >
+              <i class="fas fa-cog"></i> Settings
+            </RouterLink>
+            <a href="#" @click.prevent="logout" @click="closeDropdown">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
           </div>
         </div>
         <!-- Show Get Started button when not authenticated -->
         <div v-else>
-          <RouterLink to="/auth" class="get-started-btn" @click="closeMobileMenu">Get Started</RouterLink>
+          <RouterLink 
+            to="/auth" 
+            class="get-started-btn" 
+            :class="{ 'active': isRouteActive('/auth') }"
+            @click="closeMobileMenu"
+          >
+            Get Started
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -90,13 +150,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted, watch, nextTick, onUnmounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import Cookie from '@/scripts/Cookie'
 import { useJobStore } from '@/stores/job'
 import { useToast } from '@/scripts/toast'
 
 const router = useRouter()
+const route = useRoute()
 const jobStore = useJobStore()
 const toast = useToast()
 const isAuthenticated = ref(false)
@@ -109,27 +170,27 @@ const isDropdownOpen = ref(false)
 // Toggle mobile menu
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
-  // Add overflow hidden to body when menu is open to prevent scrolling
-  if (isMobileMenuOpen.value) {
-    document.body.style.overflow = 'hidden'
-  } else {
-    document.body.style.overflow = ''
+  document.body.style.overflow = isMobileMenuOpen.value ? 'hidden' : ''
+  
+  // Always show dropdown in mobile view
+  if (isMobileMenuOpen.value && window.innerWidth <= 768) {
+    showDropdown.value = true
+    isDropdownOpen.value = true
   }
 }
 
-// Close mobile menu when a link is clicked
+// Close mobile menu
 const closeMobileMenu = () => {
-  if (isMobileMenuOpen.value) {
-    isMobileMenuOpen.value = false
-    document.body.style.overflow = ''
-  }
+  isMobileMenuOpen.value = false
+  document.body.style.overflow = ''
+  showDropdown.value = false
+  isDropdownOpen.value = false
 }
 
-// Close mobile menu when window is resized to desktop size
+// Handle window resize
 const handleResize = () => {
-  if (window.innerWidth > 768 && isMobileMenuOpen.value) {
-    isMobileMenuOpen.value = false
-    document.body.style.overflow = ''
+  if (window.innerWidth > 768) {
+    closeMobileMenu()
   }
 }
 
@@ -253,53 +314,54 @@ const watchCookie = () => {
 }
 
 // Toggle dropdown on click (for mobile)
-const toggleDropdown = () => {
+const toggleDropdown = (event) => {
+  event?.preventDefault();
   isDropdownOpen.value = !isDropdownOpen.value;
-  if (window.innerWidth <= 768) {
-    // On mobile, clicking the badge shouldn't navigate to profile page
-    // but toggle the dropdown instead
-    event?.preventDefault();
-  }
+  showDropdown.value = isDropdownOpen.value;
 }
 
 // Close dropdown after clicking a link
 const closeDropdown = () => {
   showDropdown.value = false;
   isDropdownOpen.value = false;
-  closeMobileMenu();
+  closeMobileMenu(); // Close mobile menu when dropdown item is clicked
 }
 
 // Handle click outside to close dropdown
 const handleClickOutside = (event) => {
-  const dropdown = document.querySelector('.profile-dropdown');
-  if (dropdown && !dropdown.contains(event.target) && (showDropdown.value || isDropdownOpen.value)) {
-    showDropdown.value = false;
-    isDropdownOpen.value = false;
+  const nav = document.querySelector('.navbar')
+  const hamburger = document.querySelector('.hamburger')
+  
+  if (isMobileMenuOpen.value && nav && !nav.contains(event.target) && event.target !== hamburger) {
+    closeMobileMenu()
   }
 }
 
-// Check authentication when component mounts
+// Add and remove event listeners
 onMounted(() => {
+  window.addEventListener('resize', handleResize)
+  document.addEventListener('click', handleClickOutside)
+  
   // First try to restore from localStorage
   if (!restoreUserFromStorage()) {
-    // If restoration failed, perform regular check
     checkAuth()
   }
   
   // Set up polling for cookie changes
-  setInterval(watchCookie, 1000) // Check more frequently (every second)
+  setInterval(watchCookie, 1000)
   
-  // Set up polling to check auth status (less frequent)
-  setInterval(checkAuth, 30000) // Check every 30 seconds
+  // Set up polling to check auth status
+  setInterval(checkAuth, 30000)
   
-  // Initial check after a brief delay to allow store to update
+  // Initial check after a brief delay
   setTimeout(checkAuth, 200)
-  
-  // Add window resize event listener
-  window.addEventListener('resize', handleResize)
-  
-  // Add event listeners
-  document.addEventListener('click', handleClickOutside)
+})
+
+// Clean up event listeners
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+  document.removeEventListener('click', handleClickOutside)
+  document.body.style.overflow = ''
 })
 
 // Force check auth method that can be called from other components
@@ -350,6 +412,19 @@ const logout = async () => {
     toast.error('There was a problem logging out. Please try again.')
   }
 }
+
+// Computed property to check if a route is active
+const isRouteActive = (path) => {
+  return route.path === path
+}
+
+// Update the profile badge click handler
+const handleProfileClick = (event) => {
+  if (window.innerWidth <= 768) {
+    event.preventDefault()
+    // No need to toggle dropdown in mobile as it's always visible
+  }
+}
 </script>
 
 <style scoped>
@@ -357,13 +432,17 @@ const logout = async () => {
 .navbar {
   display: flex;
   align-items: center;
-  padding: 0 24px;
+  justify-content: space-between;
+  padding: 1rem 2rem;
   position: relative;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 70px;
 }
 
 /* Logo styling */
 .logo {
-  margin-right: 16px;
+  margin-right: 0;
 }
 
 .logo h1 {
@@ -375,27 +454,30 @@ const logout = async () => {
 /* Hamburger button */
 .hamburger {
   display: none;
-  background: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: transparent;
   border: none;
   cursor: pointer;
-  padding: 10px;
-  position: relative;
-  z-index: 20;
+  padding: 0;
+  z-index: 1000;
+  position: fixed;
+  top: 20px;
+  right: 20px;
 }
 
 .hamburger-line {
-  display: block;
-  width: 24px;
+  width: 100%;
   height: 3px;
-  margin: 5px 0;
-  background-color: #636ae8; /* Changed to theme color */
-  transition: all 0.3s ease;
+  background-color: #2d3748;
   border-radius: 3px;
+  transition: all 0.3s ease;
 }
 
 .hamburger.is-active .hamburger-line:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
-  background-color: #636ae8; /* Changed to theme color */
+  transform: translateY(9px) rotate(45deg);
 }
 
 .hamburger.is-active .hamburger-line:nth-child(2) {
@@ -403,19 +485,19 @@ const logout = async () => {
 }
 
 .hamburger.is-active .hamburger-line:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
-  background-color: #636ae8; /* Changed to theme color */
+  transform: translateY(-9px) rotate(-45deg);
 }
 
 /* Mobile menu backdrop */
 .mobile-backdrop {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 15;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
   backdrop-filter: blur(2px);
 }
 
@@ -617,167 +699,187 @@ const logout = async () => {
 
 /* Mobile styles */
 @media screen and (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+  }
+
   .hamburger {
-    display: block;
-    margin-left: auto;
-    position: relative;
-    z-index: 30; /* Higher z-index to stay on top */
-  }
-  
-  .mobile-menu-header {
     display: flex;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 25px;
+    height: 18px;
   }
-  
+
+  .hamburger-line {
+    height: 2px;
+  }
+
+  .mobile-backdrop {
+    display: block;
+  }
+
   .nav-container {
     position: fixed;
     top: 0;
-    right: 0; /* Position from right side instead of left */
-    bottom: 0;
-    width: 80%; /* Take only 80% of screen width */
-    max-width: 300px; /* Maximum width */
-    background-color: white;
+    right: -100%;
+    width: 80%;
+    max-width: 350px;
+    height: 100vh;
+    background: white;
     flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 0;
-    z-index: 20;
-    transform: translateX(100%); /* Slide from right */
-    transition: all 0.3s ease;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    align-items: flex-start;
+    padding: 0;
+    transition: right 0.3s ease;
+    z-index: 999;
     overflow-y: auto;
-    visibility: hidden; /* Hide completely when closed */
-    opacity: 0; /* Fade out */
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-left: 3px solid #636ae8; /* Correct theme color */
-    padding-bottom: 30px; /* Add some bottom padding for scrolling space */
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   }
-  
+
   .nav-container.mobile-open {
-    transform: translateX(0);
-    visibility: visible; /* Show when open */
-    opacity: 1; /* Fade in */
+    right: 0;
   }
-  
-  .nav-links {
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-    gap: 8px;
-    padding: 15px 0;
-    width: 100%;
-    overflow-y: auto;
-  }
-  
-  .nav-links a {
-    font-size: 16px;
-    padding: 14px;
-    width: 90%;
-    text-align: left;
-    border-bottom: 1px solid #f0f0f0;
-    margin: 0;
+
+  .mobile-menu-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    transition: all 0.2s ease;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #f8f9fa;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .mobile-menu-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .close-menu-btn {
+    font-size: 1.2rem;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0.75rem;
+    gap: 0.25rem;
+  }
+
+  .nav-links a {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.95rem;
+    border-radius: 6px;
+  }
+
+  .auth-buttons {
+    margin-top: auto;
+    width: 100%;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+  }
+
+  .profile-dropdown {
+    width: 100%;
+  }
+
+  .profile-badge-wrapper {
+    width: 100%;
+  }
+
+  .profile-badge {
+    width: 100%;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .profile-photo, .profile-initial {
+    width: 45px;
+    height: 45px;
+  }
+
+  .profile-initial {
+    font-size: 1.2rem;
+  }
+
+  .profile-badge span {
+    font-size: 0.95rem;
+  }
+
+  .dropdown-content {
+    position: static;
+    width: 100%;
+    margin-top: 0.5rem;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    display: block !important; /* Always show in mobile */
+  }
+
+  .dropdown-content a {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.95rem;
     border-radius: 4px;
-    color: #333; /* Restore darker color for mobile */
-    font-weight: 500; /* Restore bolder font weight for mobile */
-    letter-spacing: normal; /* Remove letter spacing */
   }
-  
-  /* Show icons in mobile view */
-  .mobile-only-icon {
-    display: inline-block;
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-    color: #636ae8; /* Theme color */
+
+  .get-started-btn {
+    width: 100%;
+    padding: 0.6rem;
+    font-size: 0.95rem;
   }
-  
-  /* Override desktop hover styles for mobile */
-  .nav-links a:hover,
+}
+
+/* Active link styles */
+.nav-links a.active {
+  color: #636ae8;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #636ae8;
+  border-radius: 2px;
+}
+
+/* Mobile active link styles */
+@media screen and (max-width: 768px) {
   .nav-links a.active {
     background-color: rgba(99, 106, 232, 0.1);
-    color: #636ae8; /* Theme color */
-    border-bottom: 1px solid #f0f0f0;
-  }
-  
-  /* Style the active nav link differently for mobile */
-  .nav-links a.active {
-    font-weight: 500;
-    border-left: 3px solid #636ae8; /* Theme color */
+    color: #636ae8;
+    border-left: 3px solid #636ae8;
     padding-left: 11px;
   }
   
-  .nav-links a:last-child {
-    border-bottom: none;
-  }
-  
-  /* Auth buttons in mobile view */
-  .auth-buttons {
-    margin: 20px 0 0 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .profile-dropdown {
-    width: 90%; /* Slightly wider */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 0; /* No padding needed in mobile view */
-  }
-  
-  .profile-badge-wrapper {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .profile-badge {
-    flex-direction: column;
-    text-align: center;
-    padding: 10px;
-    border-radius: 8px;
-    background-color: #f5f5f5;
-    width: 100%;
-  }
-  
-  .profile-badge span {
-    margin-top: 8px;
-  }
-  
-  /* Mobile dropdown styling */
-  .dropdown-content {
-    position: static;
-    display: none; /* Hidden by default on mobile too */
-    width: 100%;
-    box-shadow: none;
-    margin-top: 10px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 5px;
-    border-left: 2px solid #636ae8; /* Correct theme color */
-    transform: none;
-    opacity: 1;
-  }
-  
-  .dropdown-content.show {
-    display: block;
-  }
-  
-  /* Override hover behavior for mobile - don't show on hover */
-  .profile-dropdown:hover .dropdown-content {
+  .nav-links a.active::after {
     display: none;
   }
-  
-  /* Only show if explicitly set to show */
-  .profile-dropdown:hover .dropdown-content.show {
-    display: block;
-  }
-  
-  .get-started-btn {
-    width: 90%; /* Slightly wider */
-    text-align: center;
-  }
+}
+
+/* Profile dropdown active styles */
+.profile-badge.active {
+  color: #636ae8;
+}
+
+.dropdown-content a.active {
+  background-color: rgba(99, 106, 232, 0.1);
+  color: #636ae8;
+}
+
+/* Get Started button active style */
+.get-started-btn.active {
+  background-color: #4f46e5;
 }
 </style>

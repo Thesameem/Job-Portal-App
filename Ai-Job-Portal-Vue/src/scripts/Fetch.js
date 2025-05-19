@@ -54,17 +54,21 @@ export const POST = async (uri, formdata, isMultipart = false) => {
 
         // Set up headers based on content type
         let headers = {
-                Authorization: `Bearer ${Token}`
+            Authorization: `Bearer ${Token}`
         };
 
         // For multipart/form-data, let axios set the correct Content-Type with boundary
-        // Explicitly DON'T set Content-Type for multipart/form-data, let the browser handle it
         if (!isMultipart) {
+            // Check if formdata is FormData instance
+            if (formdata instanceof FormData) {
+                // Convert FormData to JSON object
+                const jsonData = {};
+                formdata.forEach((value, key) => {
+                    jsonData[key] = value;
+                });
+                formdata = jsonData;
+            }
             headers['Content-Type'] = 'application/json';
-        } else {
-            // Important: When uploading files, DO NOT set Content-Type manually
-            // The browser will set it automatically with the correct boundary
-            console.log('[Fetch] Using browser-set Content-Type for multipart/form-data');
         }
 
         // Create the config object
@@ -100,7 +104,6 @@ export const POST = async (uri, formdata, isMultipart = false) => {
         console.log(`[Fetch] POST response from ${uri}:`, data);
 
         // Check if the response already has an error property
-        // This handles cases where the backend returns { error: true/false, ... }
         if (data && typeof data === 'object' && 'error' in data) {
             return data;
         }
@@ -123,7 +126,7 @@ export const POST = async (uri, formdata, isMultipart = false) => {
         // Return a standardized error object
         return {
             error: true,
-            reason: error.response?.data?.message || error.message || 'Network error occurred',
+            reason: error.response?.data?.reason || error.response?.data?.message || error.message || 'Network error occurred',
             status: error.response?.status || 500,
             response: error.response?.data || null
         };

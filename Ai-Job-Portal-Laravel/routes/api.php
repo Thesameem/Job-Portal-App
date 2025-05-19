@@ -4,6 +4,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JobListController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\PasswordResetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,11 @@ Route::post('user/register',[AuthController::class,'register']);
 
 //user login
 Route::post('user/login',[AuthController::class,'login']);
+
+// Password reset routes
+Route::post('password/request-otp', [PasswordResetController::class, 'requestOtp']);
+Route::post('password/verify-otp', [PasswordResetController::class, 'verifyOtp']);
+Route::post('password/reset', [PasswordResetController::class, 'resetPassword']);
 
 // Public job routes
 Route::get('/jobs', [JobListController::class, 'getAllJobs']);

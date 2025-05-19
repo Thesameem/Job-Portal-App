@@ -16,6 +16,7 @@ const toast = useToast()
 
 const fullname = ref('')
 const email = ref('')
+const phoneNumber = ref('')
 const password = ref('')
 const signupError = ref(false)
 const errorText = ref('')
@@ -23,6 +24,7 @@ const termsAccepted = ref(false)
 const isSubmitting = ref(false)
 const showSuccessMessage = ref(false)
 const successMessage = ref('')
+const showPassword = ref(false)
 
 // Function to scroll to top of the page
 const scrollToTop = () => {
@@ -44,7 +46,7 @@ const RegisterUser = async () => {
     successMessage.value = ''
     
     // Validate input
-    if (!fullname.value || !email.value || !password.value) {
+    if (!fullname.value || !email.value || !password.value || !phoneNumber.value) {
       signupError.value = true
       errorText.value = 'All fields are required'
       toast.error('All fields are required')
@@ -65,6 +67,7 @@ const RegisterUser = async () => {
     let formData = new FormData()
     formData.append('fullname', fullname.value)
     formData.append('email', email.value)
+    formData.append('phone_number', phoneNumber.value)
     formData.append('password', password.value)
     
     console.log('Sending registration request...')
@@ -91,10 +94,10 @@ const RegisterUser = async () => {
       toast.error(result.reason || 'Registration failed. Please try again.')
     }
   } catch (error) {
-    console.error('Signup error:', error)
+    console.error('Registration error:', error)
     signupError.value = true
-    errorText.value = 'An unexpected error occurred. Please try again.'
-    toast.error('An unexpected error occurred. Please try again.')
+    errorText.value = 'An error occurred during registration'
+    toast.error('An error occurred during registration')
   } finally {
     isSubmitting.value = false
   }
@@ -116,8 +119,8 @@ onMounted(() => {
   <section class="auth-section">
     <div class="auth-container">
       <div class="auth-header">
-        <h2>Create Your Account</h2>
-        <p>Join Ai-Job and start your journey to success</p>
+        <h2>Create Account</h2>
+        <p>Sign up to start your job search journey</p>
       </div>
       <!-- Use both form submit and direct button click -->
       <form class="auth-form" @submit.prevent="RegisterUser">
@@ -129,35 +132,49 @@ onMounted(() => {
             placeholder="Enter your full name"
             required
             v-model="fullname"
+            :disabled="isSubmitting"
           />
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" placeholder="Enter your email" required v-model="email" />
+          <input 
+            type="email" 
+            id="email" 
+            placeholder="Enter your email" 
+            required 
+            v-model="email"
+            :disabled="isSubmitting"
+          />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="Enter your phone number"
+            required
+            v-model="phoneNumber"
+            :disabled="isSubmitting"
+          />
+          <small class="field-hint">Format: +1234567890</small>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
           <div class="password-input">
             <input
-              type="password"
+              :type="showPassword ? 'text' : 'password'"
               id="password"
               placeholder="Create a password"
               required
               v-model="password"
+              :disabled="isSubmitting"
             />
-            <i class="fas fa-eye toggle-password"></i>
-          </div>
-        </div>
-        <div class="form-group" style="display: none">
-          <label for="confirm-password">Confirm Password</label>
-          <div class="password-input">
-            <input
-              type="password"
-              id="confirm-password"
-              placeholder="Confirm your password"
-              required
-            />
-            <i class="fas fa-eye toggle-password"></i>
+            <i 
+              :class="['fas', showPassword ? 'fa-eye-slash' : 'fa-eye', 'toggle-password']"
+              @click="showPassword = !showPassword"
+              style="cursor:pointer"
+              title="Show/Hide Password"
+            ></i>
           </div>
         </div>
         <div class="form-group">
@@ -178,10 +195,9 @@ onMounted(() => {
 
         <!-- Button with both click and submit handlers for maximum compatibility -->
         <button 
-          type="button" 
+          type="submit" 
           class="auth-button" 
-          :disabled="!termsAccepted"
-          @click="RegisterUser"
+          :disabled="!termsAccepted || isSubmitting"
         >
           {{ isSubmitting ? 'Creating Account...' : 'Create Account' }}
         </button>
@@ -209,21 +225,29 @@ onMounted(() => {
 
 <style scoped>
 .error-message {
-  color: #e74c3c;
-  background-color: rgba(231, 76, 60, 0.1);
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  text-align: center;
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
 }
 
-.success-message {
-  color: #2ecc71;
-  background-color: rgba(46, 204, 113, 0.1);
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 15px;
+.field-hint {
+  color: #6b7280;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.auth-links {
   text-align: center;
+  margin-top: 1rem;
+}
+
+.auth-links a {
+  color: #636ae8;
+  text-decoration: none;
+}
+
+.auth-links a:hover {
+  text-decoration: underline;
 }
 
 .auth-button {
