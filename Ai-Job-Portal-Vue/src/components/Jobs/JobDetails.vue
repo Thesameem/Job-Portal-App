@@ -26,7 +26,9 @@
       
       <div class="action-buttons">
         <button class="save-job-btn"><i class="fas fa-bookmark"></i> Save Job</button>
-        <a href="/applyjob" class="apply-now-btn" onclick="window.location.href='/applyjob'"><i class="fas fa-paper-plane"></i> Apply Now</a>
+        <RouterLink :to="`/applyjob?id=${jobData.id}`" class="apply-now-btn">
+          <i class="fas fa-paper-plane"></i> Apply Now
+        </RouterLink>
       </div>
     </div>
   </section>

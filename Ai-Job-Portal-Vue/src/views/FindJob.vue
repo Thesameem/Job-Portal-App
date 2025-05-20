@@ -183,12 +183,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, computed, onUnmounted } from 'vue'
-import { GET, POST } from '@/scripts/Fetch'
+import { ref, onMounted,  onUnmounted } from 'vue'
+import { GET} from '@/scripts/Fetch'
 import { useToast } from '@/scripts/toast'
-import axios from 'axios'
 import Config from '@/scripts/Config'
-import Cookie from '@/scripts/Cookie'
 
 // State
 const jobs = ref([])
@@ -315,16 +313,30 @@ const formatDate = (dateString) => {
   if (!dateString) return 'recently'
 
   try {
+    // Parse the date and convert to UTC
     const postDate = new Date(dateString)
+    const now = new Date()
+
+    // Get UTC dates for comparison
+    const postDateUTC = new Date(Date.UTC(
+      postDate.getUTCFullYear(),
+      postDate.getUTCMonth(),
+      postDate.getUTCDate()
+    ))
+    const nowUTC = new Date(Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate()
+    ))
 
     // Check if the date is invalid
     if (isNaN(postDate.getTime())) {
       return 'recently'
     }
 
-    const now = new Date()
-    const diffTime = Math.abs(now - postDate)
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    // Calculate difference in days
+    const diffTime = Math.abs(nowUTC - postDateUTC)
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
 
     if (diffDays === 0) return 'today'
     if (diffDays === 1) return 'yesterday'

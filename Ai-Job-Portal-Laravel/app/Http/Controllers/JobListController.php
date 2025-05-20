@@ -265,18 +265,17 @@ class JobListController extends Controller
 
      //add job in the list
      public function AddJob(Request $request){
-
-        $UserID=$request->user()->id;
-         //validation
-         $Validate = Validator::make($request->all(),[
-             //company details
+        $UserID = $request->user()->id;
+        
+        //validation
+        $Validate = Validator::make($request->all(),[
+            //company details
             'company_name'   =>  'required|string|max:255',
             'company_logo'   =>  'nullable|file|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'company_website'=>  'nullable|url',
             'company_size'   =>  'required|string',
 
             //job details
-
             'title'      =>   'required|string|max:255',
             'type'       =>   'required|in:full-time,part-time,contract,freelancer',
             'location'   =>   'required|string|max:255',
@@ -285,47 +284,39 @@ class JobListController extends Controller
             'responsibilities'  => 'required|string',
 
             //requirements
-
             'experience_level'   => 'required|in:entry,intermediate,senior,lead',
             'education_level'    => 'required|in:high-school,associate,bachelor,master,phd',
             'required_skills'    => 'required|string',
             'preferred_skills'  =>  'nullable|string',
 
             //additional info
-
             'benefits'                  =>      'nullable|string',
             'application_deadline'      =>      'nullable|date',
             'contact_email'             =>      'required|email',
-             // 'user_id' => 'required|integer|exists:users,id',
         ]);
        
-         //validation
-        if ($Validate->fails()){
-            $Errors = $Validate->errors();
-            
-            // Log specific details about the company_logo validation issue
-            if (isset($Errors['company_logo'])) {
-                \Log::error('Company logo validation failed: ', [
-                    'errors' => $Errors['company_logo'],
-                    'has_file' => $request->hasFile('company_logo'),
-                    'file_details' => $request->hasFile('company_logo') ? [
-                        'name' => $request->file('company_logo')->getClientOriginalName(),
-                        'size' => $request->file('company_logo')->getSize(),
-                        'mime' => $request->file('company_logo')->getMimeType(),
-                        'extension' => $request->file('company_logo')->getClientOriginalExtension(),
-                    ] : 'No file uploaded'
-                ]);
+        if ($Validate->fails()) {
+            // Convert validation errors to a simple array format
+            $errors = [];
+            foreach ($Validate->errors()->messages() as $field => $messages) {
+                $errors[$field] = $messages[0]; // Take only the first error message for each field
             }
+            
+            // Log validation errors
+            \Log::error('Job validation failed:', [
+                'errors' => $errors,
+                'input' => $request->except(['company_logo'])
+            ]);
             
             return response()->json([
                 'error' => true,
-                'reason'  =>'Invalid data input',
-                'response'  =>$Errors,
-            ]);
-
+                'reason' => 'Validation failed',
+                'response' => $errors
+            ], 422);
         }
-        //logo handle if provided
 
+        //logo handle if provided
+        $logopath = null;
         if ($request->hasFile('company_logo')) {
             try {
                 $logo = $request->file('company_logo');
@@ -336,40 +327,45 @@ class JobListController extends Controller
                 return response()->json([
                     'error' => true,
                     'reason' => 'Could not save company logo: ' . $e->getMessage(),
-                ]);
+                ], 500);
             }
-        } else {
-            $logopath = null;
         }
 
+        try {
+            $JobList = JobList::create([
+                'user_id'       => $UserID,
+                'company_name'   => $request->company_name,
+                'company_logo'   => $logopath,
+                'company_website' => $request->company_website,
+                'title'      => $request->title,
+                'type'       => $request->type,
+                'location'   => $request->location,
+                'salary_range'  => $request->salary_range,
+                'description'   => $request->description,
+                'responsibilities'  => $request->responsibilities,
+                'company_size'   => $request->company_size,
+                'experience_level'   => $request->experience_level,
+                'education_level'    => $request->education_level,
+                'required_skills'    => $request->required_skills,
+                'preferred_skills'  => $request->preferred_skills,
+                'benefits'                  =>      $request->benefits,
+                'application_deadline'      =>      $request->application_deadline,
+                'contact_email'             =>      $request->contact_email,
+                'status'                  =>      'posted', // Changed from 'draft' to 'posted' for immediate visibility
+            ]);
 
-        $JobList = JobList::create([
-            'user_id'       => $UserID,
-            'company_name'   => $request->company_name,
-            'company_logo'   => $logopath,
-            'company_website' => $request->company_website,
-            'title'      => $request->title,
-            'type'       => $request->type,
-            'location'   => $request->location,
-            'salary_range'  => $request->salary_range,
-            'description'   => $request->description,
-            'responsibilities'  => $request->responsibilities,
-            'company_size'   => $request->company_size,
-            'experience_level'   => $request->experience_level,
-            'education_level'    => $request->education_level,
-            'required_skills'    => $request->required_skills,
-            'preferred_skills'  => $request->preferred_skills,
-            'benefits'                  =>      $request->benefits,
-            'application_deadline'      =>      $request->application_deadline,
-            'contact_email'             =>      $request->contact_email,
-            'status'                  =>      'posted', // Changed from 'draft' to 'posted' for immediate visibility
-        ]);
-               //return the new added job
-        return response()->json([
-            'error'   => false,
-            'reason'  => 'Job Listed',
-            'response' => $JobList
-        ]);
+            return response()->json([
+                'error'   => false,
+                'reason'  => 'Job Listed',
+                'response' => $JobList
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error creating job: ' . $e->getMessage());
+            return response()->json([
+                'error' => true,
+                'reason' => 'Failed to create job: ' . $e->getMessage(),
+            ], 500);
+        }
      }
    
 }

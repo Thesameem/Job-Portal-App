@@ -1,7 +1,6 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue'
-import Cookie from '@/scripts/Cookie'
 import { useJobStore } from '@/stores/job'
 
 import LogIn from '@/components/Auth/LogIn.vue'

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JobListController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\JobApplicationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -165,4 +166,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/my-jobs/{id}', [JobListController::class, 'updateJob']);
     //delete job
     Route::delete('/my-jobs/{id}', [JobListController::class, 'deleteJob']);
+
+    // Job Application routes
+    Route::post('/applications/apply', [JobApplicationController::class, 'apply']);
+    Route::get('/jobs/{jobId}/applications', [JobApplicationController::class, 'getJobApplications']);
+    Route::get('/my-applications', [JobApplicationController::class, 'getMyApplications']);
+    Route::put('/applications/{applicationId}', [JobApplicationController::class, 'updateStatus']);
+    Route::get('/applications/{applicationId}/download/{fileType}', [JobApplicationController::class, 'downloadFile']);
 });

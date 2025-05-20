@@ -80,7 +80,7 @@
                 <option value="full-time">Full-time</option>
                 <option value="part-time">Part-time</option>
                 <option value="contract">Contract</option>
-                <option value="freelance">Freelance</option>
+                <option value="freelancer">Freelancer</option>
               </select>
             </div>
             <div class="form-group">
@@ -210,7 +210,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive} from 'vue'
 import { POST } from '@/scripts/Fetch'
 import { useRouter } from 'vue-router'
 import Cookie from '@/scripts/Cookie'
@@ -226,7 +226,6 @@ const errorMessage = ref('')
 const logoFileName = ref('')
 const isAuthenticated = ref(true)
 
-// Authentication is now handled in router/index.js with beforeEach guard
 
 // Form data structure matching the backend expectations
 const formData = reactive({
@@ -343,9 +342,7 @@ const submitJob = async () => {
         if (key === 'company_logo' && formData[key]) {
           console.log(`Appending file: ${formData[key].name}, type: ${formData[key].type}, size: ${formData[key].size}`)
           
-          // Use a try/catch block specifically for file append
           try {
-            // For some browsers, the third parameter (filename) may cause issues
             jobFormData.append(key, formData[key])
           } catch (fileErr) {
             console.error('Error appending file to FormData:', fileErr)
@@ -395,23 +392,63 @@ const submitJob = async () => {
         // Redirect to auth page immediately
         router.replace('/auth')
       } else {
-        errorMessage.value = result.reason || 'Failed to create job listing. Please try again.'
-        
-        // Show error toast
-        toast.error(result.reason || 'Failed to create job listing. Please try again.')
-
-        // If there are validation errors, show them in detail
+        // Handle validation errors
         if (result.response) {
-          const errors = Object.values(result.response).flat()
-          errorMessage.value = errors.join(', ')
+          let errorMessages = []
+          
+          // Handle Laravel validation errors
+          if (typeof result.response === 'object') {
+            // Convert field names to more readable format
+            const fieldNames = {
+              company_name: 'Company Name',
+              company_logo: 'Company Logo',
+              company_website: 'Company Website',
+              company_size: 'Company Size',
+              title: 'Job Title',
+              type: 'Job Type',
+              location: 'Location',
+              salary_range: 'Salary Range',
+              description: 'Job Description',
+              responsibilities: 'Responsibilities',
+              experience_level: 'Experience Level',
+              education_level: 'Education Level',
+              required_skills: 'Required Skills',
+              preferred_skills: 'Preferred Skills',
+              benefits: 'Benefits',
+              application_deadline: 'Application Deadline',
+              contact_email: 'Contact Email'
+            }
+
+            // Process each validation error
+            for (const field in result.response) {
+              const messages = result.response[field]
+              const fieldName = fieldNames[field] || field
+              
+              if (Array.isArray(messages)) {
+                errorMessages.push(`${fieldName}: ${messages.join(', ')}`)
+              } else if (typeof messages === 'string') {
+                errorMessages.push(`${fieldName}: ${messages}`)
+              }
+            }
+          }
+
+          if (errorMessages.length > 0) {
+            errorMessage.value = errorMessages.join('\n')
+            toast.error('Please fix the following errors:\n' + errorMessages.join('\n'))
+          } else {
+            errorMessage.value = result.reason || 'Failed to create job listing. Please try again.'
+            toast.error(result.reason || 'Failed to create job listing. Please try again.')
+          }
+        } else {
+          errorMessage.value = result.reason || 'Failed to create job listing. Please try again.'
+          toast.error(result.reason || 'Failed to create job listing. Please try again.')
         }
       }
     }
   } catch (err) {
+    console.error('Error submitting job:', err)
     error.value = true
     errorMessage.value = 'An unexpected error occurred. Please try again.'
-    
-    // Show error toast
     toast.error('An unexpected error occurred. Please try again.')
   } finally {
     isSubmitting.value = false

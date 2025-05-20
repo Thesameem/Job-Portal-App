@@ -5,14 +5,6 @@
       <div class="loading-spinner"></div>
     </div>
 
-    <div v-if="error" class="error-message">
-      {{ error }}
-    </div>
-
-    <div v-if="success" class="success-message">
-      Application submitted successfully!
-    </div>
-
     <div class="application-container" v-if="job">
       <div class="application-header">
         <h2>Apply for Position</h2>
@@ -40,7 +32,12 @@
         </div>
       </div>
 
-      <form class="application-form" @submit.prevent="submitApplication">
+      <div v-if="hasApplied" class="already-applied-message">
+        <i class="fas fa-check-circle"></i>
+        <span>You have already applied for this position</span>
+      </div>
+
+      <form v-else class="application-form" @submit.prevent="submitApplication">
         <!-- Personal Information -->
         <div class="form-section">
           <h3>Personal Information</h3>
@@ -219,15 +216,16 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { POST, GET } from '@/scripts/Fetch';
 import Config from '@/scripts/Config';
+import { useToast } from '@/scripts/Toast';
 
 const route = useRoute();
 const router = useRouter();
+const toast = useToast();
 
 // State
 const job = ref(null);
 const loading = ref(false);
-const error = ref('');
-const success = ref(false);
+const hasApplied = ref(false);
 const resumeFileName = ref('');
 const coverLetterFileName = ref('');
 
@@ -249,18 +247,33 @@ const formData = ref({
 // Validation errors
 const errors = ref({});
 
+// Check if user has already applied
+const checkApplicationStatus = async (jobId) => {
+  try {
+    const response = await GET('my-applications');
+    if (!response.error && response.response) {
+      const applications = response.response;
+      hasApplied.value = applications.some(app => app.job_id === parseInt(jobId));
+    }
+  } catch (err) {
+    console.error('Error checking application status:', err);
+  }
+};
+
 // Fetch job details
 const fetchJobDetails = async () => {
   try {
     loading.value = true;
-    error.value = '';
     
     // Get job ID from route query
     const jobId = route.query.id;
     if (!jobId) {
-      error.value = 'Job ID is missing';
+      toast.error('Job ID is missing');
       return;
     }
+
+    // Check if user has already applied
+    await checkApplicationStatus(jobId);
 
     console.log('Fetching job details for ID:', jobId);
     const response = await GET(`jobs/${jobId}`);
@@ -280,14 +293,14 @@ const fetchJobDetails = async () => {
       if (jobDetails) {
         job.value = jobDetails;
       } else {
-        error.value = 'Invalid job data received';
+        toast.error('Invalid job data received');
       }
     } else {
-      error.value = response?.reason || 'Failed to load job details';
+      toast.error(response?.reason || 'Failed to load job details');
       console.error('Job fetch error:', response);
     }
   } catch (err) {
-    error.value = 'Error loading job details. Please try again later.';
+    toast.error('Error loading job details. Please try again later.');
     console.error('Job fetch error:', err);
   } finally {
     loading.value = false;
@@ -298,6 +311,11 @@ const fetchJobDetails = async () => {
 const handleResumeUpload = (event) => {
   const file = event.target.files[0];
   if (file) {
+    // Check file size (5MB = 5 * 1024 * 1024 bytes)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Resume file size must be less than 5MB');
+      return;
+    }
     formData.value.resume = file;
     resumeFileName.value = file.name;
   }
@@ -306,6 +324,11 @@ const handleResumeUpload = (event) => {
 const handleCoverLetterUpload = (event) => {
   const file = event.target.files[0];
   if (file) {
+    // Check file size (2MB = 2 * 1024 * 1024 bytes)
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('Cover letter file size must be less than 2MB');
+      return;
+    }
     formData.value.coverLetter = file;
     coverLetterFileName.value = file.name;
   }
@@ -371,6 +394,10 @@ const validateForm = () => {
     isValid = false;
   }
 
+  if (!isValid) {
+    toast.error('Please fill in all required fields correctly');
+  }
+
   return isValid;
 };
 
@@ -382,22 +409,32 @@ const submitApplication = async () => {
 
   try {
     loading.value = true;
-    error.value = '';
-    success.value = false;
 
     const formDataToSend = new FormData();
     
     // Append form data
     Object.keys(formData.value).forEach(key => {
       if (formData.value[key] !== null) {
-        formDataToSend.append(key, formData.value[key]);
+        if (key === 'resume' || key === 'coverLetter') {
+          // Handle file uploads
+          if (formData.value[key]) {
+            formDataToSend.append(key, formData.value[key]);
+          }
+        } else {
+          formDataToSend.append(key, formData.value[key]);
+        }
       }
     });
     
-    const response = await POST('jobs/apply', formDataToSend);
+    // Add job_id to the form data
+    formDataToSend.append('job_id', route.query.id);
+    
+    const response = await POST('applications/apply', formDataToSend, true);
     
     if (!response.error) {
-      success.value = true;
+      toast.success('Application submitted successfully!');
+      hasApplied.value = true; // Update application status
+      
       // Reset form
       formData.value = {
         fullname: '',
@@ -420,10 +457,12 @@ const submitApplication = async () => {
         router.push('/my-applications');
       }, 2000);
     } else {
-      error.value = response.reason || 'Failed to submit application';
+      toast.error(response.reason || 'Failed to submit application');
+      console.error('Application submission error:', response);
     }
   } catch (err) {
-    error.value = 'Error submitting application';
+    toast.error('Error submitting application');
+    console.error('Application submission error:', err);
   } finally {
     loading.value = false;
   }
@@ -661,5 +700,22 @@ onMounted(() => {
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+.already-applied-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  background-color: #e8f5e9;
+  border-radius: 8px;
+  margin: 2rem 0;
+  color: #2e7d32;
+  font-size: 1.1rem;
+}
+
+.already-applied-message i {
+  font-size: 1.5rem;
 }
 </style>

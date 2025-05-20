@@ -1,11 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import Cookie from '@/scripts/Cookie'
-import axios from 'axios'
-import { GET } from '@/scripts/Fetch'
-import Header from '@/components/reusable/Header.vue'
-import Footer from '@/components/reusable/Footer.vue'
 
 let router = useRouter()
 
