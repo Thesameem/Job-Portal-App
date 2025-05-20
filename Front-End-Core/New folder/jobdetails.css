@@ -1,0 +1,191 @@
+/* Job Details Hero Section */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* Job Description Section */
+.job-description {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.job-description h2 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+.job-description p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.job-description h3 {
+    color: #333;
+    margin: 30px 0 15px;
+    font-size: 1.5rem;
+}
+
+.job-description ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.job-description ul li {
+    margin-bottom: 10px;
+}
+
+/* Company Information Section */
+.company-info {
+    background-color: #f8f9fa;
+    padding: 60px 20px;
+}
+
+.company-info-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.company-info h2 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.company-info p {
+    color: #666;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Application Instructions Section */
+.application-instructions {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.application-instructions h2 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+.application-instructions p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.application-instructions a {
+    color: #636AE8;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.application-instructions a:hover {
+    text-decoration: underline;
+}
+
+/* Action Buttons */
+.action-buttons {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.save-job-btn,
+.apply-now-btn {
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-job-btn {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.save-job-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.apply-now-btn {
+    background-color: #636AE8;
+    color: white;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.apply-now-btn:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.apply-now-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .job-description h2,
+    .company-info h2,
+    .application-instructions h2 {
+        font-size: 1.8rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .save-job-btn,
+    .apply-now-btn {
+        width: 100%;
+    }
+} 

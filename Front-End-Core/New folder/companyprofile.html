@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Profile - Ai-Job</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="companyprofile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="logo">
+            <a href="index.html" aria-label="Ai-Job Home">
+                <h1>SRB</h1>
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="findjobs.html">Find Work</a>
+            <a href="createjob.html">Post a Job</a>
+            <a href="findtalent.html">Find Talent</a>
+            <a href="whyus.html">Why Us</a>
+            <a href="blog.html">Blog</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="auth-buttons">
+            <div class="profile-dropdown">
+                <a href="userprofile.html" class="profile-badge">
+                    <img src="myphoto.JPG" alt="Profile Picture">
+                    <span>Sameem Miya</span>
+                </a>
+                <div class="dropdown-content">
+                    <a href="managejobs.html"><i class="fas fa-briefcase"></i> Manage Jobs</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+            <button class="login-btn" onclick="window.location.href='login.html'">Log In</button>
+            <button class="signup-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>TechCorp Inc.</h1>
+            <p>Innovating the Future of Technology</p>
+            <div class="company-stats">
+                <div class="stat">
+                    <span class="number">500+</span>
+                    <span class="label">Employees</span>
+                </div>
+                <div class="stat">
+                    <span class="number">50+</span>
+                    <span class="label">Countries</span>
+                </div>
+                <div class="stat">
+                    <span class="number">15+</span>
+                    <span class="label">Years</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Overview Section -->
+    <section class="company-culture">
+        <h2>About Us</h2>
+        <p>TechCorp Inc. is a global technology leader specializing in innovative software solutions. With over 15 years of experience, we've been at the forefront of digital transformation, helping businesses worldwide achieve their technological goals.</p>
+        <div class="company-values">
+            <div class="value-item">
+                <i class="fas fa-lightbulb"></i>
+                <h3>Innovation</h3>
+                <p>Pushing boundaries and exploring new possibilities</p>
+            </div>
+            <div class="value-item">
+                <i class="fas fa-users"></i>
+                <h3>Collaboration</h3>
+                <p>Working together to achieve extraordinary results</p>
+            </div>
+            <div class="value-item">
+                <i class="fas fa-chart-line"></i>
+                <h3>Excellence</h3>
+                <p>Delivering the highest quality in everything we do</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <h2>Why Join Us</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <i class="fas fa-heart"></i>
+                <h3>Health & Wellness</h3>
+                <p>Comprehensive health insurance, mental health support, and wellness programs to keep you at your best.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Professional Development</h3>
+                <p>Continuous learning opportunities, mentorship programs, and conference attendance support.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-home"></i>
+                <h3>Work-Life Balance</h3>
+                <p>Flexible working hours, remote work options, and generous paid time off.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-dumbbell"></i>
+                <h3>Fitness & Recreation</h3>
+                <p>On-site gym, sports facilities, and team-building activities.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Open Positions Section -->
+    <section class="open-positions">
+        <h2>Open Positions</h2>
+        <div class="positions-list">
+            <div class="position-item">
+                <div class="position-info">
+                    <h3>Senior Frontend Developer</h3>
+                    <p><i class="fas fa-clock"></i> Full-time</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Remote</p>
+                    <p><i class="fas fa-dollar-sign"></i> $80-100k</p>
+                </div>
+                <button class="apply-btn" onclick="window.location.href='applyjob.html'">Apply Now</button>
+            </div>
+            <div class="position-item">
+                <div class="position-info">
+                    <h3>Backend Developer</h3>
+                    <p><i class="fas fa-clock"></i> Full-time</p>
+                    <p><i class="fas fa-map-marker-alt"></i> San Francisco</p>
+                    <p><i class="fas fa-dollar-sign"></i> $90-120k</p>
+                </div>
+                <button class="apply-btn" onclick="window.location.href='applyjob.html'">Apply Now</button>
+            </div>
+            <div class="position-item">
+                <div class="position-info">
+                    <h3>UI/UX Designer</h3>
+                    <p><i class="fas fa-clock"></i> Contract</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Remote</p>
+                    <p><i class="fas fa-dollar-sign"></i> $60-80k</p>
+                </div>
+                <button class="apply-btn" onclick="window.location.href='applyjob.html'">Apply Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SRB</h3>
+                <p>Your trusted platform for finding the perfect job match.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Follow us on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="findjobs.html">Find Jobs</a>
+                <a href="createjob.html">Post a Job</a>
+                <a href="findtalent.html">Find Talent</a>
+                <a href="blog.html">Blog</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="whyus.html">Why Us</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="termsofservice.html">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Ai-Job. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

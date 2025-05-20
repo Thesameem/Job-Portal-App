@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Talent - Ai-Job</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="contact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="logo">
+            <a href="index.html" aria-label="Ai-Job Home">
+                <h1>SRB</h1>
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="findjobs.html">Find Work</a>
+            <a href="createjob.html">Post a Job</a>
+            <a href="findtalent.html">Find Talent</a>
+            <a href="whyus.html">Why Us</a>
+            <a href="blog.html">Blog</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="auth-buttons">
+            <div class="profile-dropdown">
+                <a href="userprofile.html" class="profile-badge">
+                    <img src="myphoto.JPG" alt="Profile Picture">
+                    <span>Sameem Miya</span>
+                </a>
+                <div class="dropdown-content">
+                    <a href="managejobs.html"><i class="fas fa-briefcase"></i> Manage Jobs</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+            <button class="login-btn" onclick="window.location.href='login.html'">Log In</button>
+            <button class="signup-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Contact Talent</h1>
+            <p>Connect with talented professionals and start building your dream team.</p>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form">
+        <h2>Reach Out to Talent</h2>
+        <form>
+            <div class="form-group">
+                <label for="company-name">Company Name</label>
+                <input type="text" id="company-name" placeholder="Enter your company name" required>
+            </div>
+            <div class="form-group">
+                <label for="position">Position Title</label>
+                <input type="text" id="position" placeholder="Enter the position title" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Work Email</label>
+                <input type="email" id="email" placeholder="Enter your work email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
+                <label for="job-type">Job Type</label>
+                <select id="job-type" required>
+                    <option value="">Select job type</option>
+                    <option value="full-time">Full Time</option>
+                    <option value="part-time">Part Time</option>
+                    <option value="contract">Contract</option>
+                    <option value="freelance">Freelance</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message">Message to Talent</label>
+                <textarea id="message" placeholder="Describe the opportunity and why you're interested in connecting" required></textarea>
+            </div>
+            <button type="submit" class="submit-button">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Additional Information Section -->
+    <section class="contact-info">
+        <h2>Why Contact Through Ai-Job?</h2>
+        <div class="info-grid">
+            <div class="info-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Verified Profiles</h3>
+                <p>All talent profiles are verified for authenticity and professionalism.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Quality Matches</h3>
+                <p>Our AI-powered matching system ensures you connect with the right talent.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-handshake"></i>
+                <h3>Secure Communication</h3>
+                <p>All communications are encrypted and protected for your privacy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SRB</h3>
+                <p>Your trusted platform for finding the perfect job match.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Follow us on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="findjobs.html">Find Jobs</a>
+                <a href="createjob.html">Post a Job</a>
+                <a href="findtalent.html">Find Talent</a>
+                <a href="blog.html">Blog</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="whyus.html">Why Us</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="termsofservice.html">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Ai-Job. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

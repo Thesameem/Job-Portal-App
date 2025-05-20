@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your company's job listings on Ai-Job.">
+    <title>Company Jobs - Ai-Job</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="managejobs.css">
+    <link rel="stylesheet" href="companyjobs.css">
+    <link rel="stylesheet" href="notifications.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="logo">
+            <a href="index.html" aria-label="Ai-Job Home">
+                <h1>SRB</h1>
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="findjobs.html">Find Work</a>
+            <a href="createjob.html">Post a Job</a>
+            <a href="findtalent.html">Find Talent</a>
+            <a href="whyus.html">Why Us</a>
+            <a href="blog.html">Blog</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="auth-buttons">
+            <div class="profile-dropdown">
+                <a href="userprofile.html" class="profile-badge">
+                    <img src="myphoto.JPG" alt="Profile Picture">
+                    <span>Sameem Miya</span>
+                </a>
+                <div class="dropdown-content">
+                    <a href="managejobs.html"><i class="fas fa-briefcase"></i> Manage Jobs</a>
+                    <a href="managecompany.html"><i class="fas fa-building"></i> Manage Company</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="manage-jobs-container">
+        <div class="page-header">
+            <h1>Company Jobs</h1>
+            <p>Manage all job listings for TechCorp Inc.</p>
+        </div>
+
+        <div class="jobs-controls">
+            <div class="search-filter">
+                <div class="search-box">
+                    <input type="text" placeholder="Search jobs...">
+                    <button type="button"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filter-options">
+                    <select>
+                        <option value="all">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="draft">Draft</option>
+                        <option value="closed">Closed</option>
+                        <option value="expired">Expired</option>
+                    </select>
+                    <select>
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="most-applications">Most Applications</option>
+                        <option value="least-applications">Least Applications</option>
+                    </select>
+                </div>
+            </div>
+            <a href="createjob.html" class="post-job-btn"><i class="fas fa-plus"></i> Post New Job</a>
+        </div>
+
+        <div class="jobs-stats">
+            <div class="stat-card">
+                <span class="stat-number">12</span>
+                <span class="stat-label">Total Jobs</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">8</span>
+                <span class="stat-label">Active</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">2</span>
+                <span class="stat-label">Draft</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">2</span>
+                <span class="stat-label">Closed</span>
+            </div>
+        </div>
+
+        <div class="jobs-list">
+            <!-- Job Item -->
+            <div class="job-item">
+                <div class="job-status active">Active</div>
+                <div class="job-info">
+                    <h2 class="job-title">Senior Frontend Developer</h2>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                        <span><i class="fas fa-clock"></i> Full-time</span>
+                        <span><i class="fas fa-dollar-sign"></i> $80-100k</span>
+                        <span><i class="fas fa-calendar-alt"></i> Posted 3 days ago</span>
+                    </div>
+                </div>
+                <div class="job-applications">
+                    <span class="application-count">24</span>
+                    <span class="application-label">Applications</span>
+                </div>
+                <div class="job-views">
+                    <span class="views-count">312</span>
+                    <span class="views-label">Views</span>
+                </div>
+                <div class="job-actions">
+                    <a href="applications.html?job=1" class="action-btn" title="View Applications"><i class="fas fa-users"></i></a>
+                    <a href="editjob.html?job=1" class="action-btn" title="Edit Job"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="action-btn" title="Close Job"><i class="fas fa-times-circle"></i></a>
+                    <div class="more-actions">
+                        <button class="more-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        <div class="actions-dropdown">
+                            <a href="jobdetails.html?job=1"><i class="fas fa-eye"></i> View Job</a>
+                            <a href="#"><i class="fas fa-copy"></i> Duplicate</a>
+                            <a href="#"><i class="fas fa-share-alt"></i> Share</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash-alt"></i> Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Item -->
+            <div class="job-item">
+                <div class="job-status active">Active</div>
+                <div class="job-info">
+                    <h2 class="job-title">Backend Developer</h2>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> San Francisco</span>
+                        <span><i class="fas fa-clock"></i> Full-time</span>
+                        <span><i class="fas fa-dollar-sign"></i> $90-120k</span>
+                        <span><i class="fas fa-calendar-alt"></i> Posted 5 days ago</span>
+                    </div>
+                </div>
+                <div class="job-applications">
+                    <span class="application-count">18</span>
+                    <span class="application-label">Applications</span>
+                </div>
+                <div class="job-views">
+                    <span class="views-count">256</span>
+                    <span class="views-label">Views</span>
+                </div>
+                <div class="job-actions">
+                    <a href="applications.html?job=2" class="action-btn" title="View Applications"><i class="fas fa-users"></i></a>
+                    <a href="editjob.html?job=2" class="action-btn" title="Edit Job"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="action-btn" title="Close Job"><i class="fas fa-times-circle"></i></a>
+                    <div class="more-actions">
+                        <button class="more-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        <div class="actions-dropdown">
+                            <a href="jobdetails.html?job=2"><i class="fas fa-eye"></i> View Job</a>
+                            <a href="#"><i class="fas fa-copy"></i> Duplicate</a>
+                            <a href="#"><i class="fas fa-share-alt"></i> Share</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash-alt"></i> Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Item -->
+            <div class="job-item">
+                <div class="job-status active">Active</div>
+                <div class="job-info">
+                    <h2 class="job-title">UI/UX Designer</h2>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                        <span><i class="fas fa-clock"></i> Contract</span>
+                        <span><i class="fas fa-dollar-sign"></i> $60-80k</span>
+                        <span><i class="fas fa-calendar-alt"></i> Posted 1 week ago</span>
+                    </div>
+                </div>
+                <div class="job-applications">
+                    <span class="application-count">32</span>
+                    <span class="application-label">Applications</span>
+                </div>
+                <div class="job-views">
+                    <span class="views-count">420</span>
+                    <span class="views-label">Views</span>
+                </div>
+                <div class="job-actions">
+                    <a href="applications.html?job=3" class="action-btn" title="View Applications"><i class="fas fa-users"></i></a>
+                    <a href="editjob.html?job=3" class="action-btn" title="Edit Job"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="action-btn" title="Close Job"><i class="fas fa-times-circle"></i></a>
+                    <div class="more-actions">
+                        <button class="more-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        <div class="actions-dropdown">
+                            <a href="jobdetails.html?job=3"><i class="fas fa-eye"></i> View Job</a>
+                            <a href="#"><i class="fas fa-copy"></i> Duplicate</a>
+                            <a href="#"><i class="fas fa-share-alt"></i> Share</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash-alt"></i> Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Item -->
+            <div class="job-item">
+                <div class="job-status draft">Draft</div>
+                <div class="job-info">
+                    <h2 class="job-title">DevOps Engineer</h2>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                        <span><i class="fas fa-clock"></i> Full-time</span>
+                        <span><i class="fas fa-dollar-sign"></i> $90-110k</span>
+                        <span><i class="fas fa-calendar-alt"></i> Last edited 2 days ago</span>
+                    </div>
+                </div>
+                <div class="job-applications">
+                    <span class="application-count">0</span>
+                    <span class="application-label">Applications</span>
+                </div>
+                <div class="job-views">
+                    <span class="views-count">0</span>
+                    <span class="views-label">Views</span>
+                </div>
+                <div class="job-actions">
+                    <a href="#" class="action-btn disabled" title="View Applications"><i class="fas fa-users"></i></a>
+                    <a href="editjob.html?job=4" class="action-btn" title="Edit Job"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="action-btn" title="Publish Job"><i class="fas fa-paper-plane"></i></a>
+                    <div class="more-actions">
+                        <button class="more-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        <div class="actions-dropdown">
+                            <a href="jobdetails.html?job=4"><i class="fas fa-eye"></i> Preview</a>
+                            <a href="#"><i class="fas fa-copy"></i> Duplicate</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash-alt"></i> Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Item -->
+            <div class="job-item">
+                <div class="job-status closed">Closed</div>
+                <div class="job-info">
+                    <h2 class="job-title">Product Manager</h2>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> San Francisco</span>
+                        <span><i class="fas fa-clock"></i> Full-time</span>
+                        <span><i class="fas fa-dollar-sign"></i> $100-130k</span>
+                        <span><i class="fas fa-calendar-alt"></i> Closed 1 week ago</span>
+                    </div>
+                </div>
+                <div class="job-applications">
+                    <span class="application-count">45</span>
+                    <span class="application-label">Applications</span>
+                </div>
+                <div class="job-views">
+                    <span class="views-count">680</span>
+                    <span class="views-label">Views</span>
+                </div>
+                <div class="job-actions">
+                    <a href="applications.html?job=5" class="action-btn" title="View Applications"><i class="fas fa-users"></i></a>
+                    <a href="editjob.html?job=5" class="action-btn" title="Edit Job"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="action-btn" title="Reopen Job"><i class="fas fa-redo"></i></a>
+                    <div class="more-actions">
+                        <button class="more-btn"><i class="fas fa-ellipsis-v"></i></button>
+                        <div class="actions-dropdown">
+                            <a href="jobdetails.html?job=5"><i class="fas fa-eye"></i> View Job</a>
+                            <a href="#"><i class="fas fa-copy"></i> Duplicate</a>
+                            <a href="#"><i class="fas fa-share-alt"></i> Share</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash-alt"></i> Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button class="pagination-btn prev" disabled><i class="fas fa-chevron-left"></i></button>
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <span class="pagination-ellipsis">...</span>
+            <button class="pagination-btn">10</button>
+            <button class="pagination-btn next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SRB</h3>
+                <p>Your trusted platform for finding the perfect job match.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Follow us on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="findjobs.html">Find Jobs</a>
+                <a href="createjob.html">Post a Job</a>
+                <a href="findtalent.html">Find Talent</a>
+                <a href="blog.html">Blog</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="whyus.html">Why Us</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="termsofservice.html">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Ai-Job. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="companymanagement.js"></script>
+</body>
+</html> 

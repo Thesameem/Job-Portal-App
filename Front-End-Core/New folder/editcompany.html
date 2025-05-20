@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Edit your company profile information on Ai-Job.">
+    <title>Edit Company Profile - Ai-Job</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="editprofile.css">
+    <link rel="stylesheet" href="editcompany.css">
+    <link rel="stylesheet" href="notifications.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="logo">
+            <a href="index.html" aria-label="Ai-Job Home">
+                <h1>SRB</h1>
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="findjobs.html">Find Work</a>
+            <a href="createjob.html">Post a Job</a>
+            <a href="findtalent.html">Find Talent</a>
+            <a href="whyus.html">Why Us</a>
+            <a href="blog.html">Blog</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="auth-buttons">
+            <div class="profile-dropdown">
+                <a href="userprofile.html" class="profile-badge">
+                    <img src="myphoto.JPG" alt="Profile Picture">
+                    <span>Sameem Miya</span>
+                </a>
+                <div class="dropdown-content">
+                    <a href="managejobs.html"><i class="fas fa-briefcase"></i> Manage Jobs</a>
+                    <a href="managecompany.html"><i class="fas fa-building"></i> Manage Company</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="edit-profile-container">
+        <div class="page-header">
+            <h1>Edit Company Profile</h1>
+            <p>Update your company information and showcase your employer brand</p>
+        </div>
+
+        <form class="edit-profile-form">
+            <!-- Basic Information Section -->
+            <section class="form-section">
+                <h2>Basic Information</h2>
+                
+                <div class="form-group">
+                    <label for="company-logo">Company Logo</label>
+                    <div class="logo-upload">
+                        <img src="https://via.placeholder.com/150" alt="Company Logo" id="logo-preview">
+                        <div class="upload-controls">
+                            <input type="file" id="company-logo" accept="image/*" class="file-input">
+                            <label for="company-logo" class="upload-btn"><i class="fas fa-upload"></i> Upload Logo</label>
+                            <button type="button" class="remove-btn"><i class="fas fa-trash-alt"></i> Remove</button>
+                        </div>
+                        <p class="form-tip">Recommended size: 400x400px, Max size: 2MB</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="company-name">Company Name*</label>
+                    <input type="text" id="company-name" name="company-name" value="TechCorp Inc." required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="industry">Industry*</label>
+                        <select id="industry" name="industry" required>
+                            <option value="software">Software & IT</option>
+                            <option value="finance">Finance</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="education">Education</option>
+                            <option value="retail">Retail</option>
+                            <option value="manufacturing">Manufacturing</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company-size">Company Size</label>
+                        <select id="company-size" name="company-size">
+                            <option value="1-10">1-10 employees</option>
+                            <option value="11-50">11-50 employees</option>
+                            <option value="51-200" selected>51-200 employees</option>
+                            <option value="201-500">201-500 employees</option>
+                            <option value="501-1000">501-1000 employees</option>
+                            <option value="1001+">1001+ employees</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company-website">Website</label>
+                    <input type="url" id="company-website" name="company-website" value="https://techcorp.example.com">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="company-location">Headquarters Location*</label>
+                        <input type="text" id="company-location" name="company-location" value="San Francisco, CA" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="founded-year">Founded Year</label>
+                        <input type="number" id="founded-year" name="founded-year" value="2008" min="1900" max="2024">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Company Description -->
+            <section class="form-section">
+                <h2>Company Description</h2>
+                
+                <div class="form-group">
+                    <label for="tagline">Tagline</label>
+                    <input type="text" id="tagline" name="tagline" value="Innovating the Future of Technology">
+                    <p class="form-tip">A short phrase that describes your company (100 characters max)</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company-description">About Company*</label>
+                    <textarea id="company-description" name="company-description" rows="8" required>TechCorp Inc. is a global technology leader specializing in innovative software solutions. With over 15 years of experience, we've been at the forefront of digital transformation, helping businesses worldwide achieve their technological goals. Our team of passionate engineers and designers work together to create cutting-edge products that address real-world challenges.</textarea>
+                    <p class="form-tip">Describe your company, mission, and culture (5000 characters max)</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Company Values</label>
+                    <div class="values-container" id="values-container">
+                        <div class="value-item">
+                            <div class="value-inputs">
+                                <input type="text" name="value-title[]" placeholder="Value Title" value="Innovation">
+                                <input type="text" name="value-description[]" placeholder="Short description" value="Pushing boundaries and exploring new possibilities">
+                                <select name="value-icon[]">
+                                    <option value="lightbulb" selected>Lightbulb</option>
+                                    <option value="users">Users</option>
+                                    <option value="chart-line">Chart Line</option>
+                                    <option value="heart">Heart</option>
+                                    <option value="shield">Shield</option>
+                                    <option value="star">Star</option>
+                                </select>
+                            </div>
+                            <button type="button" class="remove-value-btn"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-inputs">
+                                <input type="text" name="value-title[]" placeholder="Value Title" value="Collaboration">
+                                <input type="text" name="value-description[]" placeholder="Short description" value="Working together to achieve extraordinary results">
+                                <select name="value-icon[]">
+                                    <option value="lightbulb">Lightbulb</option>
+                                    <option value="users" selected>Users</option>
+                                    <option value="chart-line">Chart Line</option>
+                                    <option value="heart">Heart</option>
+                                    <option value="shield">Shield</option>
+                                    <option value="star">Star</option>
+                                </select>
+                            </div>
+                            <button type="button" class="remove-value-btn"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-inputs">
+                                <input type="text" name="value-title[]" placeholder="Value Title" value="Excellence">
+                                <input type="text" name="value-description[]" placeholder="Short description" value="Delivering the highest quality in everything we do">
+                                <select name="value-icon[]">
+                                    <option value="lightbulb">Lightbulb</option>
+                                    <option value="users">Users</option>
+                                    <option value="chart-line" selected>Chart Line</option>
+                                    <option value="heart">Heart</option>
+                                    <option value="shield">Shield</option>
+                                    <option value="star">Star</option>
+                                </select>
+                            </div>
+                            <button type="button" class="remove-value-btn"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="add-value-btn" id="add-value-btn"><i class="fas fa-plus"></i> Add Value</button>
+                </div>
+            </section>
+
+            <!-- Benefits & Culture -->
+            <section class="form-section">
+                <h2>Benefits & Culture</h2>
+                
+                <div class="form-group">
+                    <label>Company Benefits</label>
+                    <div class="benefits-container" id="benefits-container">
+                        <div class="benefit-item">
+                            <div class="benefit-inputs">
+                                <input type="text" name="benefit-title[]" placeholder="Benefit Title" value="Health & Wellness">
+                                <textarea name="benefit-description[]" placeholder="Description" rows="2">Comprehensive health insurance, mental health support, and wellness programs to keep you at your best.</textarea>
+                                <select name="benefit-icon[]">
+                                    <option value="heart" selected>Heart</option>
+                                    <option value="graduation-cap">Graduation Cap</option>
+                                    <option value="home">Home</option>
+                                    <option value="dumbbell">Dumbbell</option>
+                                    <option value="dollar-sign">Dollar Sign</option>
+                                    <option value="plane">Plane</option>
+                                </select>
+                            </div>
+                            <button type="button" class="remove-benefit-btn"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-inputs">
+                                <input type="text" name="benefit-title[]" placeholder="Benefit Title" value="Professional Development">
+                                <textarea name="benefit-description[]" placeholder="Description" rows="2">Continuous learning opportunities, mentorship programs, and conference attendance support.</textarea>
+                                <select name="benefit-icon[]">
+                                    <option value="heart">Heart</option>
+                                    <option value="graduation-cap" selected>Graduation Cap</option>
+                                    <option value="home">Home</option>
+                                    <option value="dumbbell">Dumbbell</option>
+                                    <option value="dollar-sign">Dollar Sign</option>
+                                    <option value="plane">Plane</option>
+                                </select>
+                            </div>
+                            <button type="button" class="remove-benefit-btn"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="add-benefit-btn" id="add-benefit-btn"><i class="fas fa-plus"></i> Add Benefit</button>
+                </div>
+            </section>
+
+            <!-- Social Links -->
+            <section class="form-section">
+                <h2>Social Media & Contact</h2>
+                
+                <div class="form-group">
+                    <label for="company-email">Company Email</label>
+                    <input type="email" id="company-email" name="company-email" value="careers@techcorp.example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="company-phone">Company Phone</label>
+                    <input type="tel" id="company-phone" name="company-phone" value="+1 (555) 123-4567">
+                </div>
+                
+                <div class="social-links-container">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="linkedin-url"><i class="fab fa-linkedin"></i> LinkedIn</label>
+                            <input type="url" id="linkedin-url" name="linkedin-url" value="https://linkedin.com/company/techcorp-example">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="twitter-url"><i class="fab fa-twitter"></i> Twitter</label>
+                            <input type="url" id="twitter-url" name="twitter-url" value="https://twitter.com/techcorp">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="facebook-url"><i class="fab fa-facebook"></i> Facebook</label>
+                            <input type="url" id="facebook-url" name="facebook-url" value="https://facebook.com/techcorp">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Form Controls -->
+            <div class="form-controls">
+                <button type="button" class="cancel-btn" onclick="window.location.href='managecompany.html'">Cancel</button>
+                <button type="submit" class="save-btn">Save Changes</button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SRB</h3>
+                <p>Your trusted platform for finding the perfect job match.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Follow us on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="findjobs.html">Find Jobs</a>
+                <a href="createjob.html">Post a Job</a>
+                <a href="findtalent.html">Find Talent</a>
+                <a href="blog.html">Blog</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="whyus.html">Why Us</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="termsofservice.html">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Ai-Job. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="companymanagement.js"></script>
+</body>
+</html> 

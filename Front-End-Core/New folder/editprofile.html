@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Ai-Job</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="userprofile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="logo">
+            <a href="index.html" aria-label="Ai-Job Home">
+                <h1>SRB</h1>
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="findjobs.html">Find Work</a>
+            <a href="createjob.html">Post a Job</a>
+            <a href="findtalent.html">Find Talent</a>
+            <a href="whyus.html">Why Us</a>
+            <a href="blog.html">Blog</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="auth-buttons">
+            <div class="profile-dropdown">
+                <a href="userprofile.html" class="profile-badge">
+                    <img src="myphoto.JPG" alt="Profile Picture">
+                    <span>Sameem Miya</span>
+                </a>
+                <div class="dropdown-content">
+                    <a href="managejobs.html"><i class="fas fa-briefcase"></i> Manage Jobs</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+            <button class="login-btn" onclick="window.location.href='login.html'">Log In</button>
+            <button class="signup-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Profile Header -->
+    <section class="profile-header">
+        <div class="profile-cover"></div>
+        <div class="profile-info">
+            <div class="profile-pic">
+                <img src="C:\Users\IamShamim-Sufi\Desktop\Front End\New folder/myphoto.jpg" alt="Profile Picture">
+                <button class="edit-pic"><i class="fas fa-camera"></i></button>
+            </div>
+            <div class="profile-details">
+                <form class="profile-form">
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" name="fullname" value="Sameem Miya" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Professional Title</label>
+                        <input type="text" id="title" name="title" value="Senior Frontend Developer" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" value="Bharatpur, Nepal" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="iamshamim1999@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" value="+977 9800000000" required>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="profile-content">
+        <!-- Left Column -->
+        <div class="profile-left">
+            <!-- About Section -->
+            <section class="profile-section">
+                <h2>About</h2>
+                <form class="profile-form">
+                    <div class="form-group">
+                        <label for="about">About Me</label>
+                        <textarea id="about" name="about" rows="4" required>Experienced frontend developer with a passion for creating beautiful and performant user interfaces. Specialized in React, TypeScript, and modern web technologies. Always eager to learn and adapt to new challenges.</textarea>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Skills Section -->
+            <section class="profile-section">
+                <h2>Skills</h2>
+                <form class="profile-form">
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h3>Frontend</h3>
+                            <div class="skill-tags">
+                                <input type="text" class="skill-input" placeholder="Add skill" value="React, TypeScript, JavaScript, HTML5, CSS3, SASS">
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3>Backend</h3>
+                            <div class="skill-tags">
+                                <input type="text" class="skill-input" placeholder="Add skill" value="Node.js, Express, MongoDB, REST APIs">
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3>Tools & Others</h3>
+                            <div class="skill-tags">
+                                <input type="text" class="skill-input" placeholder="Add skill" value="Git, Docker, AWS, Jest, Webpack">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Work Experience Section -->
+            <section class="profile-section">
+                <h2>Work Experience</h2>
+                <form class="profile-form">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="form-group">
+                                <label>Duration</label>
+                                <input type="text" value="2020 - Present">
+                            </div>
+                            <div class="timeline-content">
+                                <div class="form-group">
+                                    <label>Position</label>
+                                    <input type="text" value="Senior Frontend Developer">
+                                </div>
+                                <div class="form-group">
+                                    <label>Company</label>
+                                    <input type="text" value="Tech Solutions Inc.">
+                                </div>
+                                <div class="form-group">
+                                    <label>Responsibilities</label>
+                                    <textarea rows="3">• Led frontend development for enterprise applications
+                                                        • Implemented responsive designs and optimized performance
+                                                        • Mentored junior developers and conducted code reviews</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="add-experience-btn"><i class="fas fa-plus"></i> Add Experience</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Education Section -->
+            <section class="profile-section">
+                <h2>Education</h2>
+                <form class="profile-form">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="form-group">
+                                <label>Duration</label>
+                                <input type="text" value="2014 - 2018">
+                            </div>
+                            <div class="timeline-content">
+                                <div class="form-group">
+                                    <label>Degree</label>
+                                    <input type="text" value="Bachelor of Science in Computer Science">
+                                </div>
+                                <div class="form-group">
+                                    <label>Institution</label>
+                                    <input type="text" value="University of Technology">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea rows="2">Graduated with honors, specialized in Software Engineering</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="add-education-btn"><i class="fas fa-plus"></i> Add Education</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+        <!-- Right Column -->
+        <div class="profile-right">
+            <!-- Availability Section -->
+            <section class="profile-section">
+                <h2>Availability</h2>
+                <form class="profile-form">
+                    <div class="availability-info">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select>
+                                <option value="available" selected>Available for Work</option>
+                                <option value="not-available">Not Available</option>
+                                <option value="open-to-offers">Open to Offers</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Preferred Work</label>
+                            <input type="text" value="Full-time, Remote">
+                        </div>
+                        <div class="form-group">
+                            <label>Notice Period</label>
+                            <input type="text" value="2 weeks">
+                        </div>
+                        <div class="form-group">
+                            <label>Expected Salary</label>
+                            <input type="text" value="$80,000 - $100,000">
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Languages Section -->
+            <section class="profile-section">
+                <h2>Languages</h2>
+                <form class="profile-form">
+                    <div class="languages-list">
+                        <div class="language-item">
+                            <div class="form-group">
+                                <label>Language</label>
+                                <input type="text" value="English">
+                            </div>
+                            <div class="form-group">
+                                <label>Proficiency</label>
+                                <select>
+                                    <option value="5" selected>Native/Fluent</option>
+                                    <option value="4">Advanced</option>
+                                    <option value="3">Intermediate</option>
+                                    <option value="2">Basic</option>
+                                    <option value="1">Beginner</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" class="add-language-btn"><i class="fas fa-plus"></i> Add Language</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Certifications Section -->
+            <section class="profile-section">
+                <h2>Certifications</h2>
+                <form class="profile-form">
+                    <div class="certifications-list">
+                        <div class="certification-item">
+                            <div class="form-group">
+                                <label>Certification Name</label>
+                                <input type="text" value="AWS Certified Developer">
+                            </div>
+                            <div class="form-group">
+                                <label>Issuing Organization</label>
+                                <input type="text" value="Amazon Web Services">
+                            </div>
+                            <div class="form-group">
+                                <label>Year</label>
+                                <input type="text" value="2022">
+                            </div>
+                        </div>
+                        <button type="button" class="add-certification-btn"><i class="fas fa-plus"></i> Add Certification</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Social Links Section -->
+            <section class="profile-section">
+                <h2>Social Links</h2>
+                <form class="profile-form">
+                    <div class="social-links">
+                        <div class="form-group">
+                            <label><i class="fab fa-github"></i> GitHub</label>
+                            <input type="url" placeholder="GitHub URL">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fab fa-linkedin"></i> LinkedIn</label>
+                            <input type="url" placeholder="LinkedIn URL">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fab fa-twitter"></i> Twitter</label>
+                            <input type="url" placeholder="Twitter URL">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-globe"></i> Portfolio</label>
+                            <input type="url" placeholder="Portfolio URL">
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <!-- Save Changes Button -->
+    <div class="save-changes">
+        <button type="submit" class="save-btn">Save Changes</button>
+        <button type="button" class="cancel-btn">Cancel</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SRB</h3>
+                <p>Your trusted platform for finding the perfect job match.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Follow us on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>For Job Seekers</h3>
+                <ul>
+                    <li><a href="findjobs.html">Find Jobs</a></li>
+                    <li><a href="job-alerts.html">Job Alerts</a></li>
+                    <li><a href="career-resources.html">Career Resources</a></li>
+                    <li><a href="skills-assessment.html">Skills Assessment</a></li>
+                    <li><a href="resume-builder.html">Resume Builder</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>For Employers</h3>
+                <ul>
+                    <li><a href="findtalent.html">Find Talent</a></li>
+                    <li><a href="createjob.html">Post a Job</a></li>
+                    <li><a href="company-profile.html">Company Profile</a></li>
+                    <li><a href="pricing.html">Pricing Plans</a></li>
+                    <li><a href="employer-resources.html">Employer Resources</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="whyus.html">Why Choose Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="termsofservice.html">Terms of Service</a></li>
+                    <li><a href="privacypolicy.html">Privacy Policy</a></li>
+                    <li><a href="cookies.html">Cookie Policy</a></li>
+                    <li><a href="gdpr.html">GDPR Compliance</a></li>
+                    <li><a href="accessibility.html">Accessibility</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Ai-Job. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,236 @@
+/* Authentication Pages Styles */
+.auth-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+}
+
+.auth-container {
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-header h2 {
+    color: #1f2937;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+    color: #6b7280;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    color: #4b5563;
+    font-weight: 500;
+}
+
+.form-group input {
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #636AE8;
+}
+
+.password-input {
+    position: relative;
+}
+
+.password-input input {
+    width: 100%;
+    padding-right: 2.5rem;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    cursor: pointer;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #4b5563;
+}
+
+.forgot-password {
+    color: #636AE8;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.auth-button {
+    background-color: #636AE8;
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+    background-color: #1d4ed8;
+}
+
+.social-login {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.social-login p {
+    color: #6b7280;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.social-login p::before,
+.social-login p::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background-color: #e5e7eb;
+}
+
+.social-login p::before {
+    left: 0;
+}
+
+.social-login p::after {
+    right: 0;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    background-color: white;
+    color: #4b5563;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    background-color: #f9fafb;
+}
+
+.social-btn.google i {
+    color: #ea4335;
+}
+
+.social-btn.linkedin i {
+    color: #0077b5;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: #6b7280;
+}
+
+.auth-footer a {
+    color: #636AE8;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    color: #4b5563;
+    font-size: 0.875rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-top: 0.25rem;
+}
+
+.checkbox-label a {
+    color: #636AE8;
+    text-decoration: none;
+}
+
+.checkbox-label a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 1.5rem;
+    }
+
+    .social-buttons {
+        flex-direction: column;
+    }
+
+    .form-options {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+} 

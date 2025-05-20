@@ -1,0 +1,280 @@
+/* Dashboard Hero Section */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Common Section Styles */
+.applications,
+.received-applications,
+.posted-jobs,
+.applied-applications {
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+}
+
+.applications h2,
+.received-applications h2,
+.posted-jobs h2,
+.applied-applications h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+    font-size: 2rem;
+}
+
+/* Common List Styles */
+.application-list,
+.job-list {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+}
+
+/* Common Item Styles */
+.application-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.application-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.application-item h3 {
+    color: #333;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.application-item p {
+    color: #666;
+    margin: 5px 0;
+    font-size: 0.95rem;
+}
+
+/* Status Styles */
+.status {
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status:not(:empty) {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.status.approved {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status.new {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.status.active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* Button Styles */
+.review-btn,
+.edit-btn,
+.close-btn,
+.withdraw-btn,
+.message-btn {
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.review-btn {
+    background: #28a745;
+    color: white;
+}
+
+.review-btn:hover {
+    background: #218838;
+}
+
+.edit-btn {
+    background: #007bff;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #0056b3;
+}
+
+.close-btn,
+.withdraw-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.close-btn:hover,
+.withdraw-btn:hover {
+    background: #c82333;
+}
+
+.message-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.message-btn:hover {
+    background: #5a6268;
+}
+
+/* Application Actions */
+.application-actions,
+.application-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.view-details {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.view-details:hover {
+    color: #1565c0;
+}
+
+/* Profile Dropdown Styles */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #333;
+    padding: 5px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.profile-badge:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.profile-badge img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-badge span {
+    font-weight: 500;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px 0;
+    z-index: 1000;
+    margin-top: 5px;
+}
+
+.profile-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-content i {
+    width: 20px;
+    color: #666;
+}
+
+.dropdown-content a:last-child {
+    border-top: 1px solid #eee;
+    color: #dc3545;
+}
+
+.dropdown-content a:last-child i {
+    color: #dc3545;
+}
+
+/* Responsive adjustments for dropdown */
+@media (max-width: 768px) {
+    .profile-badge span {
+        display: none;
+    }
+    
+    .dropdown-content {
+        right: -10px;
+    }
+} 

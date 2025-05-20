@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create your Ai-Job account to start your job search journey. Join our community of professionals.">
+    <title>Sign Up - Ai-Job</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="logo">
+            <a href="index.html" aria-label="Ai-Job Home">
+                <h1>SRB</h1>
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="findjobs.html">Find Work</a>
+            <a href="createjob.html">Post a Job</a>
+            <a href="findtalent.html">Find Talent</a>
+            <a href="whyus.html">Why Us</a>
+            <a href="blog.html">Blog</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="auth-buttons">
+            <button class="login-btn" onclick="window.location.href='login.html'" aria-label="Log in to your account">Log In</button>
+            <button class="signup-btn" onclick="window.location.href='signup.html'" aria-label="Create a new account">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Sign Up Section -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h2>Create Your Account</h2>
+                <p>Join Ai-Job and start your journey to success</p>
+            </div>
+            <form class="auth-form">
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-input">
+                        <input type="password" id="password" placeholder="Create a password" required>
+                        <i class="fas fa-eye toggle-password"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <div class="password-input">
+                        <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+                        <i class="fas fa-eye toggle-password"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" required>
+                        <span>I agree to the <a href="termsofservice.html">Terms of Service</a> and <a href="privacypolicy.html">Privacy Policy</a></span>
+                    </label>
+                </div>
+                <button type="submit" class="auth-button">Create Account</button>
+                <div class="social-login">
+                    <p>Or sign up with</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-btn google">
+                            <i class="fab fa-google"></i>
+                            Google
+                        </button>
+                        <button type="button" class="social-btn linkedin">
+                            <i class="fab fa-linkedin"></i>
+                            LinkedIn
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Log In</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SRB</h3>
+                <p>Your trusted platform for finding the perfect job match.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Follow us on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="findjobs.html">Find Jobs</a>
+                <a href="createjob.html">Post a Job</a>
+                <a href="findtalent.html">Find Talent</a>
+                <a href="blog.html">Blog</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="whyus.html">Why Us</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="termsofservice.html">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Ai-Job. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

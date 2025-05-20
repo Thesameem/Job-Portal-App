@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Account Settings - Job Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="editaccountsettings.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="logo">
+            <a href="index.html" aria-label="Ai-Job Home">
+                <h1>SRB</h1>
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="findjobs.html">Find Work</a>
+            <a href="createjob.html">Post a Job</a>
+            <a href="findtalent.html">Find Talent</a>
+            <a href="whyus.html">Why Us</a>
+            <a href="blog.html">Blog</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="auth-buttons">
+            <div class="profile-dropdown">
+                <a href="userprofile.html" class="profile-badge">
+                    <img src="myphoto.JPG" alt="Profile Picture">
+                    <span>Sameem Miya</span>
+                </a>
+                <div class="dropdown-content">
+                    <a href="managejobs.html"><i class="fas fa-briefcase"></i> Manage Jobs</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+            <button class="login-btn" onclick="window.location.href='login.html'">Log In</button>
+            <button class="signup-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Edit Account Settings Section -->
+    <div class="edit-account-container">
+        <div class="edit-account-header">
+            <h1>Edit Account Settings</h1>
+            <p>Update your account information and preferences</p>
+        </div>
+
+        <div class="edit-account-content">
+            <form class="edit-account-form">
+                <!-- Personal Information -->
+                <section class="form-section">
+                    <h2>Personal Information</h2>
+                    <div class="form-group">
+                        <label>Profile Picture</label>
+                        <div class="profile-picture-upload">
+                            <img src="myphoto.JPG" alt="Profile Picture">
+                            <button type="button" class="upload-btn">Change Picture</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" value="Sameem Miya" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" value="iamshamim1999@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" value="+977 9800000000">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" value="Bharatpur, Nepal">
+                    </div>
+                </section>
+
+                <!-- Professional Information -->
+                <section class="form-section">
+                    <h2>Professional Information</h2>
+                    <div class="form-group">
+                        <label>Job Title</label>
+                        <input type="text" value="Senior Full Stack Developer">
+                    </div>
+                    <div class="form-group">
+                        <label>Company</label>
+                        <input type="text" value="Tech Solutions Inc.">
+                    </div>
+                    <div class="form-group">
+                        <label>Years of Experience</label>
+                        <input type="number" value="5" min="0">
+                    </div>
+                </section>
+
+                <!-- Account Security -->
+                <section class="form-section">
+                    <h2>Account Security</h2>
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" placeholder="Enter current password">
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" placeholder="Enter new password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" placeholder="Confirm new password">
+                    </div>
+                </section>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="window.location.href='settings.html'">Cancel</button>
+                    <button type="submit" class="save-btn">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SRB</h3>
+                <p>Your trusted platform for finding the perfect job match.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Follow us on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="findjobs.html">Find Jobs</a>
+                <a href="createjob.html">Post a Job</a>
+                <a href="findtalent.html">Find Talent</a>
+                <a href="blog.html">Blog</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="whyus.html">Why Us</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="termsofservice.html">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Ai-Job. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

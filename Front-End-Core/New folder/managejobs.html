@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - JobConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="managejobs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>SRB</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="findjobs.html">Find Work</a>
+            <a href="createjob.html">Post a Job</a>
+            <a href="findtalent.html">Find Talent</a>
+            <a href="whyus.html">Why Us</a>
+            <a href="blog.html">Blog</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="auth-buttons">
+            <div class="profile-dropdown">
+                <a href="userprofile.html" class="profile-badge">
+                    <img src="myphoto.jpg" alt="Profile Picture">
+                    <span>Sameem Miya</span>
+                </a>
+                <div class="dropdown-content">
+                    <a href="managejobs.html"><i class="fas fa-briefcase"></i> Manage Jobs</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+            <button class="login-btn" onclick="window.location.href='login.html'">Log In</button>
+            <button class="signup-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- AI Matching Jobs Title -->
+    <section class="ai-matching-title">
+        <div class="title-content">
+            <h2>AI Matching Jobs</h2>
+            <p>Discover jobs that match your skills and preferences</p>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Your Dashboard</h1>
+            <p>Manage your job applications and stay updated with your recent activities.</p>
+        </div>
+    </section>
+
+    <!-- Job Applications Section -->
+    <section class="applications">
+        <h2>Job Applications</h2>
+        <div class="application-list">
+            <div class="application-item">
+                <h3>Senior Frontend Developer</h3>
+                <p>Tech Solutions Inc.</p>
+                <span class="status">Pending</span>
+                <a href="jobdetails.html" class="view-details">View Details</a>
+            </div>
+            <div class="application-item">
+                <h3>Full Stack Developer</h3>
+                <p>Digital Innovations</p>
+                <span class="status">Approved</span>
+                <a href="jobdetails.html" class="view-details">View Details</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Received Applications Section -->
+    <section class="received-applications">
+        <h2>Received Applications</h2>
+        <div class="application-list">
+            <div class="application-item">
+                <h3>Frontend Developer Position</h3>
+                <p>Applicant: John Doe</p>
+                <p>Experience: 5 years</p>
+                <div class="application-actions">
+                    <span class="status">New</span>
+                    <button class="review-btn" onclick="window.location.href='reviewjob.html'">Review</button>
+                    <button class="message-btn">Message</button>
+                </div>
+            </div>
+            <div class="application-item">
+                <h3>Backend Developer Position</h3>
+                <p>Applicant: Jane Smith</p>
+                <p>Experience: 3 years</p>
+                <div class="application-actions">
+                    <span class="status">Under Review</span>
+                    <button class="review-btn" onclick="window.location.href='reviewjob.html'">Review</button>
+                    <button class="message-btn">Message</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Posted Jobs Section -->
+    <section class="posted-jobs">
+        <h2>Posted Jobs</h2>
+        <div class="job-list">
+            <div class="application-item">
+                <h3>Senior Frontend Developer</h3>
+                <p>Posted: 2 days ago</p>
+                <p>Applications: 15</p>
+                <div class="application-actions">
+                    <span class="status">Active</span>
+                    <button class="edit-btn" onclick="window.location.href='editjob.html'">Edit</button>
+                    <button class="review-btn" onclick="window.location.href='reviewjob.html'">View Applicants</button>
+                    <button class="close-btn">Close Job</button>
+                </div>
+            </div>
+            <div class="application-item">
+                <h3>Full Stack Developer</h3>
+                <p>Posted: 1 week ago</p>
+                <p>Applications: 25</p>
+                <div class="application-actions">
+                    <span class="status">Active</span>
+                    <button class="edit-btn" onclick="window.location.href='editjob.html'">Edit</button>
+                    <button class="review-btn" onclick="window.location.href='reviewjob.html'">View Applicants</button>
+                    <button class="close-btn">Close Job</button>
+                </div>
+            </div>
+            <div class="application-item">
+                <h3>Backend Developer</h3>
+                <p>Posted: 3 days ago</p>
+                <p>Applications: 8</p>
+                <div class="application-actions">
+                    <span class="status">Active</span>
+                    <button class="edit-btn" onclick="window.location.href='editjob.html'">Edit</button>
+                    <button class="review-btn" onclick="window.location.href='reviewjob.html'">View Applicants</button>
+                    <button class="close-btn">Close Job</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Applied Applications Section -->
+    <section class="applied-applications">
+        <h2>Applied Applications</h2>
+        <div class="application-list">
+            <div class="application-item">
+                <h3>Senior Developer</h3>
+                <p>Company: Tech Corp</p>
+                <p>Applied: 3 days ago</p>
+                <div class="application-status">
+                    <span class="status">Under Review</span>
+                    <button class="withdraw-btn">Withdraw</button>
+                </div>
+            </div>
+            <div class="application-item">
+                <h3>Lead Developer</h3>
+                <p>Company: Digital Solutions</p>
+                <p>Applied: 1 week ago</p>
+                <div class="application-status">
+                    <span class="status">Interview Scheduled</span>
+                    <button class="withdraw-btn">Withdraw</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SRB</h3>
+                <p>Your trusted platform for finding the perfect job match.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="findjobs.html">Find Jobs</a>
+                <a href="createjob.html">Post a Job</a>
+                <a href="findtalent.html">Find Talent</a>
+                <a href="blog.html">Blog</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="whyus.html">Why Us</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="termsofservice.html">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 JobConnect. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

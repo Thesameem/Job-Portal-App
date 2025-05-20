@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Job - JobConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .edit-job-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .requirements-list {
+            margin-top: 1rem;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .requirement-item input {
+            flex: 1;
+        }
+
+        .add-requirement {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .remove-requirement {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .save-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>SRB</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="findjobs.html">Find Work</a>
+            <a href="createjob.html">Post a Job</a>
+            <a href="findtalent.html">Find Talent</a>
+            <a href="whyus.html">Why Us</a>
+            <a href="blog.html">Blog</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="userprofile.html" class="profile-badge">
+                <img src="myphoto.jpg" alt="Profile Picture">
+                <span>Sameem Miya</span>
+            </a>
+            <button class="login-btn" onclick="window.location.href='login.html'">Log In</button>
+            <button class="signup-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Edit Job Form -->
+    <div class="edit-job-container">
+        <h1>Edit Job Details</h1>
+        <form id="editJobForm">
+            <div class="form-group">
+                <label for="jobTitle">Job Title</label>
+                <input type="text" id="jobTitle" name="jobTitle" value="Senior Frontend Developer" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="jobType">Job Type</label>
+                    <select id="jobType" name="jobType" required>
+                        <option value="full-time">Full Time</option>
+                        <option value="part-time">Part Time</option>
+                        <option value="contract">Contract</option>
+                        <option value="internship">Internship</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">Experience Level</label>
+                    <select id="experience" name="experience" required>
+                        <option value="entry">Entry Level</option>
+                        <option value="mid">Mid Level</option>
+                        <option value="senior">Senior Level</option>
+                        <option value="lead">Lead Level</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="salary">Salary Range</label>
+                    <input type="text" id="salary" name="salary" value="$80,000 - $120,000" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" value="New York, NY" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="jobDescription">Job Description</label>
+                <textarea id="jobDescription" name="jobDescription" required>We are looking for a Senior Frontend Developer to join our team...</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Requirements</label>
+                <div class="requirements-list">
+                    <div class="requirement-item">
+                        <input type="text" value="5+ years of experience with React" required>
+                        <button type="button" class="remove-requirement">×</button>
+                    </div>
+                    <div class="requirement-item">
+                        <input type="text" value="Strong knowledge of JavaScript and TypeScript" required>
+                        <button type="button" class="remove-requirement">×</button>
+                    </div>
+                    <div class="requirement-item">
+                        <input type="text" value="Experience with modern frontend build tools" required>
+                        <button type="button" class="remove-requirement">×</button>
+                    </div>
+                </div>
+                <button type="button" class="add-requirement">Add Requirement</button>
+            </div>
+
+            <div class="form-group">
+                <label for="benefits">Benefits</label>
+                <textarea id="benefits" name="benefits">- Health insurance
+- 401(k) matching
+- Flexible work hours
+- Remote work options</textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="save-btn">Save Changes</button>
+                <button type="button" class="cancel-btn" onclick="window.location.href='dashboard.html'">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Add new requirement field
+        document.querySelector('.add-requirement').addEventListener('click', function() {
+            const requirementsList = document.querySelector('.requirements-list');
+            const newRequirement = document.createElement('div');
+            newRequirement.className = 'requirement-item';
+            newRequirement.innerHTML = `
+                <input type="text" required>
+                <button type="button" class="remove-requirement">×</button>
+            `;
+            requirementsList.appendChild(newRequirement);
+        });
+
+        // Remove requirement field
+        document.querySelector('.requirements-list').addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-requirement')) {
+                e.target.parentElement.remove();
+            }
+        });
+
+        // Form submission
+        document.getElementById('editJobForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically send the form data to your backend
+            alert('Job details updated successfully!');
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html> 

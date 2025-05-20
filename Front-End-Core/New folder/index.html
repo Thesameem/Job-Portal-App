@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ai-Job - Your trusted platform for finding the perfect job match. Connect with top employers and discover opportunities that match your skills and aspirations.">
+    <title>Ai-Job - Find Your Dream Job</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="logo">
+            <a href="index.html" aria-label="Ai-Job Home">
+                <h1>SRB</h1>
+            </a>
+        </div>
+        <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="index.html" class="active" aria-current="page">Home</a>
+                <a href="findjobs.html">Find Work</a>
+                <a href="createjob.html">Post a Job</a>
+                <a href="findtalent.html">Find Talent</a>
+                <a href="whyus.html">Why Us</a>
+                <a href="blog.html">Blog</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="auth-buttons">
+                <div class="profile-dropdown">
+                    <a href="userprofile.html" class="profile-badge">
+                        <img src="myphoto.JPG" alt="Profile Picture">
+                        <span>Sameem Miya</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="managejobs.html"><i class="fas fa-briefcase"></i> Manage Jobs</a>
+                        <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+                <button class="login-btn" onclick="window.location.href='login.html'">Log In</button>
+                <button class="signup-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" role="banner">
+        <div class="hero-content">
+            <h1>Welcome!!</h1>
+            <h1>16,789 Jobs For You</h1>
+            <p>Connect with top employers and discover opportunities that match your skills and aspirations.</p>
+            <div class="search-container">
+                <form action="findjobs.html" method="GET" role="search">
+                    <input type="text" name="search" placeholder="Search for jobs, skills, or companies" aria-label="Search jobs">
+                    <button type="submit" class="search-btn" aria-label="Search jobs">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" aria-labelledby="features-heading">
+        <h2 id="features-heading" class="visually-hidden">Our Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <h3>Find Jobs</h3>
+                <p>Browse through thousands of job listings from top companies.</p>
+                <a href="findjobs.html" class="feature-link">Explore Jobs <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-briefcase" aria-hidden="true"></i>
+                <h3>Post Jobs</h3>
+                <p>Hire the best talent for your company's needs.</p>
+                <a href="createjob.html" class="feature-link">Post a Job <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-users" aria-hidden="true"></i>
+                <h3>Connect</h3>
+                <p>Build your professional network and grow your career.</p>
+                <a href="findtalent.html" class="feature-link">Find Talent <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" aria-labelledby="how-it-works-heading">
+        <h2 id="how-it-works-heading">How It Works</h2>
+        <div class="steps-container">
+            <div class="step">
+                <i class="fas fa-user-plus" aria-hidden="true"></i>
+                <h3>Create Account</h3>
+                <p>Sign up and create your professional profile</p>
+                <a href="signup.html" class="step-link">Get Started <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+            <div class="step">
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <h3>Search Jobs</h3>
+                <p>Browse and apply for jobs that match your skills</p>
+                <a href="findjobs.html" class="step-link">Browse Jobs <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+            <div class="step">
+                <i class="fas fa-handshake" aria-hidden="true"></i>
+                <h3>Get Hired</h3>
+                <p>Connect with employers and land your dream job</p>
+                <a href="findjobs.html" class="step-link">Find Opportunities <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SRB</h3>
+                <p>Your trusted platform for finding the perfect job match.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Follow us on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="findjobs.html">Find Jobs</a>
+                <a href="createjob.html">Post a Job</a>
+                <a href="findtalent.html">Find Talent</a>
+                <a href="blog.html">Blog</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="whyus.html">Why Us</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="termsofservice.html">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Ai-Job. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
