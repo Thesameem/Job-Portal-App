@@ -17,7 +17,7 @@
 
   <!-- Job Applications Section -->
   <section class="applications">
-    <h2>Job Applications</h2>
+    <h2>Applied Applications</h2>
     <div class="application-list">
       <div class="application-item">
         <h3>Senior Frontend Developer</h3>
@@ -112,7 +112,7 @@
     </div>
   </section>
 
-  <!-- Applied Applications Section -->
+  <!-- Applied Applications Section 
   <section class="applied-applications">
     <h2>Applied Applications</h2>
     <div class="application-list">
@@ -136,6 +136,7 @@
       </div>
     </div>
   </section>
+-->
 </template>
 
 <script setup>
