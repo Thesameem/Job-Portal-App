@@ -18,7 +18,7 @@ class PasswordResetController extends Controller
     {
         try {
             $request->validate([
-                'phone_number' => 'required|string'
+                'phone_number' => 'required|string|min:10'
             ]);
 
             // Format phone number to E.164 format if not already
