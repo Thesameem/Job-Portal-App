@@ -351,7 +351,7 @@ class JobListController extends Controller
                 'benefits'                  =>      $request->benefits,
                 'application_deadline'      =>      $request->application_deadline,
                 'contact_email'             =>      $request->contact_email,
-                'status'                  =>      'posted', // Changed from 'draft' to 'posted' for immediate visibility
+                'status'                  =>      'posted', // Changed to 'posted' for immediate visibility
             ]);
 
             return response()->json([

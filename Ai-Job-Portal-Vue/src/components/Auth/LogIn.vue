@@ -1,5 +1,4 @@
 <script setup>
-import axios from 'axios'
 import { useRouter, useRoute } from 'vue-router'
 import { useJobStore } from '@/stores/job'
 import Cookie from '@/scripts/Cookie'
