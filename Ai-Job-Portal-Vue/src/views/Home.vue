@@ -1,9 +1,39 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { GET } from '@/scripts/Fetch'
 
 let router = useRouter()
+const totalJobs = ref(0)
+const searchQuery = ref('')
+const isLoading = ref(false)
 
-// Authentication is now handled in router/index.js with beforeEach guard
+// Get total jobs count
+const fetchTotalJobsCount = async () => {
+  try {
+    isLoading.value = true
+    const result = await GET('job-stats')
+    
+    if (!result.error && result.response) {
+      totalJobs.value = result.response.total_jobs || 0
+      console.log('Total jobs:', totalJobs.value)
+    } else {
+      console.error('Failed to fetch job count:', result.reason)
+      // Fallback to 0 if error
+      totalJobs.value = 0
+    }
+  } catch (err) {
+    console.error('Error fetching job count:', err)
+    totalJobs.value = 0
+  } finally {
+    isLoading.value = false
+  }
+}
+
+// Load job count on component mount
+onMounted(() => {
+  fetchTotalJobsCount()
+})
 </script>
 
 <template>
@@ -11,21 +41,22 @@ let router = useRouter()
   <section class="hero" role="banner">
     <div class="hero-content">
       <h1>Welcome!!</h1>
-      <h1>16,789 Jobs For You</h1>
+      <h1>{{ isLoading ? 'Loading...' : totalJobs.toLocaleString() }} Jobs For You</h1>
       <p>
         Connect with top employers and discover opportunities that match your skills and
         aspirations.
       </p>
       <div class="search-container">
-        <form action="" method="GET" role="search">
+        <form @submit.prevent="handleSearch" role="search">
           <input
+            v-model="searchQuery"
             type="text"
             name="search"
             placeholder="Search for jobs, skills, or companies"
             aria-label="Search jobs"
           />
         </form>
-        <button type="submit" class="search-btn" aria-label="Search jobs">
+        <button type="submit"  class="search-btn" aria-label="Search jobs">
           <i class="fas fa-search"></i> Search
         </button>
       </div>

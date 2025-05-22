@@ -227,6 +227,28 @@ class JobListController extends Controller
         }
     }
 
+    // Get job statistics (total jobs, etc.)
+    public function getJobStats()
+    {
+        try {
+            // Count only jobs with 'posted' status
+            $totalJobs = JobList::where('status', 'posted')->count();
+            
+            return response()->json([
+                'error' => false,
+                'reason' => 'Job statistics retrieved successfully',
+                'response' => [
+                    'total_jobs' => $totalJobs
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'reason' => 'Failed to retrieve job statistics: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
     // Delete a job
     public function deleteJob(Request $request, $id)
     {

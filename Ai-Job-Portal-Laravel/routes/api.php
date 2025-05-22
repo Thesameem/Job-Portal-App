@@ -30,6 +30,7 @@ Route::post('password/reset', [PasswordResetController::class, 'resetPassword'])
 // Public job routes
 Route::get('/jobs', [JobListController::class, 'getAllJobs']);
 Route::get('/jobs/{id}', [JobListController::class, 'getJobDetails']);
+Route::get('/job-stats', [JobListController::class, 'getJobStats']);
 
 // Public profile route - view any user's profile
 Route::get('/profile/{id}', [UserProfileController::class, 'getProfile']);

@@ -183,10 +183,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted,  onUnmounted } from 'vue'
-import { GET} from '@/scripts/Fetch'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { GET } from '@/scripts/Fetch'
 import { useToast } from '@/scripts/toast'
 import Config from '@/scripts/Config'
+import { useRoute } from 'vue-router'
 
 // State
 const jobs = ref([])
@@ -198,6 +199,15 @@ const sortOption = ref('newest')
 const toast = useToast()
 const showFilters = ref(false)
 const isMobile = ref(false)
+const route = useRoute()
+
+// Watch for route query changes
+watch(() => route.query, (newQuery) => {
+  if (newQuery.search) {
+    searchQuery.value = newQuery.search
+    loadJobs()
+  }
+}, { immediate: true })
 
 // Load jobs from API
 const loadJobs = async () => {
