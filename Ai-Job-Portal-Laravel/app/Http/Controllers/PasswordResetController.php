@@ -74,7 +74,7 @@ class PasswordResetController extends Controller
     {
         try {
             $request->validate([
-                'phone_number' => 'required|string',
+                'phone_number' => 'required|string|min:10',
                 'otp' => 'required|string'
             ]);
 
@@ -133,7 +133,7 @@ class PasswordResetController extends Controller
     {
         try {
             $request->validate([
-                'phone_number' => 'required|string',
+                'phone_number' => 'required|string|min:10',
                 'reset_token' => 'required|string',
                 'password' => 'required|string|min:8'
             ]);
@@ -191,4 +191,4 @@ class PasswordResetController extends Controller
             ], 500);
         }
     }
-} 
+}

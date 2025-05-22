@@ -225,7 +225,8 @@ class UserProfileController extends Controller
         // Update user data if provided
         if ($request->has('fullname')) {
             $user->update([
-                'fullname' => $request->input('fullname')
+                'fullname' => $request->input('fullname'),
+                'phone_number' => $request->input('phone_number'),
             ]);
         }
         
