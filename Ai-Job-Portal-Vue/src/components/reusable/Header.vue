@@ -553,22 +553,22 @@ const handleProfileClick = (event) => {
   display: flex;
   justify-content: center;
   flex: 1;
-  gap: 32px; /* Increased spacing between links */
-  margin: 0 48px; /* Add margin to push links toward center */
+  gap: 32px; 
+  margin: 0 48px;
 }
 
 .nav-links a {
   text-decoration: none;
-  color: #555; /* Lighter color for better appearance */
-  font-weight: 400; /* Lighter font weight */
+  color: #555; 
+  font-weight: 400;
   padding: 8px 4px;
   transition: all 0.3s ease;
-  letter-spacing: 0.2px; /* Slight letter spacing for smoother look */
+  letter-spacing: 0.2px; 
 }
 
 .nav-links a:hover,
 .nav-links a.active {
-  color: #636ae8; /* Changed to theme color */
+  color: #636ae8; 
 }
 
 /* Hide icons on desktop view */
@@ -578,7 +578,7 @@ const handleProfileClick = (event) => {
 
 /* Auth buttons section */
 .auth-buttons {
-  margin-left: 48px; /* Increase space between nav links and auth button */
+  margin-left: 48px;
   display: flex;
   align-items: center;
 }
