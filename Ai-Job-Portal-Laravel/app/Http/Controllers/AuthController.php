@@ -7,13 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
+
 class AuthController extends Controller
 {
     public function register(Request $request){
         $Validate=Validator::make($request->all(),[
             'fullname'     => 'required|string|max:100',
             'email'        => 'required|email|unique:users,email',
-            'password'     =>  'required|string|min:8'
+            'password'     =>  'required|string|min:8',
+            'phone_number' =>  'required|string|min:10'
         ]);
 
         //validation
@@ -22,6 +24,7 @@ class AuthController extends Controller
 
             $ErrorMessage="";
             if($ErrorMessage->has('email')) $ErrorMessage='The email has already been taken.';
+            elseif($ErrorMessage->has('phone_number')) $ErrorMessage='The phone number has already been taken.';
             else $ErrorMessage ='validation error';
 
             return response()->json([
