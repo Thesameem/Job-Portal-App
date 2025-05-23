@@ -2,7 +2,7 @@
       <!-- Hero Section -->
       <section class="hero">
         <div class="hero-content">
-            <h1>Why Choose Ai-Job?</h1>
+            <h1>Why Choose SRB-Job?</h1>
             <p>Discover the benefits of using our platform for your job search and recruitment needs.</p>
         </div>
     </section>
@@ -37,7 +37,7 @@
         <h2>What Our Users Say</h2>
         <div class="testimonial-grid">
             <div class="testimonial-card">
-                <p>"Ai-Job helped me find my dream job in just a few weeks!"</p>
+                <p>"SRB-Job helped me find my dream job in just a few weeks!"</p>
                 <h4>- John Doe</h4>
             </div>
             <div class="testimonial-card">

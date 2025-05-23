@@ -2,13 +2,7 @@ import axios from "axios";
 import Config from "./Config";
 import Cookie from "./Cookie";
 
-/**
- * Make a POST request to the API
- * @param {string} uri - The endpoint to call, without the base URL
- * @param {object|FormData} formdata - The data to send
- * @param {boolean} isMultipart - Whether this is a multipart/form-data request (for file uploads)
- * @returns {Promise<{error: boolean, response?: any, reason?: string, status?: number}>}
- */
+
 export const POST = async (uri, formdata, isMultipart = false) => {
     try {
         let Token = Cookie.getCookie('job-app');
@@ -108,7 +102,7 @@ export const POST = async (uri, formdata, isMultipart = false) => {
             return data;
         }
         
-        // If the response doesn't have an error property, structure it with error: false
+        // If the response doesn't have an error property, display it with error: false
         return {
             error: false,
             response: data
@@ -147,7 +141,7 @@ export const GET = async (uri) => {
 
         console.log(`[Fetch] GET response from ${uri}:`, data);
 
-        // Check if the response already has an error property
+       
         // This handles cases where the backend returns { error: true/false, ... }
         if (data && typeof data === 'object' && 'error' in data) {
             return data;

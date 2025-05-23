@@ -134,7 +134,7 @@ const router = createRouter({
       component: TermsOfServive,
     },
     {
-      // Catch all route for 404s - using a more specific pattern
+      // Catch all route for 404s 
       path: '/:path(.*)',
       redirect: { name: 'home' }
     }

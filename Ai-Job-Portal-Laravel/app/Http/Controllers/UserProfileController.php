@@ -132,7 +132,7 @@ class UserProfileController extends Controller
         $validator = Validator::make($request->all(), [
             'professional_title' => 'nullable|string|max:255',
             'location' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:20',
+            'phone' => 'nullable|string|min:10',
             'about' => 'nullable|string',
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'frontend_skills' => 'nullable|string',

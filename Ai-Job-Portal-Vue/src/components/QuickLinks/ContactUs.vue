@@ -34,7 +34,7 @@
       <div class="info-card">
         <i class="fas fa-map-marker-alt"></i>
         <h3>Address</h3>
-        <p>123 Ai-Job Street, City, Country</p>
+        <p>123 SRB-Job Street, City, Country</p>
       </div>
       <div class="info-card">
         <i class="fas fa-phone"></i>

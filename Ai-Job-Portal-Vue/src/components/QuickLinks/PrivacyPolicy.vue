@@ -11,7 +11,7 @@
   <section class="privacy-policy">
     <h2>Our Privacy Policy</h2>
     <p>
-      At JobConnect, we are committed to protecting your privacy. This policy outlines how we
+      At SRB-Job, we are committed to protecting your privacy. This policy outlines how we
       collect, use, and safeguard your personal information.
     </p>
     <h3>Information We Collect</h3>

@@ -14,8 +14,8 @@ class AuthController extends Controller
         $Validate=Validator::make($request->all(),[
             'fullname'     => 'required|string|max:100',
             'email'        => 'required|email|unique:users,email',
-            'password'     =>  'required|string|min:8',
-            'phone_number' =>  'required|string|min:10'
+            'password'     =>  'required|string|',
+            'phone_number' => 'required|string|min:10|unique:users,phone_number',
         ]);
 
         //validation
@@ -23,8 +23,9 @@ class AuthController extends Controller
             $Errors=$Validate->errors();
 
             $ErrorMessage="";
-            if($ErrorMessage->has('email')) $ErrorMessage='The email has already been taken.';
-            elseif($ErrorMessage->has('phone_number')) $ErrorMessage='The phone number has already been taken.';
+
+            if($Errors->has('email')) $ErrorMessage='This  email  has already been taken.';
+            elseif($Errors->has('phone_number')) $ErrorMessage='The phone number has already been taken.';
             else $ErrorMessage ='validation error';
 
             return response()->json([

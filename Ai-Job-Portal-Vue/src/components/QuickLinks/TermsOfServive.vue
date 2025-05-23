@@ -10,7 +10,7 @@
   <!-- Terms of Service Section -->
   <section class="terms-of-service">
     <h2>Our Terms of Service</h2>
-    <p>By using JobConnect, you agree to these terms. Please read them carefully.</p>
+    <p>By using SRB-Job, you agree to these terms. Please read them carefully.</p>
     <h3>Acceptance of Terms</h3>
     <p>By accessing or using our platform, you agree to be bound by these terms and conditions.</p>
     <h3>User Responsibilities</h3>
